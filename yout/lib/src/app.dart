@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:yout/src/language_select/language_item_list_view.dart';
+import 'package:yout/src/translate/translate_view.dart';
 
 import 'sample_feature/sample_item_details_view.dart';
 import 'sample_feature/sample_item_list_view.dart';
@@ -71,9 +73,15 @@ class MyApp extends StatelessWidget {
                     return SettingsView(controller: settingsController);
                   case SampleItemDetailsView.routeName:
                     return const SampleItemDetailsView();
-                  case SampleItemListView.routeName:
+                  case TranslateView.routeName:
+                    return const TranslateView();
+                  // case LanguageItemListView.routeName:
+                  case '/${LanguageItemListView.modeLearn}':
+                    return const LanguageItemListView(LanguageItemListView.modeLearn);
+                  case '/':
+                  case '/${LanguageItemListView.modeNative}':
                   default:
-                    return const SampleItemListView();
+                    return const LanguageItemListView(LanguageItemListView.modeNative);
                 }
               },
             );
