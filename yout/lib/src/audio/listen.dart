@@ -16,6 +16,103 @@ class SpeechSampleApp extends StatefulWidget {
   State<SpeechSampleApp> createState() => _SpeechSampleAppState();
 }
 
+class MySpeechToText {
+  static final MySpeechToText _singleton = MySpeechToText._internal();
+  bool _hasSpeech = false;
+  double level = 0.0;
+  double minSoundLevel = 50000;
+  double maxSoundLevel = -50000;
+  String lastWords = '';
+  String lastError = '';
+  String lastStatus = '';
+  String _currentLocaleId = '';
+  List<LocaleName> _localeNames = [];
+  final SpeechToText speech = SpeechToText();
+
+  factory MySpeechToText() {
+    return _singleton;
+  }
+
+  MySpeechToText._internal();
+
+  void errorListener(SpeechRecognitionError error) {
+    debugPrint(
+        'Received error status: $error, listening: ${speech.isListening}');
+  }
+
+  void statusListener(String status) {
+    debugPrint(
+        'Received listener status: $status, listening: ${speech.isListening}');
+  }
+
+  void resultListener(SpeechRecognitionResult result) {
+    debugPrint(
+        'Result listener final: ${result.finalResult}, words: ${result.recognizedWords}');
+    lastWords = '${result.recognizedWords} - ${result.finalResult}';
+  }
+
+  void soundLevelListener(double level) {
+    minSoundLevel = min(minSoundLevel, level);
+    maxSoundLevel = max(maxSoundLevel, level);
+    // debugPrint('sound level $level: $minSoundLevel - $maxSoundLevel ');
+    this.level = level;
+  }
+
+  init() async {
+    try {
+      var hasSpeech = await speech.initialize(
+        onError: errorListener,
+        onStatus: statusListener,
+        debugLogging: false,
+      );
+      if (hasSpeech) {
+        // Get the list of languages installed on the supporting platform so they
+        // can be displayed in the UI for selection by the user.
+        // `_localeNames` is an empty list on web for some reason
+        _localeNames = await speech.locales();
+        // inspect(_localeNames);
+        debugPrint('_localeNames len(${_localeNames.length})');
+
+        var systemLocale = await speech.systemLocale();
+        _currentLocaleId = systemLocale?.localeId ?? '';
+      }
+      _hasSpeech = hasSpeech;
+    } catch (e) {
+      lastError = 'Speech recognition init failed: ${e.toString()}';
+      debugPrint(lastError);
+      _hasSpeech = false;
+      rethrow;
+    }
+  }
+
+  listen(Function(SpeechRecognitionResult res) callback) {
+    _currentLocaleId = "ja-JP";
+    lastWords = '';
+    lastError = '';
+    const maxSilenceDurationSeconds = 5;
+    const maxRecordDurationSeconds = 30;
+    // Note that `listenFor` is the maximum, not the minimum, on some
+    // systems recognition will be stopped before this value is reached.
+    // Similarly `pauseFor` is a maximum not a minimum and may be ignored
+    // on some devices.
+    speech.listen(
+      onResult: (SpeechRecognitionResult res) {
+        callback(res);
+        resultListener(res);
+      },
+      listenFor: const Duration(seconds: maxRecordDurationSeconds),
+      pauseFor: const Duration(seconds: maxSilenceDurationSeconds),
+      partialResults: true,
+      localeId: _currentLocaleId,
+      onSoundLevelChange: soundLevelListener,
+      cancelOnError: true,
+      // listenMode: ListenMode.confirmation,
+      listenMode: ListenMode.dictation,
+      // onDevice: _onDevice,
+    );
+  }
+}
+
 /// An example that demonstrates the basic functionality of the
 /// SpeechToText plugin for using the speech recognition capability
 /// of the underlying platform.
@@ -57,8 +154,9 @@ class _SpeechSampleAppState extends State<SpeechSampleApp> {
       if (hasSpeech) {
         // Get the list of languages installed on the supporting platform so they
         // can be displayed in the UI for selection by the user.
+        // `_localeNames` is an empty list on web for some reason
         _localeNames = await speech.locales();
-        inspect(_localeNames);
+        // inspect(_localeNames);
 
         var systemLocale = await speech.systemLocale();
         _currentLocaleId = systemLocale?.localeId ?? '';

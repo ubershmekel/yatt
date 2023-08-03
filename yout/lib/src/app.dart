@@ -74,14 +74,16 @@ class MyApp extends StatelessWidget {
                   case SampleItemDetailsView.routeName:
                     return const SampleItemDetailsView();
                   case TranslateView.routeName:
-                    return const TranslateView();
+                    return TranslateView();
                   // case LanguageItemListView.routeName:
                   case '/${LanguageItemListView.modeLearn}':
-                    return const LanguageItemListView(LanguageItemListView.modeLearn);
+                    return const LanguageItemListView(
+                        LanguageItemListView.modeLearn);
                   case '/':
                   case '/${LanguageItemListView.modeNative}':
                   default:
-                    return const LanguageItemListView(LanguageItemListView.modeNative);
+                    return const LanguageItemListView(
+                        LanguageItemListView.modeNative);
                 }
               },
             );
