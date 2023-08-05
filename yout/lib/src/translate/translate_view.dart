@@ -1,21 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:yout/src/audio/listen.dart';
+import 'package:yout/src/translate/translate_controller.dart';
 
 import '../settings/settings_view.dart';
 
 /// Displays a list of SampleItems.
-class TranslateView extends StatelessWidget {
+class TranslateView extends StatefulWidget {
   TranslateView({
     super.key,
   });
 
+  @override
+  State<TranslateView> createState() => _TranslateViewState();
+
   static const routeName = '/translate';
 
-  var dictationBox = TextEditingController();
+  // var toTranslateBox = TextEditingController();
+  // var translateBox = TextToTranslate();
+  // var toTranslateText = 'Please translate this';
+}
+
+class _TranslateViewState extends State<TranslateView> {
+  String _toTranslateText = 'Please translate this';
+  final dictationBox = TextEditingController();
+  final TranslateController controller = TranslateController();
 
   @override
   Widget build(BuildContext context) {
+    controller.load();
+
     return Scaffold(
         appBar: AppBar(
           title: const Text('You are the translator'),
@@ -39,8 +53,10 @@ class TranslateView extends StatelessWidget {
         // building all Widgets up front, the ListView.builder constructor lazily
         // builds Widgets as they’re scrolled into view.
         body: ListView(children: [
-          const ListTile(
-            title: Text('The phrase to translate'),
+          ListTile(
+            title: Text(_toTranslateText),
+            // title: translateBox,
+            //Text(toTranslateText),
             leading: CircleAvatar(
               // Display the Flutter Logo image asset.
               foregroundImage: AssetImage('assets/images/flutter_logo.png'),
@@ -53,7 +69,7 @@ class TranslateView extends StatelessWidget {
             // ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             child: TextField(
               controller: dictationBox,
               decoration: const InputDecoration(
@@ -76,10 +92,25 @@ class TranslateView extends StatelessWidget {
                       },
                     );
                   },
-                )
+                ),
+                FloatingActionButton.extended(
+                  icon: const Icon(Icons.next_plan),
+                  label: const Text('Next'),
+                  onPressed: nextRound,
+                ),
               ],
             ),
           ),
         ]));
+  }
+
+  nextRound() async {
+    // _toTranslateText = TranslateController.filesList[0];
+    Translation trans = (await controller.nextTranslation())!;
+    debugPrint("trans: ${trans.examples.length}");
+    setState(() {
+      var line = trans.examples[Language.eng]?.firstOrNull;
+      _toTranslateText = line ?? 'Strange error... where is the line?';
+    });
   }
 }
