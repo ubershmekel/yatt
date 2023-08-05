@@ -7,7 +7,7 @@ import '../settings/settings_view.dart';
 
 /// Displays a list of SampleItems.
 class TranslateView extends StatefulWidget {
-  TranslateView({
+  const TranslateView({
     super.key,
   });
 
@@ -57,7 +57,7 @@ class _TranslateViewState extends State<TranslateView> {
             title: Text(_toTranslateText),
             // title: translateBox,
             //Text(toTranslateText),
-            leading: CircleAvatar(
+            leading: const CircleAvatar(
               // Display the Flutter Logo image asset.
               foregroundImage: AssetImage('assets/images/flutter_logo.png'),
             ),

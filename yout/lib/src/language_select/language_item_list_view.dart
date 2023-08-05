@@ -56,7 +56,7 @@ class LanguageItemListView extends StatelessWidget {
           final item = items[index];
 
           return ListTile(
-              title: Text('${item.id}'),
+              title: Text(item.id),
               leading: const CircleAvatar(
                 // Display the Flutter Logo image asset.
                 foregroundImage: AssetImage('assets/images/flutter_logo.png'),

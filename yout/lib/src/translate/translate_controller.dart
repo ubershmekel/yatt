@@ -1,7 +1,5 @@
-import 'dart:collection';
 import 'dart:convert';
 import 'dart:async';
-import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -71,7 +69,7 @@ class Translation {
 class TranslateController {
   static List<String> filesList = [];
 
-  TranslateController() {}
+  TranslateController();
 
   load() async {
     // final manifestJson =

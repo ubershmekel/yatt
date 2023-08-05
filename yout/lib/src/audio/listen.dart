@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_recognition_error.dart';
@@ -18,7 +17,6 @@ class SpeechSampleApp extends StatefulWidget {
 
 class MySpeechToText {
   static final MySpeechToText _singleton = MySpeechToText._internal();
-  bool _hasSpeech = false;
   double level = 0.0;
   double minSoundLevel = 50000;
   double maxSoundLevel = -50000;
@@ -76,11 +74,9 @@ class MySpeechToText {
         var systemLocale = await speech.systemLocale();
         _currentLocaleId = systemLocale?.localeId ?? '';
       }
-      _hasSpeech = hasSpeech;
     } catch (e) {
       lastError = 'Speech recognition init failed: ${e.toString()}';
       debugPrint(lastError);
-      _hasSpeech = false;
       rethrow;
     }
   }

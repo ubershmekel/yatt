@@ -5,7 +5,6 @@ import 'package:yout/src/language_select/language_item_list_view.dart';
 import 'package:yout/src/translate/translate_view.dart';
 
 import 'sample_feature/sample_item_details_view.dart';
-import 'sample_feature/sample_item_list_view.dart';
 import 'settings/settings_controller.dart';
 import 'settings/settings_view.dart';
 
@@ -74,7 +73,7 @@ class MyApp extends StatelessWidget {
                   case SampleItemDetailsView.routeName:
                     return const SampleItemDetailsView();
                   case TranslateView.routeName:
-                    return TranslateView();
+                    return const TranslateView();
                   // case LanguageItemListView.routeName:
                   case '/${LanguageItemListView.modeLearn}':
                     return const LanguageItemListView(
