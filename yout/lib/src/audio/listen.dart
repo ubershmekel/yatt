@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_recognition_error.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+import 'package:yout/src/settings/globals.dart';
 
 void main() => runApp(const SpeechSampleApp());
 
@@ -26,6 +27,21 @@ class MySpeechToText {
   String _currentLocaleId = '';
   List<LocaleName> _localeNames = [];
   final SpeechToText speech = SpeechToText();
+
+  Map<Language, String> languageToLocaleId = {
+    Language.eng: 'en-US',
+    Language.ara: 'ar-EG',
+    Language.deu: 'de-DE',
+    Language.ell: 'el-GR',
+    Language.fra: 'fr-FR',
+    Language.heb: 'he-IL',
+    Language.ita: 'it-IT',
+    Language.jpn: 'ja-JP',
+    Language.kor: 'ko-KR',
+    Language.por: 'pt-BR',
+    Language.rus: 'ru-RU',
+    Language.spa: 'es-ES',
+  };
 
   factory MySpeechToText() {
     return _singleton;
@@ -81,8 +97,9 @@ class MySpeechToText {
     }
   }
 
-  listen(Function(SpeechRecognitionResult res) callback) {
-    _currentLocaleId = "ja-JP";
+  listen(Language lang, Function(SpeechRecognitionResult res) callback) {
+    // _currentLocaleId = "ja-JP";
+    _currentLocaleId = languageToLocaleId[lang]!;
     lastWords = '';
     lastError = '';
     const maxSilenceDurationSeconds = 5;

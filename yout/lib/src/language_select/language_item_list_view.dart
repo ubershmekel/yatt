@@ -15,6 +15,8 @@ class LanguageItemListView extends StatelessWidget {
       LanguageItem("English", "eng"),
       LanguageItem("Hebrew", "heb"),
       LanguageItem("Japanese", "jpn"),
+      LanguageItem("German", "deu"),
+      LanguageItem("Russian", "rus"),
     ],
   });
 
@@ -31,7 +33,9 @@ class LanguageItemListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Choose your language'),
+        title: Text(mode == modeNative
+            ? 'What is your native language?'
+            : 'Which language would you like to learn?'),
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
@@ -76,11 +80,13 @@ class LanguageItemListView extends StatelessWidget {
                 // );
                 if (mode == modeNative) {
                   globals.simpleStorage
-                      .setString(Keys.nativeLanguage, item.threeLetterCode);
+                      .setString(Keys.nativeLanguage, item.threeLetterCode)
+                      .then((val) => globals.initLanguages());
                 }
                 if (mode == modeLearn) {
                   globals.simpleStorage
-                      .setString(Keys.targetLanguage, item.threeLetterCode);
+                      .setString(Keys.targetLanguage, item.threeLetterCode)
+                      .then((val) => globals.initLanguages());
                 }
 
                 if (mode == modeNative) {

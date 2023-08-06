@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const translateRoute = TranslateView();
+    final translateRoute = TranslateView(globals: globals);
     final selectNativeRoute = LanguageItemListView(
         globals: globals, mode: LanguageItemListView.modeNative);
     final selectLearnRoute = LanguageItemListView(

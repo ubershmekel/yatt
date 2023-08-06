@@ -8,8 +8,11 @@ import '../settings/settings_view.dart';
 
 /// Displays a list of SampleItems.
 class TranslateView extends StatefulWidget {
+  final Globals globals;
+
   const TranslateView({
     super.key,
+    required this.globals,
   });
 
   @override
@@ -24,13 +27,23 @@ class TranslateView extends StatefulWidget {
 
 class _TranslateViewState extends State<TranslateView> {
   String _toTranslateText = 'Please translate this';
+  Language recordingLang = Language.invalidlanguage;
+  Language exampleLang = Language.invalidlanguage;
   final dictationBox = TextEditingController();
   final TranslateController controller = TranslateController();
 
   @override
-  Widget build(BuildContext context) {
-    controller.load();
+  initState() {
+    super.initState();
+    controller.load().then((_) {
+      nextRound();
+    });
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    exampleLang = widget.globals.nativeLang;
+    recordingLang = widget.globals.learningLang;
     return Scaffold(
         appBar: AppBar(
           title: const Text('You are the translator'),
@@ -88,9 +101,10 @@ class _TranslateViewState extends State<TranslateView> {
                   // https://stackoverflow.com/a/69342661/177498
                   heroTag: UniqueKey(),
                   icon: const Icon(Icons.record_voice_over),
-                  label: const Text('Speak'),
+                  label: Text('Speak ${recordingLang.name}'),
                   onPressed: () {
                     MySpeechToText().listen(
+                      recordingLang,
                       (SpeechRecognitionResult res) {
                         dictationBox.text = res.recognizedWords;
                       },

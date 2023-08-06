@@ -38,6 +38,12 @@ class Globals {
     simpleStorage = SimpleStorage();
     await simpleStorage.init();
 
+    await initLanguages();
+
+    await MySpeechToText().init();
+  }
+
+  initLanguages() async {
     String nativeString =
         await simpleStorage.getString(Keys.nativeLanguage) ?? '';
     if (stringToLangMap.containsKey(nativeString)) {
@@ -49,7 +55,5 @@ class Globals {
     if (stringToLangMap.containsKey(learningString)) {
       learningLang = stringToLangMap[learningString]!;
     }
-
-    await MySpeechToText().init();
   }
 }
