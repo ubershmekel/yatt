@@ -97,7 +97,8 @@ class MySpeechToText {
     }
   }
 
-  listen(Language lang, Function(SpeechRecognitionResult res) callback) {
+  listen(Language lang,
+      Function(Language lang, SpeechRecognitionResult res) callback) {
     // _currentLocaleId = "ja-JP";
     _currentLocaleId = languageToLocaleId[lang]!;
     lastWords = '';
@@ -110,7 +111,7 @@ class MySpeechToText {
     // on some devices.
     speech.listen(
       onResult: (SpeechRecognitionResult res) {
-        callback(res);
+        callback(lang, res);
         resultListener(res);
       },
       listenFor: const Duration(seconds: maxRecordDurationSeconds),

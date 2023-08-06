@@ -128,7 +128,13 @@ class _TranslateViewState extends State<TranslateView> {
     );
   }
 
-  onRecordingStatus(SpeechRecognitionResult res) {
+  onRecordingStatus(Language lang, SpeechRecognitionResult res) {
+    if (lang != _recordingLang) {
+      debugPrint(
+          "onRecordingStatus: lang != _recordingLang. So ignoring results.");
+      return;
+    }
+
     dictationBox.text = res.recognizedWords;
     if (_translation == null) {
       return;
@@ -146,6 +152,7 @@ class _TranslateViewState extends State<TranslateView> {
     // _toTranslateText = TranslateController.filesList[0];
     _translation = (await controller.nextTranslation());
     _statusText = '';
+    dictationBox.text = '';
     setState(() {
       final tmp = _exampleLang;
       _exampleLang = _recordingLang;
