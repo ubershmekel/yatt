@@ -27,8 +27,8 @@ class TranslateView extends StatefulWidget {
 
 class _TranslateViewState extends State<TranslateView> {
   String _toTranslateText = 'Please translate this';
-  Language recordingLang = Language.invalidlanguage;
-  Language exampleLang = Language.invalidlanguage;
+  Language _recordingLang = Language.invalidlanguage;
+  Language _exampleLang = Language.invalidlanguage;
   final dictationBox = TextEditingController();
   final TranslateController controller = TranslateController();
 
@@ -36,14 +36,14 @@ class _TranslateViewState extends State<TranslateView> {
   initState() {
     super.initState();
     controller.load().then((_) {
+      _exampleLang = widget.globals.nativeLang;
+      _recordingLang = widget.globals.learningLang;
       nextRound();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    exampleLang = widget.globals.nativeLang;
-    recordingLang = widget.globals.learningLang;
     return Scaffold(
         appBar: AppBar(
           title: const Text('You are the translator'),
@@ -101,10 +101,10 @@ class _TranslateViewState extends State<TranslateView> {
                   // https://stackoverflow.com/a/69342661/177498
                   heroTag: UniqueKey(),
                   icon: const Icon(Icons.record_voice_over),
-                  label: Text('Speak ${recordingLang.name}'),
+                  label: Text('Speak ${_recordingLang.name}'),
                   onPressed: () {
                     MySpeechToText().listen(
-                      recordingLang,
+                      _recordingLang,
                       (SpeechRecognitionResult res) {
                         dictationBox.text = res.recognizedWords;
                       },
@@ -126,9 +126,14 @@ class _TranslateViewState extends State<TranslateView> {
   nextRound() async {
     // _toTranslateText = TranslateController.filesList[0];
     Translation trans = (await controller.nextTranslation())!;
-    debugPrint("trans: ${trans.examples.length}");
     setState(() {
-      var line = trans.examples[Language.eng]?.firstOrNull;
+      final tmp = _exampleLang;
+      _exampleLang = _recordingLang;
+      _recordingLang = tmp;
+      debugPrint(
+          "trans: ${trans.examples.length}, example:$_exampleLang, recording:$_recordingLang");
+
+      var line = trans.examples[_exampleLang]?.firstOrNull;
       _toTranslateText = line ?? 'Strange error... where is the line?';
     });
   }
