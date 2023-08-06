@@ -4,6 +4,8 @@ A book is lying on the desk.
 
 A book is on the table.
 
+Some books are on the desk.
+
 Some books are on the table.
 
 The book is on the desk.
@@ -43,6 +45,16 @@ Un livre est posé sur le bureau.
 # lang:heb
 
 הספר נמצא על השולחן.
+
+הספר על השולחן.
+
+הספרים על השולחן.
+
+ספר מונח על השולחן.
+
+יש ספר על השולחן.
+
+יש ספר מונח על השולחן.
 
 # lang:ita
 
