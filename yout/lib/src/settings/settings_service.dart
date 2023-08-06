@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yout/src/settings/simple_storage.dart';
 
 /// A service that stores and retrieves user settings.
 ///
@@ -7,11 +8,24 @@ import 'package:flutter/material.dart';
 /// you'd like to store settings on a web server, use the http package.
 class SettingsService {
   /// Loads the User's preferred ThemeMode from local or remote storage.
-  Future<ThemeMode> themeMode() async => ThemeMode.system;
+  Future<ThemeMode> themeMode() async {
+    final simpleStorage = SimpleStorage();
+    await simpleStorage.init();
+    final savedMode = await simpleStorage.getString(Keys.themeMode) ?? '';
+    if (ThemeMode.values.asNameMap().containsKey(savedMode)) {
+      return ThemeMode.values.byName(savedMode);
+    }
+
+    return ThemeMode.system;
+  }
 
   /// Persists the user's preferred ThemeMode to local or remote storage.
   Future<void> updateThemeMode(ThemeMode theme) async {
     // Use the shared_preferences package to persist settings locally or the
     // http package to persist settings over the network.
+    debugPrint("setting themeMode: $theme");
+    final simpleStorage = SimpleStorage();
+    await simpleStorage.init();
+    await simpleStorage.setString(Keys.themeMode, theme.name);
   }
 }

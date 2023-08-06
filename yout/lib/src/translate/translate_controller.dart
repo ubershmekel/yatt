@@ -4,24 +4,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-enum Language {
-  eng,
-  ara,
-  deu,
-  ell,
-  fra,
-  heb,
-  ita,
-  jpn,
-  kor,
-  por,
-  rus,
-  spa,
-  invalidlanguage,
-}
-
-final langMap = Language.values.asNameMap();
+import 'package:yout/src/settings/globals.dart';
 
 class Translation {
   String filename = '';
@@ -37,10 +20,6 @@ class Translation {
 
     final fileContents = await rootBundle.loadString(path);
 
-    // File(path)
-    //     .openRead()
-    //     .map(utf8.decode)
-    //     .transform(LineSplitter())
     LineSplitter.split(fileContents).forEach((String line) {
       line = line.trim();
       if (line.isEmpty) {
@@ -52,7 +31,7 @@ class Translation {
           return;
         }
         String lang = parts[1];
-        if (!langMap.containsKey(lang)) {
+        if (!stringToLangMap.containsKey(lang)) {
           debugPrint('Unknown language: $lang');
           return;
         }

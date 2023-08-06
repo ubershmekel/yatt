@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:yout/src/settings/globals.dart';
+import 'package:yout/src/settings/simple_storage.dart';
 
 import '../settings/settings_view.dart';
 import '../translate/translate_view.dart';
 import 'language_item.dart';
 
 class LanguageItemListView extends StatelessWidget {
-  const LanguageItemListView(
-    this.mode, {
+  const LanguageItemListView({
     super.key,
+    required this.globals,
+    required this.mode,
     this.items = const [
-      LanguageItem("English"),
-      LanguageItem("Hebrew"),
-      LanguageItem("Japanese")
+      LanguageItem("English", "eng"),
+      LanguageItem("Hebrew", "heb"),
+      LanguageItem("Japanese", "jpn"),
     ],
   });
+
+  final Globals globals;
 
   // static const routeName = '/';
   static const modeNative = 'select-native';
@@ -56,7 +61,7 @@ class LanguageItemListView extends StatelessWidget {
           final item = items[index];
 
           return ListTile(
-              title: Text(item.id),
+              title: Text(item.name),
               leading: const CircleAvatar(
                 // Display the Flutter Logo image asset.
                 foregroundImage: AssetImage('assets/images/flutter_logo.png'),
@@ -69,6 +74,15 @@ class LanguageItemListView extends StatelessWidget {
                 //   context,
                 //   SampleItemDetailsView.routeName,
                 // );
+                if (mode == modeNative) {
+                  globals.simpleStorage
+                      .setString(Keys.nativeLanguage, item.threeLetterCode);
+                }
+                if (mode == modeLearn) {
+                  globals.simpleStorage
+                      .setString(Keys.targetLanguage, item.threeLetterCode);
+                }
+
                 if (mode == modeNative) {
                   Navigator.restorablePushNamed(
                     context,

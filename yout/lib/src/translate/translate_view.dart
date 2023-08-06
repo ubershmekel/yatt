@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:yout/src/audio/listen.dart';
+import 'package:yout/src/settings/globals.dart';
 import 'package:yout/src/translate/translate_controller.dart';
 
 import '../settings/settings_view.dart';
@@ -83,6 +84,9 @@ class _TranslateViewState extends State<TranslateView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 FloatingActionButton.extended(
+                  // `heroTag` to avoid " multiple heroes that share the same tag within a subtree" error
+                  // https://stackoverflow.com/a/69342661/177498
+                  heroTag: UniqueKey(),
                   icon: const Icon(Icons.record_voice_over),
                   label: const Text('Speak'),
                   onPressed: () {
@@ -94,6 +98,7 @@ class _TranslateViewState extends State<TranslateView> {
                   },
                 ),
                 FloatingActionButton.extended(
+                  heroTag: UniqueKey(),
                   icon: const Icon(Icons.next_plan),
                   label: const Text('Next'),
                   onPressed: nextRound,

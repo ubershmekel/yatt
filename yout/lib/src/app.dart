@@ -2,29 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:yout/src/language_select/language_item_list_view.dart';
+import 'package:yout/src/settings/globals.dart';
 import 'package:yout/src/translate/translate_view.dart';
 
 import 'sample_feature/sample_item_details_view.dart';
-import 'settings/settings_controller.dart';
 import 'settings/settings_view.dart';
 
 /// The Widget that configures your application.
 class MyApp extends StatelessWidget {
   const MyApp({
     super.key,
-    required this.settingsController,
+    required this.globals,
   });
 
-  final SettingsController settingsController;
+  final Globals globals;
 
   @override
   Widget build(BuildContext context) {
+    const translateRoute = TranslateView();
+    final selectNativeRoute = LanguageItemListView(
+        globals: globals, mode: LanguageItemListView.modeNative);
+    final selectLearnRoute = LanguageItemListView(
+        globals: globals, mode: LanguageItemListView.modeLearn);
+
+    Widget defaultRoute = translateRoute;
+    if (globals.nativeLang == Language.invalidlanguage) {
+      defaultRoute = selectNativeRoute;
+    } else if (globals.learningLang == Language.invalidlanguage) {
+      defaultRoute = selectLearnRoute;
+    }
     // Glue the SettingsController to the MaterialApp.
     //
     // The AnimatedBuilder Widget listens to the SettingsController for changes.
     // Whenever the user updates their settings, the MaterialApp is rebuilt.
     return AnimatedBuilder(
-      animation: settingsController,
+      animation: globals.settingsController,
       builder: (BuildContext context, Widget? child) {
         return MaterialApp(
           // Providing a restorationScopeId allows the Navigator built by the
@@ -59,7 +71,7 @@ class MyApp extends StatelessWidget {
           // SettingsController to display the correct theme.
           theme: ThemeData(),
           darkTheme: ThemeData.dark(),
-          themeMode: settingsController.themeMode,
+          themeMode: globals.settingsController.themeMode,
 
           // Define a function to handle named routes in order to support
           // Flutter web url navigation and deep linking.
@@ -69,20 +81,19 @@ class MyApp extends StatelessWidget {
               builder: (BuildContext context) {
                 switch (routeSettings.name) {
                   case SettingsView.routeName:
-                    return SettingsView(controller: settingsController);
+                    return SettingsView(controller: globals.settingsController);
                   case SampleItemDetailsView.routeName:
                     return const SampleItemDetailsView();
                   case TranslateView.routeName:
-                    return const TranslateView();
+                    return translateRoute;
                   // case LanguageItemListView.routeName:
                   case '/${LanguageItemListView.modeLearn}':
-                    return const LanguageItemListView(
-                        LanguageItemListView.modeLearn);
-                  case '/':
+                    return selectLearnRoute;
                   case '/${LanguageItemListView.modeNative}':
+                    return selectNativeRoute;
+                  case '/':
                   default:
-                    return const LanguageItemListView(
-                        LanguageItemListView.modeNative);
+                    return defaultRoute;
                 }
               },
             );
