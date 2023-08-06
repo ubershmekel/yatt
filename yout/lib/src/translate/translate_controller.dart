@@ -79,4 +79,36 @@ class TranslateController {
     final filename = filesList[index];
     return Translation.loadFromFile(filename);
   }
+
+  normalizeSentence(String text) {
+    // Note that RegExp(r'[^a-zA-Z0-9\s]') is wrong becaue it removes unicode.
+    // We keep only:
+    //   Letters as defined by unicode
+    //   Whitespace
+    //   Apostrophe ' (it is syntactically important in English)
+    RegExp notAlphaNumRegex = RegExp(r"[^\p{Letter}0-9\s']", unicode: true);
+
+    final normalized = text
+        .replaceAll(notAlphaNumRegex, '')
+        .toLowerCase()
+        .trim()
+        .replaceAll(RegExp('\\s+'), ' ');
+    if (normalized.isEmpty) {
+      debugPrint('Big problem! Normalized text went down to zero: $text');
+      return text;
+    }
+    return normalized;
+  }
+
+  isSameSentence(String text, List<String> options) {
+    text = normalizeSentence(text);
+    for (String option in options) {
+      if (text == normalizeSentence(option)) {
+        debugPrint('isSameSentence: true');
+        return true;
+      }
+    }
+    debugPrint('isSameSentence false: $text, $options');
+    return false;
+  }
 }

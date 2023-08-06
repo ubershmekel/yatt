@@ -26,7 +26,9 @@ class TranslateView extends StatefulWidget {
 }
 
 class _TranslateViewState extends State<TranslateView> {
+  Translation? _translation;
   String _toTranslateText = 'Please translate this';
+  String _statusText = '';
   Language _recordingLang = Language.invalidlanguage;
   Language _exampleLang = Language.invalidlanguage;
   final dictationBox = TextEditingController();
@@ -102,14 +104,7 @@ class _TranslateViewState extends State<TranslateView> {
                   heroTag: UniqueKey(),
                   icon: const Icon(Icons.record_voice_over),
                   label: Text('Speak ${_recordingLang.name}'),
-                  onPressed: () {
-                    MySpeechToText().listen(
-                      _recordingLang,
-                      (SpeechRecognitionResult res) {
-                        dictationBox.text = res.recognizedWords;
-                      },
-                    );
-                  },
+                  onPressed: onStartRecording,
                 ),
                 FloatingActionButton.extended(
                   heroTag: UniqueKey(),
@@ -120,20 +115,45 @@ class _TranslateViewState extends State<TranslateView> {
               ],
             ),
           ),
+          Center(
+              child:
+                  Text(_statusText, style: const TextStyle(fontSize: 200.0))),
         ]));
+  }
+
+  onStartRecording() {
+    MySpeechToText().listen(
+      _recordingLang,
+      onRecordingStatus,
+    );
+  }
+
+  onRecordingStatus(SpeechRecognitionResult res) {
+    dictationBox.text = res.recognizedWords;
+    if (_translation == null) {
+      return;
+    }
+    if (controller.isSameSentence(
+        dictationBox.text, _translation!.examples[_recordingLang]!)) {
+      // you win
+      setState(() {
+        _statusText = '✅🎉';
+      });
+    }
   }
 
   nextRound() async {
     // _toTranslateText = TranslateController.filesList[0];
-    Translation trans = (await controller.nextTranslation())!;
+    _translation = (await controller.nextTranslation());
+    _statusText = '';
     setState(() {
       final tmp = _exampleLang;
       _exampleLang = _recordingLang;
       _recordingLang = tmp;
       debugPrint(
-          "trans: ${trans.examples.length}, example:$_exampleLang, recording:$_recordingLang");
+          "trans: ${_translation?.examples.length}, example:$_exampleLang, recording:$_recordingLang");
 
-      var line = trans.examples[_exampleLang]?.firstOrNull;
+      var line = _translation?.examples[_exampleLang]?.firstOrNull;
       _toTranslateText = line ?? 'Strange error... where is the line?';
     });
   }
