@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:yout/src/settings/globals.dart';
 
 void main() => runApp(const MyTtsApp());
 
@@ -15,6 +16,114 @@ class MyTtsApp extends StatefulWidget {
 }
 
 enum TtsState { playing, stopped, paused, continued }
+
+class Speak {
+  late FlutterTts flutterTts;
+  String? language;
+  String? engine;
+  double volume = 0.5;
+  double pitch = 1.0;
+  double rate = 1.0;
+  bool isCurrentLanguageInstalled = false;
+
+  String? _newVoiceText;
+  int? _inputLength;
+
+  TtsState ttsState = TtsState.stopped;
+
+  get isPlaying => ttsState == TtsState.playing;
+  get isStopped => ttsState == TtsState.stopped;
+  get isPaused => ttsState == TtsState.paused;
+  get isContinued => ttsState == TtsState.continued;
+
+  bool get isIOS => !kIsWeb && Platform.isIOS;
+  bool get isAndroid => !kIsWeb && Platform.isAndroid;
+  bool get isWindows => !kIsWeb && Platform.isWindows;
+  bool get isWeb => kIsWeb;
+
+  init() async {
+    flutterTts = FlutterTts();
+
+    await flutterTts.awaitSpeakCompletion(true);
+
+    final langs = await flutterTts.getLanguages;
+    // On emulated android:
+    // Speak languages: [ko-KR, mr-IN, ru-RU, zh-TW, hu-HU, sw-KE, th-TH, ur-PK, nb-NO, da-DK,
+    // tr-TR, et-EE, pt-PT, vi-VN, en-US, sq-AL, sv-SE, ar, su-ID, bs-BA, bn-BD, gu-IN, kn-IN, el-GR,
+    // hi-IN, fi-FI, km-KH, bn-IN, fr-FR, uk-UA, pa-IN, en-AU, lv-LV, nl-NL, fr-CA, sr, pt-BR, ml-IN,
+    // si-LK, de-DE, cs-CZ, pl-PL, sk-SK, fil-PH, it-IT, ne-NP, ms-MY, hr, en-NG, nl-BE, zh-CN, es-ES,
+    // cy, ta-IN, ja-JP, bg-BG, yue-HK, en-IN, es-US, jv-ID, id-ID, te-IN, ro-RO, ca, en-GB]
+    debugPrint("Speak languages: $langs");
+
+    // not on web
+    // final engines = await flutterTts.getEngines;
+    // debugPrint("Speak engines: $engines");
+
+    if (isAndroid) {
+      _getDefaultEngine();
+      _getDefaultVoice();
+    }
+
+    flutterTts.setStartHandler(() {
+      debugPrint("Speak Playing");
+      ttsState = TtsState.playing;
+    });
+
+    if (isAndroid) {
+      flutterTts.setInitHandler(() {
+        debugPrint("Speak TTS Initialized");
+      });
+    }
+
+    flutterTts.setCompletionHandler(() {
+      debugPrint("Speak Complete");
+      ttsState = TtsState.stopped;
+    });
+
+    flutterTts.setCancelHandler(() {
+      debugPrint("Speak Cancel");
+      ttsState = TtsState.stopped;
+    });
+
+    flutterTts.setPauseHandler(() {
+      debugPrint("Speak Paused");
+      ttsState = TtsState.paused;
+    });
+
+    flutterTts.setContinueHandler(() {
+      debugPrint("Speak Continued");
+      ttsState = TtsState.continued;
+    });
+
+    flutterTts.setErrorHandler((msg) {
+      debugPrint("Speak error: $msg");
+      ttsState = TtsState.stopped;
+    });
+  }
+
+  Future _getDefaultEngine() async {
+    var engine = await flutterTts.getDefaultEngine;
+    if (engine != null) {
+      debugPrint('_getDefaultEngine $engine');
+    }
+  }
+
+  Future _getDefaultVoice() async {
+    var voice = await flutterTts.getDefaultVoice;
+    if (voice != null) {
+      debugPrint('_getDefaultVoice $voice');
+    }
+  }
+
+  Future speak(Language lang, String text) async {
+    debugPrint("Speak: $text, lang: $lang, ${languageToLocaleId[lang]!}");
+    await flutterTts.setLanguage(languageToLocaleId[lang]!);
+    await flutterTts.setVolume(volume);
+    await flutterTts.setSpeechRate(rate);
+    await flutterTts.setPitch(pitch);
+    await flutterTts.speak(text);
+  }
+}
 
 class _MyAppState extends State<MyTtsApp> {
   late FlutterTts flutterTts;

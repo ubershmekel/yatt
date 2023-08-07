@@ -28,21 +28,6 @@ class MySpeechToText {
   List<LocaleName> _localeNames = [];
   final SpeechToText speech = SpeechToText();
 
-  Map<Language, String> languageToLocaleId = {
-    Language.eng: 'en-US',
-    Language.ara: 'ar-EG',
-    Language.deu: 'de-DE',
-    Language.ell: 'el-GR',
-    Language.fra: 'fr-FR',
-    Language.heb: 'he-IL',
-    Language.ita: 'it-IT',
-    Language.jpn: 'ja-JP',
-    Language.kor: 'ko-KR',
-    Language.por: 'pt-BR',
-    Language.rus: 'ru-RU',
-    Language.spa: 'es-ES',
-  };
-
   factory MySpeechToText() {
     return _singleton;
   }

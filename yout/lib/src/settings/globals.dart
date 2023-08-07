@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:yout/src/audio/listen.dart';
+import 'package:yout/src/audio/speak.dart';
 import 'package:yout/src/settings/simple_storage.dart';
 import '../settings/settings_controller.dart';
 import '../settings/settings_service.dart';
@@ -21,13 +23,33 @@ enum Language {
 
 final stringToLangMap = Language.values.asNameMap();
 
+// Note on Android default emulator,
+// ar-EG and he-IL are not available :/
+Map<Language, String> languageToLocaleId = {
+  Language.eng: 'en-US',
+  Language.ara: 'ar-EG',
+  Language.deu: 'de-DE',
+  Language.ell: 'el-GR',
+  Language.fra: 'fr-FR',
+  Language.heb: 'he-IL',
+  Language.ita: 'it-IT',
+  Language.jpn: 'ja-JP',
+  Language.kor: 'ko-KR',
+  Language.por: 'pt-BR',
+  Language.rus: 'ru-RU',
+  Language.spa: 'es-ES',
+};
+
 class Globals {
   late SettingsController settingsController;
-  late SimpleStorage simpleStorage;
+  final SimpleStorage simpleStorage = SimpleStorage();
+  final Speak speak = Speak();
   Language nativeLang = Language.invalidlanguage;
   Language learningLang = Language.invalidlanguage;
 
   init() async {
+    WidgetsFlutterBinding.ensureInitialized();
+
     // Set up the SettingsController, which will glue user settings to multiple
     // Flutter Widgets.
     // Load the user's preferred theme while the splash screen is displayed.
@@ -35,12 +57,13 @@ class Globals {
     settingsController = SettingsController(SettingsService());
     await settingsController.loadSettings();
 
-    simpleStorage = SimpleStorage();
     await simpleStorage.init();
 
     await initLanguages();
 
     await MySpeechToText().init();
+
+    await speak.init();
   }
 
   initLanguages() async {

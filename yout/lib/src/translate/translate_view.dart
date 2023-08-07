@@ -160,8 +160,10 @@ class _TranslateViewState extends State<TranslateView> {
       debugPrint(
           "trans: ${_translation?.examples.length}, example:$_exampleLang, recording:$_recordingLang");
 
-      var line = _translation?.examples[_exampleLang]?.firstOrNull;
-      _toTranslateText = line ?? 'Strange error... where is the line?';
+      var line = _translation?.examples[_exampleLang]?.firstOrNull ??
+          'Strange error... where is the line?';
+      widget.globals.speak.speak(_exampleLang, line);
+      _toTranslateText = line;
     });
   }
 }
