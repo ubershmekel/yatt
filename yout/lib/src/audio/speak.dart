@@ -26,9 +26,6 @@ class Speak {
   double rate = 1.0;
   bool isCurrentLanguageInstalled = false;
 
-  String? _newVoiceText;
-  int? _inputLength;
-
   TtsState ttsState = TtsState.stopped;
 
   get isPlaying => ttsState == TtsState.playing;
@@ -45,6 +42,12 @@ class Speak {
     flutterTts = FlutterTts();
 
     await flutterTts.awaitSpeakCompletion(true);
+
+    if (isAndroid) {
+      // Web seems to like rate 1.0
+      // Android like 0.5
+      rate = 0.5;
+    }
 
     final langs = await flutterTts.getLanguages;
     // On emulated android:
