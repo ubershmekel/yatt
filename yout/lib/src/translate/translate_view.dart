@@ -70,13 +70,14 @@ class _TranslateViewState extends State<TranslateView> {
         // builds Widgets as they’re scrolled into view.
         body: ListView(children: [
           ListTile(
-            title: Text(_toTranslateText),
+            title: SelectableText(_toTranslateText),
             // title: translateBox,
             //Text(toTranslateText),
             leading: const CircleAvatar(
               // Display the Flutter Logo image asset.
               foregroundImage: AssetImage('assets/images/flutter_logo.png'),
             ),
+            onTap: sayTheExample,
             // ]
             // Center(
             //     child: Row(
@@ -162,8 +163,11 @@ class _TranslateViewState extends State<TranslateView> {
 
       var line = _translation?.examples[_exampleLang]?.firstOrNull ??
           'Strange error... where is the line?';
-      widget.globals.speak.speak(_exampleLang, line);
       _toTranslateText = line;
     });
+  }
+
+  sayTheExample() {
+    widget.globals.speak.speak(_exampleLang, _toTranslateText);
   }
 }
