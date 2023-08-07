@@ -1,4 +1,4 @@
-package com.example.yout
+package com.andluck.yatt
 
 import io.flutter.embedding.android.FlutterActivity
 

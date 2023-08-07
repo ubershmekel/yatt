@@ -1,5 +1,5 @@
 name: yout
-description: A new Flutter project.
+description: Learn a language by speaking and listening.
 
 # Prevent accidental publishing to pub.dev.
 publish_to: 'none'
