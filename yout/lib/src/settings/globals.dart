@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yout/src/audio/audio_files.dart';
 import 'package:yout/src/audio/listen.dart';
 import 'package:yout/src/audio/speak.dart';
 import 'package:yout/src/settings/simple_storage.dart';
@@ -46,6 +47,7 @@ class Globals {
   final Speak speak = Speak();
   Language nativeLang = Language.invalidlanguage;
   Language learningLang = Language.invalidlanguage;
+  final AudioFiles audioFiles = AudioFiles();
 
   init() async {
     WidgetsFlutterBinding.ensureInitialized();

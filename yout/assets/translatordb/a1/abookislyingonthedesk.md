@@ -12,6 +12,10 @@ The book is on the desk.
 
 The book is on the table.
 
+There is a book on the desk.
+
+There is a book on the table.
+
 # lang:ara
 
 الكتاب على المكتب.

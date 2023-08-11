@@ -25,6 +25,12 @@ class TranslateView extends StatefulWidget {
   // var toTranslateText = 'Please translate this';
 }
 
+enum Modes {
+  trying,
+  success,
+  failed,
+}
+
 class _TranslateViewState extends State<TranslateView> {
   Translation? _translation;
   String _toTranslateText = 'Please translate this';
@@ -33,6 +39,8 @@ class _TranslateViewState extends State<TranslateView> {
   Language _exampleLang = Language.invalidlanguage;
   final dictationBox = TextEditingController();
   final TranslateController controller = TranslateController();
+  Modes mode = Modes.trying;
+  int roundsStarted = 0;
 
   @override
   initState() {
@@ -140,17 +148,34 @@ class _TranslateViewState extends State<TranslateView> {
     if (_translation == null) {
       return;
     }
+    if (mode != Modes.trying) {
+      return;
+    }
     if (controller.isSameSentence(
         dictationBox.text, _translation!.examples[_recordingLang]!)) {
-      // you win
-      setState(() {
-        _statusText = '✅🎉';
-      });
+      youWin();
     }
   }
 
+  youWin() async {
+    if (mode == Modes.success) {
+      debugPrint('Something is wrong. You already won.');
+      return;
+    }
+    mode = Modes.success;
+    widget.globals.audioFiles.yay();
+    setState(() {
+      _statusText = '✅🎉';
+    });
+
+    await Future.delayed(const Duration(seconds: 3));
+    nextRound();
+  }
+
   nextRound() async {
+    roundsStarted++;
     // _toTranslateText = TranslateController.filesList[0];
+    mode = Modes.trying;
     _translation = (await controller.nextTranslation());
     _statusText = '';
     dictationBox.text = '';
