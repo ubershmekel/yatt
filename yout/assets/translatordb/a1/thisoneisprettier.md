@@ -1,6 +1,8 @@
 # lang:eng
 
 This one is prettier.
+This is the more beautiful one.
+This is the prettier one.
 
 # lang:ara
 
@@ -31,10 +33,17 @@ Celui-ci est plus joli.
 # lang:heb
 
 זאת יותר יפה
+הזאת יותר יפה
 הזה יותר יפה
 זה יותר יפה
 האחד הזה יותר יפה
 האחת הזאת יותר יפה
+זאת יפה יותר
+הזאת יפה יותר
+הזה יפה יותר
+זה יפה יותר
+האחד הזה יפה יותר
+האחת הזאת יפה יותר
 
 # lang:ita
 
