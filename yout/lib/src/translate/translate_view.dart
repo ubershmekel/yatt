@@ -70,7 +70,7 @@ class _TranslateViewState extends State<TranslateView> {
         // builds Widgets as they’re scrolled into view.
         body: ListView(children: [
           ListTile(
-            title: SelectableText(_toTranslateText),
+            title: Text(_toTranslateText),
             // title: translateBox,
             //Text(toTranslateText),
             leading: const CircleAvatar(
@@ -164,10 +164,11 @@ class _TranslateViewState extends State<TranslateView> {
       var line = _translation?.examples[_exampleLang]?.firstOrNull ??
           'Strange error... where is the line?';
       _toTranslateText = line;
+      sayTheExample().then((_) => onStartRecording());
     });
   }
 
   sayTheExample() {
-    widget.globals.speak.speak(_exampleLang, _toTranslateText);
+    return widget.globals.speak.speak(_exampleLang, _toTranslateText);
   }
 }

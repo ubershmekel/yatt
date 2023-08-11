@@ -21,7 +21,7 @@ class Speak {
   late FlutterTts flutterTts;
   String? language;
   String? engine;
-  double volume = 0.5;
+  double volume = 1.0;
   double pitch = 1.0;
   double rate = 1.0;
   bool isCurrentLanguageInstalled = false;
@@ -73,6 +73,8 @@ class Speak {
     });
 
     if (isAndroid) {
+      // On web we get this error:
+      // Error: Expected a value of type 'JsObject', but got one of type 'SpeechSynthesisEvent'
       flutterTts.setInitHandler(() {
         debugPrint("Speak TTS Initialized");
       });
@@ -120,14 +122,22 @@ class Speak {
 
   Future speak(Language lang, String text) async {
     debugPrint("Speak: $text, lang: $lang, ${languageToLocaleId[lang]!}");
-    await flutterTts.setLanguage(languageToLocaleId[lang]!);
+    var locale = languageToLocaleId[lang]!;
+    var res = await flutterTts.isLanguageAvailable(locale);
+    await flutterTts.setLanguage(locale);
     await flutterTts.setVolume(volume);
     await flutterTts.setSpeechRate(rate);
     await flutterTts.setPitch(pitch);
+    debugPrint('speak call 2');
     await flutterTts.speak(text);
+    debugPrint('speak call done $res');
   }
 }
 
+///////////////////////////////////////////////////////////////////////
+// DEBUG ZONE
+// Launch this file directly to see the debug UI
+///////////////////////////////////////////////////////////////////////
 class _MyAppState extends State<MyTtsApp> {
   late FlutterTts flutterTts;
   String? language;
@@ -170,7 +180,7 @@ class _MyAppState extends State<MyTtsApp> {
 
     flutterTts.setStartHandler(() {
       setState(() {
-        debugPrint("Playing");
+        debugPrint("TTS Playing");
         ttsState = TtsState.playing;
       });
     });
@@ -185,35 +195,35 @@ class _MyAppState extends State<MyTtsApp> {
 
     flutterTts.setCompletionHandler(() {
       setState(() {
-        debugPrint("Complete");
+        debugPrint("TTS Complete");
         ttsState = TtsState.stopped;
       });
     });
 
     flutterTts.setCancelHandler(() {
       setState(() {
-        debugPrint("Cancel");
+        debugPrint("TTS Cancel");
         ttsState = TtsState.stopped;
       });
     });
 
     flutterTts.setPauseHandler(() {
       setState(() {
-        debugPrint("Paused");
+        debugPrint("TTS Paused");
         ttsState = TtsState.paused;
       });
     });
 
     flutterTts.setContinueHandler(() {
       setState(() {
-        debugPrint("Continued");
+        debugPrint("TTS Continued");
         ttsState = TtsState.continued;
       });
     });
 
     flutterTts.setErrorHandler((msg) {
       setState(() {
-        debugPrint("error: $msg");
+        debugPrint("TTS error: $msg");
         ttsState = TtsState.stopped;
       });
     });
