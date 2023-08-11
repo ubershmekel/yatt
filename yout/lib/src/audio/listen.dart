@@ -83,8 +83,13 @@ class MySpeechToText {
   }
 
   listen(Language lang,
-      Function(Language lang, SpeechRecognitionResult res) callback) {
-    // _currentLocaleId = "ja-JP";
+      Function(Language lang, SpeechRecognitionResult res) callback) async {
+    if (speech.isListening) {
+      // Prevent this error from happening when we spam record:
+      // DOMException: Failed to execute 'start' on 'SpeechRecognition': recognition has already started.
+      debugPrint('Already listening!');
+      return;
+    }
     _currentLocaleId = languageToLocaleId[lang]!;
     lastWords = '';
     lastError = '';
@@ -94,7 +99,7 @@ class MySpeechToText {
     // systems recognition will be stopped before this value is reached.
     // Similarly `pauseFor` is a maximum not a minimum and may be ignored
     // on some devices.
-    speech.listen(
+    await speech.listen(
       onResult: (SpeechRecognitionResult res) {
         callback(lang, res);
         resultListener(res);
