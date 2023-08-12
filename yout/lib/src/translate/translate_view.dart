@@ -42,6 +42,7 @@ class _TranslateViewState extends State<TranslateView> {
   final TranslateController controller = TranslateController();
   Modes mode = Modes.trying;
   int roundsStarted = 0;
+  bool isAutoNexting = false;
 
   @override
   initState() {
@@ -56,6 +57,8 @@ class _TranslateViewState extends State<TranslateView> {
   @override
   Widget build(BuildContext context) {
     dictationBox.addListener(onDictationBoxChanged);
+    const nextButtonIcon = Icon(Icons.next_plan);
+
     return Scaffold(
         appBar: AppBar(
           title: const Text('You are the translator'),
@@ -119,7 +122,16 @@ class _TranslateViewState extends State<TranslateView> {
                 ),
                 FloatingActionButton.extended(
                   heroTag: UniqueKey(),
-                  icon: const Icon(Icons.next_plan),
+                  icon: isAutoNexting
+                      ? SizedBox(
+                          height: nextButtonIcon.size,
+                          width: nextButtonIcon.size,
+                          child: const CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 3,
+                          ),
+                        )
+                      : nextButtonIcon,
                   label: const Text('Next'),
                   onPressed: nextRound,
                 ),
@@ -202,12 +214,14 @@ class _TranslateViewState extends State<TranslateView> {
       _statusText = '✅🎉';
     });
 
+    isAutoNexting = true;
     await Future.delayed(const Duration(seconds: 3));
     nextRound();
   }
 
   nextRound() async {
     roundsStarted++;
+    isAutoNexting = false;
     // _toTranslateText = TranslateController.filesList[0];
     mode = Modes.trying;
     _translation = (await controller.nextTranslation());
