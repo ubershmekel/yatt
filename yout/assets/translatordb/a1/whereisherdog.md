@@ -2,11 +2,7 @@
 
 Where is her dog?
 
-Where is his dog?
-
-Where is your dog?
-
-Where's your dog?
+Where's her dog?
 
 # lang:ara
 
@@ -34,13 +30,13 @@ Où est votre chien ?
 
 # lang:heb
 
-איפה הכלב שלך?
+איפה הכלב שלה?
 
-איפה הכלב שלכם?
+איפה כלבה?
 
-היכן כלבך?
+היכן הכלב שלה?
 
-היכן כלבכם?
+היכן כלבה?
 
 # lang:ita
 
