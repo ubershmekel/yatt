@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:yout/src/settings/globals.dart';
+import 'package:yout/src/settings/languages.dart';
 import 'package:yout/src/settings/simple_storage.dart';
 
 import '../settings/settings_view.dart';
 import '../translate/translate_view.dart';
-import 'language_item.dart';
 
 class LanguageItemListView extends StatelessWidget {
   const LanguageItemListView({
@@ -23,17 +23,9 @@ class LanguageItemListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const items = [
-      LanguageItem("English", "eng"),
-      LanguageItem("Hebrew", "heb"),
-      LanguageItem("Japanese", "jpn"),
-      LanguageItem("German", "deu"),
-      LanguageItem("Russian", "rus"),
-    ];
-
-    var languageTiles = items.map((LanguageItem item) {
+    var languageTiles = languageToInfo.entries.map((entry) {
       return ListTile(
-          title: Text(item.name),
+          title: Text(entry.value.name),
           leading: const CircleAvatar(
             // Display the Flutter Logo image asset.
             foregroundImage: AssetImage('assets/images/flutter_logo.png'),
@@ -48,12 +40,12 @@ class LanguageItemListView extends StatelessWidget {
             // );
             if (mode == modeNative) {
               globals.simpleStorage
-                  .setString(Keys.nativeLanguage, item.threeLetterCode)
+                  .setString(Keys.nativeLanguage, entry.value.code3)
                   .then((val) => globals.initLanguages());
             }
             if (mode == modeLearn) {
               globals.simpleStorage
-                  .setString(Keys.targetLanguage, item.threeLetterCode)
+                  .setString(Keys.targetLanguage, entry.value.code3)
                   .then((val) => globals.initLanguages());
             }
 
