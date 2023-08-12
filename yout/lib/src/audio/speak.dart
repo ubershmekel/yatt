@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:yout/src/settings/globals.dart';
+import 'package:yout/src/settings/languages.dart';
 
 void main() => runApp(const MyTtsApp());
 

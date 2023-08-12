@@ -4,7 +4,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:yout/src/settings/globals.dart';
+import 'package:yout/src/settings/languages.dart';
 
 class Translation {
   String filename = '';

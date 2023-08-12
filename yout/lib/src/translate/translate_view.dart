@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:yout/src/audio/listen.dart';
 import 'package:yout/src/settings/globals.dart';
+import 'package:yout/src/settings/languages.dart';
 import 'package:yout/src/translate/translate_controller.dart';
 
 import '../settings/settings_view.dart';

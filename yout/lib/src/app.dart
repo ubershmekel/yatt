@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:yout/src/language_select/language_select_view.dart';
 import 'package:yout/src/settings/globals.dart';
+import 'package:yout/src/settings/languages.dart';
 import 'package:yout/src/translate/translate_view.dart';
 
 import 'sample_feature/sample_item_details_view.dart';

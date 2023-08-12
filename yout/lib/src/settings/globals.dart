@@ -1,45 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:yout/src/audio/audio_files.dart';
 import 'package:yout/src/audio/listen.dart';
 import 'package:yout/src/audio/speak.dart';
+import 'package:yout/src/settings/languages.dart';
 import 'package:yout/src/settings/simple_storage.dart';
 import '../settings/settings_controller.dart';
 import '../settings/settings_service.dart';
-
-enum Language {
-  eng,
-  ara,
-  deu,
-  ell,
-  fra,
-  heb,
-  ita,
-  jpn,
-  kor,
-  por,
-  rus,
-  spa,
-  invalidlanguage,
-}
-
-final stringToLangMap = Language.values.asNameMap();
-
-// Note on Android default emulator,
-// ar-EG and he-IL are not available :/
-Map<Language, String> languageToLocaleId = {
-  Language.eng: 'en-US',
-  Language.ara: 'ar-EG',
-  Language.deu: 'de-DE',
-  Language.ell: 'el-GR',
-  Language.fra: 'fr-FR',
-  Language.heb: 'he-IL',
-  Language.ita: 'it-IT',
-  Language.jpn: 'ja-JP',
-  Language.kor: 'ko-KR',
-  Language.por: 'pt-BR',
-  Language.rus: 'ru-RU',
-  Language.spa: 'es-ES',
-};
 
 class Globals {
   late SettingsController settingsController;
@@ -67,6 +32,7 @@ class Globals {
   }
 
   initLanguages() async {
+    // Read from storage the native and learning languages
     String nativeString =
         await simpleStorage.getString(Keys.nativeLanguage) ?? '';
     if (stringToLangMap.containsKey(nativeString)) {
