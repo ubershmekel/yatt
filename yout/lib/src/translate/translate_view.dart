@@ -122,6 +122,12 @@ class _TranslateViewState extends State<TranslateView> {
                   label: const Text('Next'),
                   onPressed: nextRound,
                 ),
+                FloatingActionButton.extended(
+                  heroTag: UniqueKey(),
+                  icon: const Icon(Icons.hail_rounded),
+                  label: const Text('Help'),
+                  onPressed: onHelp,
+                ),
               ],
             ),
           ),
@@ -131,8 +137,19 @@ class _TranslateViewState extends State<TranslateView> {
         ]));
   }
 
+  onHelp() async {
+    String oneAnswer =
+        _translation!.examples[_recordingLang]!.firstOrNull ?? '';
+    if (oneAnswer == '') {
+      debugPrint('Something is wrong. No translation.');
+      return;
+    }
+    dictationBox.text = oneAnswer;
+    await widget.globals.speak.speak(_recordingLang, oneAnswer);
+  }
+
   onStartRecording() {
-    MySpeechToText().listen(
+    return MySpeechToText().listen(
       _recordingLang,
       onRecordingStatus,
     );
@@ -190,8 +207,16 @@ class _TranslateViewState extends State<TranslateView> {
       var line = _translation?.examples[_exampleLang]?.firstOrNull ??
           'Strange error... where is the line?';
       _toTranslateText = line;
-      sayTheExample().then((_) => onStartRecording());
+      sayAndRecord();
     });
+  }
+
+  sayAndRecord() async {
+    await sayTheExample();
+    // On Anrdoid, it seems the recording starts before the example is fully said
+    // so I add this 500ms delay.
+    await Future.delayed(const Duration(milliseconds: 500));
+    await onStartRecording();
   }
 
   sayTheExample() {
