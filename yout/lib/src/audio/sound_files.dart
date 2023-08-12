@@ -15,10 +15,10 @@ const yays = [
 
 Random rng = Random();
 
-class AudioFiles {
+class SoundFiles {
   AudioPlayer player = AudioPlayer();
 
-  AudioFiles() {
+  SoundFiles() {
     // player.onPlayerStateChanged.listen((it) {
     //   switch (it) {
     //     case PlayerState.stopped:

@@ -1,4 +1,4 @@
-import 'package:yout/src/audio/audio_files.dart';
+import 'package:yout/src/audio/sound_files.dart';
 import 'package:yout/src/audio/listen.dart';
 import 'package:yout/src/audio/speak.dart';
 import 'package:yout/src/settings/languages.dart';
@@ -12,7 +12,7 @@ class Globals {
   final Speak speak = Speak();
   Language nativeLang = Language.invalidlanguage;
   Language learningLang = Language.invalidlanguage;
-  final AudioFiles audioFiles = AudioFiles();
+  final SoundFiles audioFiles = SoundFiles();
 
   init() async {
     // Set up the SettingsController, which will glue user settings to multiple
