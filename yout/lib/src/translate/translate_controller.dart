@@ -93,8 +93,8 @@ class TranslateController {
         .toLowerCase()
         .trim()
         .replaceAll(RegExp('\\s+'), ' ');
-    if (normalized.isEmpty) {
-      debugPrint('Big problem! Normalized text went down to zero: $text');
+    if (normalized.isEmpty && text.length > 1) {
+      // debugPrint('Normalized text went down to zero: $text');
       return text;
     }
     return normalized;
