@@ -29,7 +29,7 @@ class TranslateView extends StatefulWidget {
 enum Modes {
   trying,
   success,
-  failed,
+  helped,
 }
 
 class _TranslateViewState extends State<TranslateView> {
@@ -55,6 +55,7 @@ class _TranslateViewState extends State<TranslateView> {
 
   @override
   Widget build(BuildContext context) {
+    dictationBox.addListener(onDictationBoxChanged);
     return Scaffold(
         appBar: AppBar(
           title: const Text('You are the translator'),
@@ -137,7 +138,31 @@ class _TranslateViewState extends State<TranslateView> {
         ]));
   }
 
+  String lastDictationBoxText = '';
+  onDictationBoxChanged() {
+    String text = dictationBox.text;
+    if (text == lastDictationBoxText) {
+      // Avoid some log spam, and triple checking.
+      // For example, every time the cursor moves this is called.
+      return;
+    }
+    lastDictationBoxText = text;
+    debugPrint('onDictationBoxChanged: $text');
+    if (_translation == null) {
+      return;
+    }
+    if (mode != Modes.trying) {
+      return;
+    }
+
+    List<String> viableTranslations = _translation!.examples[_recordingLang]!;
+    if (controller.isSameSentence(text, viableTranslations)) {
+      youWin();
+    }
+  }
+
   onHelp() async {
+    mode = Modes.helped;
     String oneAnswer =
         _translation!.examples[_recordingLang]!.firstOrNull ?? '';
     if (oneAnswer == '') {
@@ -162,17 +187,8 @@ class _TranslateViewState extends State<TranslateView> {
       return;
     }
 
+    // Update the dictation box, the game will update the status from onDictationBoxChanged
     dictationBox.text = res.recognizedWords;
-    if (_translation == null) {
-      return;
-    }
-    if (mode != Modes.trying) {
-      return;
-    }
-    if (controller.isSameSentence(
-        dictationBox.text, _translation!.examples[_recordingLang]!)) {
-      youWin();
-    }
   }
 
   youWin() async {
