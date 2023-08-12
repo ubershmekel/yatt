@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/foundation.dart';
 
 const defaultPlayerCount = 4;
 
@@ -12,8 +13,28 @@ const yays = [
   'sounds/yay3.mp3',
 ];
 
+Random rng = Random();
+
 class AudioFiles {
   AudioPlayer player = AudioPlayer();
+
+  AudioFiles() {
+    // player.onPlayerStateChanged.listen((it) {
+    //   switch (it) {
+    //     case PlayerState.stopped:
+    //       debugPrint('Player stopped!');
+
+    //       break;
+    //     case PlayerState.completed:
+    //       debugPrint('Player complete!');
+    //       break;
+    //     default:
+    //       debugPrint('Player state: $it');
+    //       break;
+    //   }
+    // });
+    // player.onLog.listen((msg) => debugPrint('AudioPlayers Log: $msg'));
+  }
 
   play() {
     const alarmAudioPath = "sounds/yay1.mp3";
@@ -23,9 +44,14 @@ class AudioFiles {
     player.play(AssetSource(alarmAudioPath));
   }
 
-  yay() {
+  yay() async {
     // play a random yay
-    final yay = yays[Random().nextInt(yays.length)];
-    player.play(AssetSource(yay));
+    final yay = yays[rng.nextInt(yays.length)];
+    debugPrint('yay ... $yay');
+    await player.play(
+      AssetSource(yay),
+      volume: 1.0,
+      mode: PlayerMode.lowLatency,
+    );
   }
 }
