@@ -19,6 +19,7 @@ class SoundFiles {
   AudioPlayer player = AudioPlayer();
 
   SoundFiles() {
+    player.setReleaseMode(ReleaseMode.stop);
     // player.onPlayerStateChanged.listen((it) {
     //   switch (it) {
     //     case PlayerState.stopped:
@@ -48,6 +49,8 @@ class SoundFiles {
     // play a random yay
     final yay = yays[rng.nextInt(yays.length)];
     debugPrint('yay ... $yay');
+    // If we don't `stop` then sometimes the sound doesn't play.
+    await player.stop();
     await player.play(
       AssetSource(yay),
       volume: 1.0,
