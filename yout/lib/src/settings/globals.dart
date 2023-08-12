@@ -50,8 +50,6 @@ class Globals {
   final AudioFiles audioFiles = AudioFiles();
 
   init() async {
-    WidgetsFlutterBinding.ensureInitialized();
-
     // Set up the SettingsController, which will glue user settings to multiple
     // Flutter Widgets.
     // Load the user's preferred theme while the splash screen is displayed.
