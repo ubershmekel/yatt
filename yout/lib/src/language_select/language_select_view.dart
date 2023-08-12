@@ -24,12 +24,19 @@ class LanguageItemListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var languageTiles = languageToInfo.entries.map((entry) {
+      Language toDisable = Language.invalidlanguage;
+      if (mode == modeNative) {
+        toDisable = globals.learningLang;
+      } else {
+        toDisable = globals.nativeLang;
+      }
       return ListTile(
           title: Text(entry.value.name),
           leading: const CircleAvatar(
             // Display the Flutter Logo image asset.
             foregroundImage: AssetImage('assets/images/flutter_logo.png'),
           ),
+          enabled: entry.key != toDisable,
           onTap: () {
             // Navigate to the details page. If the user leaves and returns to
             // the app after it has been killed while running in the
