@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yout/src/language_select/language_item_list_view.dart';
+import 'package:yout/src/language_select/language_select_view.dart';
 
 import 'settings_controller.dart';
 

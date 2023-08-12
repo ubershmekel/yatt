@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:yout/src/language_select/language_item_list_view.dart';
+import 'package:yout/src/language_select/language_select_view.dart';
 import 'package:yout/src/settings/globals.dart';
 import 'package:yout/src/translate/translate_view.dart';
 
