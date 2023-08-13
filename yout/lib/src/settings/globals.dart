@@ -10,6 +10,7 @@ class Globals {
   late SettingsController settingsController;
   final SimpleStorage simpleStorage = SimpleStorage();
   final Speak speak = Speak();
+  final MySpeechToText speechToText = MySpeechToText();
   Language nativeLang = Language.invalidlanguage;
   Language learningLang = Language.invalidlanguage;
   final SoundFiles audioFiles = SoundFiles();
@@ -26,7 +27,7 @@ class Globals {
 
     await initLanguages();
 
-    await MySpeechToText().init();
+    await speechToText.init();
 
     await speak.init();
   }

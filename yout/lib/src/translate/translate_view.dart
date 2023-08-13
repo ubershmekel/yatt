@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:yout/src/audio/listen.dart';
 import 'package:yout/src/settings/globals.dart';
 import 'package:yout/src/settings/languages.dart';
@@ -43,6 +42,7 @@ class _TranslateViewState extends State<TranslateView> {
   Modes mode = Modes.trying;
   int roundsStarted = 0;
   bool isAutoNexting = false;
+  bool isRecording = false;
 
   @override
   initState() {
@@ -109,41 +109,40 @@ class _TranslateViewState extends State<TranslateView> {
             ),
           ),
           Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                FloatingActionButton.extended(
-                  // `heroTag` to avoid " multiple heroes that share the same tag within a subtree" error
-                  // https://stackoverflow.com/a/69342661/177498
-                  heroTag: UniqueKey(),
-                  icon: const Icon(Icons.record_voice_over),
-                  label: Text('Speak ${_recordingLang.name}'),
-                  onPressed: onStartRecording,
-                ),
-                FloatingActionButton.extended(
-                  heroTag: UniqueKey(),
-                  icon: isAutoNexting
-                      ? SizedBox(
-                          height: nextButtonIcon.size,
-                          width: nextButtonIcon.size,
-                          child: const CircularProgressIndicator(
-                            color: Colors.white,
-                            strokeWidth: 3,
-                          ),
-                        )
-                      : nextButtonIcon,
-                  label: const Text('Next'),
-                  onPressed: nextRound,
-                ),
-                FloatingActionButton.extended(
-                  heroTag: UniqueKey(),
-                  icon: const Icon(Icons.hail_rounded),
-                  label: const Text('Help'),
-                  onPressed: onHelp,
-                ),
-              ],
+              child: Wrap(children: [
+            FloatingActionButton.extended(
+              // `heroTag` to avoid " multiple heroes that share the same tag within a subtree" error
+              // https://stackoverflow.com/a/69342661/177498
+              heroTag: UniqueKey(),
+              icon: const Icon(Icons.record_voice_over),
+              label: Text('Speak ${_recordingLang.name}'),
+              backgroundColor: isRecording
+                  ? Colors.red
+                  : Theme.of(context).floatingActionButtonTheme.backgroundColor,
+              onPressed: onStartRecording,
             ),
-          ),
+            FloatingActionButton.extended(
+              heroTag: UniqueKey(),
+              icon: isAutoNexting
+                  ? SizedBox(
+                      height: nextButtonIcon.size,
+                      width: nextButtonIcon.size,
+                      child: const CircularProgressIndicator(
+                        color: Colors.white,
+                        strokeWidth: 3,
+                      ),
+                    )
+                  : nextButtonIcon,
+              label: const Text('Next'),
+              onPressed: nextRound,
+            ),
+            FloatingActionButton.extended(
+              heroTag: UniqueKey(),
+              icon: const Icon(Icons.hail_rounded),
+              label: const Text('Help'),
+              onPressed: onHelp,
+            ),
+          ])),
           Center(
               child:
                   Text(_statusText, style: const TextStyle(fontSize: 200.0))),
@@ -186,21 +185,35 @@ class _TranslateViewState extends State<TranslateView> {
   }
 
   onStartRecording() {
-    return MySpeechToText().listen(
+    setState(() {
+      isRecording = true;
+    });
+    return widget.globals.speechToText.listen(
       _recordingLang,
       onRecordingStatus,
     );
   }
 
-  onRecordingStatus(Language lang, SpeechRecognitionResult res) {
-    if (lang != _recordingLang) {
+  onRecordingStatus(SpeechStatus status) {
+    debugPrint('onRecordingStatus: ${status.isListening}');
+    if (status.lang != _recordingLang) {
       debugPrint(
           "onRecordingStatus: lang != _recordingLang. So ignoring results.");
       return;
     }
-
+    if (status.isListening) {
+      setState(() {
+        isRecording = true;
+      });
+    } else {
+      setState(() {
+        isRecording = false;
+      });
+    }
     // Update the dictation box, the game will update the status from onDictationBoxChanged
-    dictationBox.text = res.recognizedWords;
+    if (status.result != null) {
+      dictationBox.text = status.result!.recognizedWords;
+    }
   }
 
   youWin() async {

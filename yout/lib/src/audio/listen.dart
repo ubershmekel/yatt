@@ -7,41 +7,42 @@ import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:yout/src/settings/languages.dart';
 
-void main() => runApp(const SpeechSampleApp());
-
-class SpeechSampleApp extends StatefulWidget {
-  const SpeechSampleApp({Key? key}) : super(key: key);
-
-  @override
-  State<SpeechSampleApp> createState() => _SpeechSampleAppState();
+class SpeechStatus {
+  SpeechRecognitionResult? result;
+  SpeechRecognitionError? error;
+  bool isListening = false;
+  Language lang = Language.invalidlanguage;
 }
 
 class MySpeechToText {
-  static final MySpeechToText _singleton = MySpeechToText._internal();
   double level = 0.0;
   double minSoundLevel = 50000;
   double maxSoundLevel = -50000;
   String lastWords = '';
   String lastError = '';
   String lastStatus = '';
+  Language _currentLanguage = Language.invalidlanguage;
   String _currentLocaleId = '';
   List<LocaleName> _localeNames = [];
   final SpeechToText speech = SpeechToText();
-
-  factory MySpeechToText() {
-    return _singleton;
-  }
-
-  MySpeechToText._internal();
+  Function(SpeechStatus status)? callback;
 
   void errorListener(SpeechRecognitionError error) {
     debugPrint(
         'Received error status: $error, listening: ${speech.isListening}');
   }
 
-  void statusListener(String status) {
+  void statusListener(String statusText) {
     debugPrint(
-        'Received listener status: $status, listening: ${speech.isListening}');
+        'Received listener status: $statusText, listening: ${speech.isListening}');
+    if (callback == null) {
+      debugPrint('MySpeechToText.statusListener callback is null');
+      return;
+    }
+    SpeechStatus status = SpeechStatus();
+    status.lang = _currentLanguage;
+    status.isListening = speech.isListening;
+    callback!(status);
   }
 
   void resultListener(SpeechRecognitionResult result) {
@@ -82,14 +83,15 @@ class MySpeechToText {
     }
   }
 
-  listen(Language lang,
-      Function(Language lang, SpeechRecognitionResult res) callback) async {
+  listen(Language lang, Function(SpeechStatus status) callback) async {
+    this.callback = callback;
     if (speech.isListening) {
       // Prevent this error from happening when we spam record:
       // DOMException: Failed to execute 'start' on 'SpeechRecognition': recognition has already started.
       debugPrint('Already listening!');
       return;
     }
+    _currentLanguage = lang;
     _currentLocaleId = languageToLocaleId[lang]!;
     lastWords = '';
     lastError = '';
@@ -101,7 +103,11 @@ class MySpeechToText {
     // on some devices.
     await speech.listen(
       onResult: (SpeechRecognitionResult res) {
-        callback(lang, res);
+        SpeechStatus status = SpeechStatus();
+        status.lang = lang;
+        status.result = res;
+        status.isListening = speech.isListening;
+        callback(status);
         resultListener(res);
       },
       listenFor: const Duration(seconds: maxRecordDurationSeconds),
@@ -115,6 +121,15 @@ class MySpeechToText {
       // onDevice: _onDevice,
     );
   }
+}
+
+void main() => runApp(const SpeechSampleApp());
+
+class SpeechSampleApp extends StatefulWidget {
+  const SpeechSampleApp({Key? key}) : super(key: key);
+
+  @override
+  State<SpeechSampleApp> createState() => _SpeechSampleAppState();
 }
 
 /// An example that demonstrates the basic functionality of the
