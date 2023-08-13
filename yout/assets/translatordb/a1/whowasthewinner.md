@@ -40,6 +40,10 @@ Qui l'a emporté ?
 
 מי ניצחה?
 
+מי היה המנצח?
+
+מי הייתה המנצחת?
+
 # lang:ita
 
 Chi ha vinto?
