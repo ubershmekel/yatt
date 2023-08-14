@@ -4,7 +4,13 @@ Are you all right?
 
 Are you ok?
 
+Are you okay?
+
 Are you alright?
+
+You alright there?
+
+You ok there?
 
 # lang:ara
 
