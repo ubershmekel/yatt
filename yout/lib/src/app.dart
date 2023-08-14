@@ -27,9 +27,10 @@ class MyApp extends StatelessWidget {
         globals: globals, mode: LanguageItemListView.modeLearn);
 
     Widget defaultRoute = translateRoute;
-    if (globals.nativeLang == Language.invalidlanguage) {
+    if (globals.settingsController.nativeLang == Language.invalidlanguage) {
       defaultRoute = selectNativeRoute;
-    } else if (globals.learningLang == Language.invalidlanguage) {
+    } else if (globals.settingsController.learningLang ==
+        Language.invalidlanguage) {
       defaultRoute = selectLearnRoute;
     }
     // Glue the SettingsController to the MaterialApp.

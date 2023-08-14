@@ -48,9 +48,20 @@ class _TranslateViewState extends State<TranslateView> {
   initState() {
     super.initState();
     controller.load().then((_) {
-      _exampleLang = widget.globals.nativeLang;
-      _recordingLang = widget.globals.learningLang;
+      refreshLanguages();
       nextRound();
+    });
+
+    widget.globals.settingsController.addListener(() {
+      // Settings have changed, maybe it's a new language?
+      refreshLanguages();
+    });
+  }
+
+  refreshLanguages() {
+    setState(() {
+      _exampleLang = widget.globals.settingsController.nativeLang;
+      _recordingLang = widget.globals.settingsController.learningLang;
     });
   }
 

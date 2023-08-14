@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-enum Keys {
+enum StorageKeys {
   nativeLanguage,
   targetLanguage,
   themeMode,
@@ -13,11 +13,11 @@ class SimpleStorage {
     prefs = await SharedPreferences.getInstance();
   }
 
-  Future<String?> getString(Keys key) async {
+  Future<String?> getString(StorageKeys key) async {
     return prefs.getString(key.name);
   }
 
-  Future<bool> setString(Keys key, String value) async {
+  Future<bool> setString(StorageKeys key, String value) async {
     return prefs.setString(key.name, value);
   }
 }

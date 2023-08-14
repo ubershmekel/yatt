@@ -10,8 +10,5 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final globals = Globals();
   await globals.init();
-  debugPrint("Native language: ${globals.nativeLang}, "
-      "Learning language: ${globals.learningLang}");
   runApp(MyApp(globals: globals));
-  // runApp(MyTtsApp());
 }

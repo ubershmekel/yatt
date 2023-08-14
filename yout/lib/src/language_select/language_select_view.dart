@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:yout/src/settings/globals.dart';
 import 'package:yout/src/settings/languages.dart';
-import 'package:yout/src/settings/simple_storage.dart';
+import 'package:yout/src/translate/translate_view.dart';
 
 import '../settings/settings_view.dart';
-import '../translate/translate_view.dart';
 
 class LanguageItemListView extends StatelessWidget {
   const LanguageItemListView({
@@ -26,9 +25,9 @@ class LanguageItemListView extends StatelessWidget {
     var languageTiles = languageToInfo.entries.map((entry) {
       Language toDisable = Language.invalidlanguage;
       if (mode == modeNative) {
-        toDisable = globals.learningLang;
+        toDisable = globals.settingsController.learningLang;
       } else {
-        toDisable = globals.nativeLang;
+        toDisable = globals.settingsController.nativeLang;
       }
       return ListTile(
           title: Text(entry.value.name),
@@ -46,23 +45,21 @@ class LanguageItemListView extends StatelessWidget {
             //   SampleItemDetailsView.routeName,
             // );
             if (mode == modeNative) {
-              globals.simpleStorage
-                  .setString(Keys.nativeLanguage, entry.value.code3)
-                  .then((val) => globals.initLanguages());
+              globals.settingsController.updateNativeLanguage(entry.value);
             }
             if (mode == modeLearn) {
-              globals.simpleStorage
-                  .setString(Keys.targetLanguage, entry.value.code3)
-                  .then((val) => globals.initLanguages());
+              globals.settingsController.updateLearningLanguage(entry.value);
             }
 
-            if (mode == modeNative) {
-              Navigator.restorablePushNamed(
+            if (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            } else if (mode == modeNative) {
+              Navigator.restorablePopAndPushNamed(
                 context,
                 "/$modeLearn",
               );
             } else {
-              Navigator.restorablePushNamed(
+              Navigator.restorablePopAndPushNamed(
                 context,
                 TranslateView.routeName,
               );
