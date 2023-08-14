@@ -99,8 +99,9 @@ class _TranslateViewState extends State<TranslateView> {
             //Text(toTranslateText),
             leading: CircleAvatar(
               // Display the Flutter Logo image asset.
-              foregroundImage:
-                  AssetImage(languageToInfo[_exampleLang]!.flagAssetPath()),
+              foregroundImage: languageToInfo[_exampleLang] == null
+                  ? null
+                  : AssetImage(languageToInfo[_exampleLang]!.flagAssetPath()),
             ),
             onTap: sayTheExample,
             // ]
