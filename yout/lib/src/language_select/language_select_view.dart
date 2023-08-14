@@ -31,9 +31,9 @@ class LanguageItemListView extends StatelessWidget {
       }
       return ListTile(
           title: Text(entry.value.name),
-          leading: const CircleAvatar(
+          leading: CircleAvatar(
             // Display the Flutter Logo image asset.
-            foregroundImage: AssetImage('assets/images/flutter_logo.png'),
+            foregroundImage: AssetImage(entry.value.flagAssetPath()),
           ),
           enabled: entry.key != toDisable,
           onTap: () {

@@ -37,38 +37,30 @@ class LanguageInfo {
   final String name;
   final String localeId;
   final String code3;
-  final String flagPath;
 
-  LanguageInfo(
-      {required this.name,
-      required this.localeId,
-      required this.code3,
-      required this.flagPath});
+  LanguageInfo({
+    required this.name,
+    required this.localeId,
+    required this.code3,
+  });
+
+  flagAssetPath() {
+    return 'assets/images/language_flags/$code3.png';
+  }
 }
 
 Map<Language, LanguageInfo> languageToInfo = {
-  Language.eng: LanguageInfo(
-      name: 'English', localeId: 'en-US', code3: 'eng', flagPath: ''),
-  Language.ara: LanguageInfo(
-      name: 'Arabic', localeId: 'ar-EG', code3: 'ara', flagPath: ''),
-  Language.deu: LanguageInfo(
-      name: 'German', localeId: 'de-DE', code3: 'deu', flagPath: ''),
-  Language.ell: LanguageInfo(
-      name: 'Greek', localeId: 'el-GR', code3: 'ell', flagPath: ''),
-  Language.fra: LanguageInfo(
-      name: 'French', localeId: 'fr-FR', code3: 'fra', flagPath: ''),
-  Language.heb: LanguageInfo(
-      name: 'Hebrew', localeId: 'he-IL', code3: 'heb', flagPath: ''),
-  Language.ita: LanguageInfo(
-      name: 'Italian', localeId: 'it-IT', code3: 'ita', flagPath: ''),
-  Language.jpn: LanguageInfo(
-      name: 'Japanese', localeId: 'ja-JP', code3: 'jpn', flagPath: ''),
-  Language.kor: LanguageInfo(
-      name: 'Korean', localeId: 'ko-KR', code3: 'kor', flagPath: ''),
-  Language.por: LanguageInfo(
-      name: 'Portuguese', localeId: 'pt-BR', code3: 'por', flagPath: ''),
-  Language.rus: LanguageInfo(
-      name: 'Russian', localeId: 'ru-RU', code3: 'rus', flagPath: ''),
-  Language.spa: LanguageInfo(
-      name: 'Spanish', localeId: 'es-ES', code3: 'spa', flagPath: ''),
+  Language.eng: LanguageInfo(name: 'English', localeId: 'en-US', code3: 'eng'),
+  Language.ara: LanguageInfo(name: 'Arabic', localeId: 'ar-EG', code3: 'ara'),
+  Language.deu: LanguageInfo(name: 'German', localeId: 'de-DE', code3: 'deu'),
+  Language.ell: LanguageInfo(name: 'Greek', localeId: 'el-GR', code3: 'ell'),
+  Language.fra: LanguageInfo(name: 'French', localeId: 'fr-FR', code3: 'fra'),
+  Language.heb: LanguageInfo(name: 'Hebrew', localeId: 'he-IL', code3: 'heb'),
+  Language.ita: LanguageInfo(name: 'Italian', localeId: 'it-IT', code3: 'ita'),
+  Language.jpn: LanguageInfo(name: 'Japanese', localeId: 'ja-JP', code3: 'jpn'),
+  Language.kor: LanguageInfo(name: 'Korean', localeId: 'ko-KR', code3: 'kor'),
+  Language.por:
+      LanguageInfo(name: 'Portuguese', localeId: 'pt-BR', code3: 'por'),
+  Language.rus: LanguageInfo(name: 'Russian', localeId: 'ru-RU', code3: 'rus'),
+  Language.spa: LanguageInfo(name: 'Spanish', localeId: 'es-ES', code3: 'spa'),
 };

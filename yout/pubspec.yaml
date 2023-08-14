@@ -25,6 +25,26 @@ dev_dependencies:
 
   flutter_lints: ^2.0.0
 
+  flutter_launcher_icons: "^0.13.1"
+
+# Generate all icons by running `dart run flutter_launcher_icons`
+# https://pub.dev/packages/flutter_launcher_icons
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "../art/yatt-logo-1024.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  remove_alpha_ios: true
+  web:
+    generate: true
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+  windows:
+    generate: true
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+
 flutter:
   uses-material-design: true
 
@@ -34,5 +54,6 @@ flutter:
   assets:
     # Add assets from the images directory to the application.
     - assets/images/
+    - assets/images/language_flags/
     - assets/sounds/
     - assets/translatordb/a1/
