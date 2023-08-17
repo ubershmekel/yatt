@@ -1,5 +1,7 @@
 # lang:eng
 
+Come here quick.
+
 Come here quickly.
 
 Come here this minute.
@@ -9,6 +11,8 @@ Come here, fast!
 Come quick.
 
 Come quickly.
+
+Come soon.
 
 # lang:ara
 
@@ -60,6 +64,10 @@ Viens vite ici.
 
 בוא מהר!
 
+תבואו לכאן מהר
+
+תבואו מהר
+
 בואי לכאן מהר
 
 בואי מהר
@@ -75,10 +83,6 @@ Viens vite ici.
 בואו לכאן מהר
 
 בואו מהר
-
-תבואו לכאן מהר
-
-תבואו מהר
 
 # lang:ita
 
