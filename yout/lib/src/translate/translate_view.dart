@@ -56,7 +56,9 @@ class _TranslateViewState extends State<TranslateView> {
 
     dependenciesInited = initDependencies();
 
-    controller.load().then((_) {
+    controller.load().then((_) async {
+      // Without awaiting here, the first text-to-speech will fail
+      await dependenciesInited;
       refreshLanguages();
       nextRound();
     });
