@@ -26,6 +26,8 @@ class MySpeechToText {
   List<LocaleName> _localeNames = [];
   final SpeechToText _speech = SpeechToText();
   Function(SpeechStatus status)? callback;
+  bool get isListening => _listening;
+  bool _listening = false;
 
   void errorListener(SpeechRecognitionError error) {
     debugPrint(
@@ -33,6 +35,7 @@ class MySpeechToText {
   }
 
   void statusListener(String statusText) {
+    _listening = _speech.isListening;
     debugPrint(
         'Received listener status: $statusText, listening: ${_speech.isListening}');
     if (callback == null) {
@@ -85,6 +88,7 @@ class MySpeechToText {
 
   stopListening() {
     _speech.stop();
+    statusListener('App called `stopListening`');
   }
 
   listen(Language lang, Function(SpeechStatus status) callback) async {

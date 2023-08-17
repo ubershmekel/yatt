@@ -276,7 +276,10 @@ class _TranslateViewState extends State<TranslateView> {
   nextRound() async {
     roundsStarted++;
     isAutoNexting = false;
-    // _toTranslateText = TranslateController.filesList[0];
+    if (widget.globals.speechToText.isListening) {
+      widget.globals.speechToText.stopListening();
+    }
+
     mode = Modes.trying;
     _translation = (await controller.nextTranslation());
     _statusText = '';
