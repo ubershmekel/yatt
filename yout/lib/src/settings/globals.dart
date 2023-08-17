@@ -10,8 +10,15 @@ class Globals {
   final Speak speak = Speak();
   final MySpeechToText speechToText = MySpeechToText();
   final SoundFiles audioFiles = SoundFiles();
+  var _inited = false;
+  var _initedWithPermissions = false;
 
   init() async {
+    if (_inited) {
+      return;
+    }
+    _inited = true;
+
     // Set up the SettingsController, which will glue user settings to multiple
     // Flutter Widgets.
     // Load the user's preferred theme while the splash screen is displayed.
@@ -20,6 +27,13 @@ class Globals {
     await settingsController.loadSettings();
 
     await simpleStorage.init();
+  }
+
+  initWithPermissions() async {
+    if (_initedWithPermissions) {
+      return;
+    }
+    _initedWithPermissions = true;
 
     await speechToText.init();
 

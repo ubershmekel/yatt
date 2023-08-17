@@ -17,6 +17,8 @@ class LanguageItemListView extends StatelessWidget {
   // static const routeName = '/';
   static const modeNative = 'select-native';
   static const modeLearn = 'select-learn';
+  static const nativeRoute = '/select-native';
+  static const learnRoute = '/select-learn';
 
   final String mode;
 
@@ -56,7 +58,7 @@ class LanguageItemListView extends StatelessWidget {
             } else if (mode == modeNative) {
               Navigator.restorablePopAndPushNamed(
                 context,
-                "/$modeLearn",
+                learnRoute,
               );
             } else {
               Navigator.restorablePopAndPushNamed(

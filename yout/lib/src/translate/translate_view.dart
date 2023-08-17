@@ -43,10 +43,19 @@ class _TranslateViewState extends State<TranslateView> {
   int roundsStarted = 0;
   bool isAutoNexting = false;
   bool isRecording = false;
+  String lastDictationBoxText = '';
+  late Future dependenciesInited;
+
+  initDependencies() async {
+    await widget.globals.initWithPermissions();
+  }
 
   @override
   initState() {
     super.initState();
+
+    dependenciesInited = initDependencies();
+
     controller.load().then((_) {
       refreshLanguages();
       nextRound();
@@ -68,7 +77,6 @@ class _TranslateViewState extends State<TranslateView> {
   @override
   Widget build(BuildContext context) {
     dictationBox.addListener(onDictationBoxChanged);
-    const nextButtonIcon = Icon(Icons.next_plan);
 
     return Scaffold(
         appBar: AppBar(
@@ -92,77 +100,89 @@ class _TranslateViewState extends State<TranslateView> {
         // In contrast to the default ListView constructor, which requires
         // building all Widgets up front, the ListView.builder constructor lazily
         // builds Widgets as they’re scrolled into view.
-        body: ListView(children: [
-          ListTile(
-            title: Text(_toTranslateText),
-            // title: translateBox,
-            //Text(toTranslateText),
-            leading: CircleAvatar(
-              // Display the Flutter Logo image asset.
-              foregroundImage: languageToInfo[_exampleLang] == null
-                  ? null
-                  : AssetImage(languageToInfo[_exampleLang]!.flagAssetPath()),
-            ),
-            onTap: sayTheExample,
-            // ]
-            // Center(
-            //     child: Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [const Text("What you should translate")],
-            // ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            child: TextField(
-              controller: dictationBox,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Enter your translation',
-              ),
-            ),
-          ),
-          Center(
-              child: Wrap(children: [
-            FloatingActionButton.extended(
-              // `heroTag` to avoid " multiple heroes that share the same tag within a subtree" error
-              // https://stackoverflow.com/a/69342661/177498
-              heroTag: UniqueKey(),
-              icon: const Icon(Icons.record_voice_over),
-              label: Text('Speak ${_recordingLang.name}'),
-              backgroundColor: isRecording
-                  ? Colors.red
-                  : Theme.of(context).floatingActionButtonTheme.backgroundColor,
-              onPressed: onStartRecording,
-            ),
-            FloatingActionButton.extended(
-              heroTag: UniqueKey(),
-              icon: isAutoNexting
-                  ? SizedBox(
-                      height: nextButtonIcon.size,
-                      width: nextButtonIcon.size,
-                      child: const CircularProgressIndicator(
-                        color: Colors.white,
-                        strokeWidth: 3,
-                      ),
-                    )
-                  : nextButtonIcon,
-              label: const Text('Next'),
-              onPressed: nextRound,
-            ),
-            FloatingActionButton.extended(
-              heroTag: UniqueKey(),
-              icon: const Icon(Icons.hail_rounded),
-              label: const Text('Help'),
-              onPressed: onHelp,
-            ),
-          ])),
-          Center(
-              child:
-                  Text(_statusText, style: const TextStyle(fontSize: 200.0))),
-        ]));
+        body: FutureBuilder(
+          future: dependenciesInited,
+          builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return buildBody();
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          },
+        ));
   }
 
-  String lastDictationBoxText = '';
+  buildBody() {
+    const nextButtonIcon = Icon(Icons.next_plan);
+
+    return ListView(children: [
+      ListTile(
+        title: Text(_toTranslateText),
+        // title: translateBox,
+        //Text(toTranslateText),
+        leading: CircleAvatar(
+          // Display the Flutter Logo image asset.
+          foregroundImage: languageToInfo[_exampleLang] == null
+              ? null
+              : AssetImage(languageToInfo[_exampleLang]!.flagAssetPath()),
+        ),
+        onTap: sayTheExample,
+        // ]
+        // Center(
+        //     child: Row(
+        //   mainAxisAlignment: MainAxisAlignment.center,
+        //   children: [const Text("What you should translate")],
+        // ),
+      ),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        child: TextField(
+          controller: dictationBox,
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            hintText: 'Enter your translation',
+          ),
+        ),
+      ),
+      Center(
+          child: Wrap(children: [
+        FloatingActionButton.extended(
+          // `heroTag` to avoid " multiple heroes that share the same tag within a subtree" error
+          // https://stackoverflow.com/a/69342661/177498
+          heroTag: UniqueKey(),
+          icon: const Icon(Icons.record_voice_over),
+          label: Text('Speak ${_recordingLang.name}'),
+          backgroundColor: isRecording
+              ? Colors.red
+              : Theme.of(context).floatingActionButtonTheme.backgroundColor,
+          onPressed: onStartRecording,
+        ),
+        FloatingActionButton.extended(
+          heroTag: UniqueKey(),
+          icon: isAutoNexting
+              ? SizedBox(
+                  height: nextButtonIcon.size,
+                  width: nextButtonIcon.size,
+                  child: const CircularProgressIndicator(
+                    color: Colors.white,
+                    strokeWidth: 3,
+                  ),
+                )
+              : nextButtonIcon,
+          label: const Text('Next'),
+          onPressed: nextRound,
+        ),
+        FloatingActionButton.extended(
+          heroTag: UniqueKey(),
+          icon: const Icon(Icons.hail_rounded),
+          label: const Text('Help'),
+          onPressed: onHelp,
+        ),
+      ])),
+      Center(child: Text(_statusText, style: const TextStyle(fontSize: 200.0))),
+    ]);
+  }
+
   onDictationBoxChanged() {
     String text = dictationBox.text;
     if (text == lastDictationBoxText) {

@@ -55,7 +55,7 @@ class SettingsView extends StatelessWidget {
                 onTap: () {
                   Navigator.restorablePushNamed(
                     context,
-                    "/${LanguageItemListView.modeNative}",
+                    LanguageItemListView.nativeRoute,
                   );
                 }),
             ListTile(
@@ -64,7 +64,7 @@ class SettingsView extends StatelessWidget {
                 onTap: () {
                   Navigator.restorablePushNamed(
                     context,
-                    "/${LanguageItemListView.modeLearn}",
+                    LanguageItemListView.learnRoute,
                   );
                 }),
           ],

@@ -5,6 +5,7 @@ import 'package:yout/src/language_select/language_select_view.dart';
 import 'package:yout/src/settings/globals.dart';
 import 'package:yout/src/settings/languages.dart';
 import 'package:yout/src/translate/translate_view.dart';
+import 'package:yout/src/welcome/welcome_view.dart';
 
 import 'sample_feature/sample_item_details_view.dart';
 import 'settings/settings_view.dart';
@@ -28,9 +29,11 @@ class MyApp extends StatelessWidget {
 
     Widget defaultRoute = translateRoute;
     if (globals.settingsController.nativeLang == Language.invalidlanguage) {
-      defaultRoute = selectNativeRoute;
+      // Probably first time opening the app
+      defaultRoute = WelcomeView();
     } else if (globals.settingsController.learningLang ==
         Language.invalidlanguage) {
+      // Probably closed the app after choosing a native language
       defaultRoute = selectLearnRoute;
     }
     // Glue the SettingsController to the MaterialApp.
@@ -89,13 +92,14 @@ class MyApp extends StatelessWidget {
                   case TranslateView.routeName:
                     return translateRoute;
                   // case LanguageItemListView.routeName:
-                  case '/${LanguageItemListView.modeLearn}':
+                  case LanguageItemListView.learnRoute:
                     return selectLearnRoute;
-                  case '/${LanguageItemListView.modeNative}':
+                  case LanguageItemListView.nativeRoute:
                     return selectNativeRoute;
                   case '/':
                   default:
                     return defaultRoute;
+                  // return WelcomeView();
                 }
               },
             );
