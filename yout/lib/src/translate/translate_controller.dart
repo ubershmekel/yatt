@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kana_kit/kana_kit.dart';
 import 'package:yout/src/settings/languages.dart';
 
 class Translation {
@@ -48,6 +49,7 @@ class TranslateController {
   static List<String> filesList = [];
 
   int _currentFileIndex = 0;
+  final KanaKit _kanaKit = const KanaKit();
 
   TranslateController();
 
@@ -103,6 +105,9 @@ class TranslateController {
     if (lang == Language.jpn) {
       // In Japanese spaces don't matter, so we remove them.
       normalized = normalized.replaceAll(RegExp(r'\s'), r'');
+      normalized = _kanaKit.toHiragana(normalized);
+      normalized =
+          normalized.replaceAll('あなた', '君').replaceAll(RegExp('[僕俺]'), '私');
     }
 
     if (normalized.isEmpty && text.length > 1) {
@@ -118,6 +123,7 @@ class TranslateController {
       var normalizedOption = normalizeSentence(lang, option);
       if (text == normalizedOption) {
         // debugPrint('isSameSentence: true');
+        // debugPrint('isSameSentence: true, $text, $normalizedOption');
         return true;
       }
       // debugPrint(

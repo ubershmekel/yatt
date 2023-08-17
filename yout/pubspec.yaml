@@ -17,6 +17,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_tts: ^3.7.0
+  kana_kit: ^2.0.0
   shared_preferences: ^2.2.0
   speech_to_text: ^6.3.0
 
