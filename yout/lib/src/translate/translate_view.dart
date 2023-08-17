@@ -206,6 +206,9 @@ class _TranslateViewState extends State<TranslateView> {
   }
 
   onHelp() async {
+    // Stop the mic while the example is spoken
+    widget.globals.speechToText.stopListening();
+
     mode = Modes.helped;
     String oneAnswer =
         _translation!.examples[_recordingLang]!.firstOrNull ?? '';
@@ -250,6 +253,11 @@ class _TranslateViewState extends State<TranslateView> {
   }
 
   youWin() async {
+    // `stopListening` is important because if the recording is on
+    // then the yay sound is quieter. Also, we don't want the recording
+    // to carry on to the next round.
+    widget.globals.speechToText.stopListening();
+
     if (mode == Modes.success) {
       debugPrint('Something is wrong. You already won.');
       return;

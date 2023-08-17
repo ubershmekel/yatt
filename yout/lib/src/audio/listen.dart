@@ -24,24 +24,24 @@ class MySpeechToText {
   Language _currentLanguage = Language.invalidlanguage;
   String _currentLocaleId = '';
   List<LocaleName> _localeNames = [];
-  final SpeechToText speech = SpeechToText();
+  final SpeechToText _speech = SpeechToText();
   Function(SpeechStatus status)? callback;
 
   void errorListener(SpeechRecognitionError error) {
     debugPrint(
-        'Received error status: $error, listening: ${speech.isListening}');
+        'Received error status: $error, listening: ${_speech.isListening}');
   }
 
   void statusListener(String statusText) {
     debugPrint(
-        'Received listener status: $statusText, listening: ${speech.isListening}');
+        'Received listener status: $statusText, listening: ${_speech.isListening}');
     if (callback == null) {
       debugPrint('MySpeechToText.statusListener callback is null');
       return;
     }
     SpeechStatus status = SpeechStatus();
     status.lang = _currentLanguage;
-    status.isListening = speech.isListening;
+    status.isListening = _speech.isListening;
     callback!(status);
   }
 
@@ -60,7 +60,7 @@ class MySpeechToText {
 
   init() async {
     try {
-      var hasSpeech = await speech.initialize(
+      var hasSpeech = await _speech.initialize(
         onError: errorListener,
         onStatus: statusListener,
         debugLogging: false,
@@ -69,11 +69,11 @@ class MySpeechToText {
         // Get the list of languages installed on the supporting platform so they
         // can be displayed in the UI for selection by the user.
         // `_localeNames` is an empty list on web for some reason
-        _localeNames = await speech.locales();
+        _localeNames = await _speech.locales();
         // inspect(_localeNames);
         debugPrint('_localeNames len(${_localeNames.length})');
 
-        var systemLocale = await speech.systemLocale();
+        var systemLocale = await _speech.systemLocale();
         _currentLocaleId = systemLocale?.localeId ?? '';
       }
     } catch (e) {
@@ -83,9 +83,13 @@ class MySpeechToText {
     }
   }
 
+  stopListening() {
+    _speech.stop();
+  }
+
   listen(Language lang, Function(SpeechStatus status) callback) async {
     this.callback = callback;
-    if (speech.isListening) {
+    if (_speech.isListening) {
       // Prevent this error from happening when we spam record:
       // DOMException: Failed to execute 'start' on 'SpeechRecognition': recognition has already started.
       debugPrint('Already listening!');
@@ -101,12 +105,12 @@ class MySpeechToText {
     // systems recognition will be stopped before this value is reached.
     // Similarly `pauseFor` is a maximum not a minimum and may be ignored
     // on some devices.
-    await speech.listen(
+    await _speech.listen(
       onResult: (SpeechRecognitionResult res) {
         SpeechStatus status = SpeechStatus();
         status.lang = lang;
         status.result = res;
-        status.isListening = speech.isListening;
+        status.isListening = _speech.isListening;
         callback(status);
         resultListener(res);
       },
