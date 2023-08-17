@@ -200,7 +200,7 @@ class _TranslateViewState extends State<TranslateView> {
     }
 
     List<String> viableTranslations = _translation!.examples[_recordingLang]!;
-    if (controller.isSameSentence(text, viableTranslations)) {
+    if (controller.isSameSentence(_recordingLang, text, viableTranslations)) {
       youWin();
     }
   }

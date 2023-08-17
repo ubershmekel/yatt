@@ -5,6 +5,7 @@
 // https://flutter.dev/docs/cookbook/testing/unit/introduction
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:yout/src/settings/languages.dart';
 import 'package:yout/src/translate/translate_controller.dart';
 
 class NormalizeTestCase {
@@ -14,8 +15,18 @@ class NormalizeTestCase {
   NormalizeTestCase({required this.input, required this.expected});
 }
 
+class EqualsTestCase {
+  final String v1;
+  final String v2;
+  final Language lang;
+
+  EqualsTestCase({required this.v1, required this.v2, required this.lang});
+}
+
 void main() {
   group('Sentence normalization', () {
+    TranslateController controller = TranslateController();
+
     test('should simplify sentences', () {
       var cases = [
         NormalizeTestCase(
@@ -35,10 +46,22 @@ void main() {
           expected: "sometimes 3 numbers are all you need",
         ),
       ];
-      TranslateController controller = TranslateController();
       for (var testCase in cases) {
-        var actual = controller.normalizeSentence(testCase.input);
+        var actual = controller.normalizeSentence(Language.eng, testCase.input);
         expect(actual, testCase.expected);
+      }
+    });
+
+    test('Sentences should be equal', () {
+      var cases = [
+        EqualsTestCase(
+            v1: 'すみません 何時ですか', v2: 'すみません、何時ですか。', lang: Language.jpn),
+      ];
+      for (var testCase in cases) {
+        var actual = controller
+            .isSameSentence(testCase.lang, testCase.v1, [testCase.v2]);
+        expect(actual, true,
+            reason: 'v1: "${testCase.v1}", v2: "${testCase.v2}"');
       }
     });
   });

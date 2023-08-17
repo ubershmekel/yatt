@@ -80,7 +80,7 @@ class TranslateController {
     return Translation.loadFromFile(filename);
   }
 
-  normalizeSentence(String text) {
+  normalizeSentence(Language lang, String text) {
     // Note that RegExp(r'[^a-zA-Z0-9\s]') is wrong becaue it removes unicode.
     // We keep only:
     //   Letters as defined by unicode
@@ -88,11 +88,17 @@ class TranslateController {
     //   Apostrophe ' (it is syntactically important in English)
     RegExp notAlphaNumRegex = RegExp(r"[^\p{Letter}0-9\s']", unicode: true);
 
-    final normalized = text
+    var normalized = text
         .replaceAll(notAlphaNumRegex, '')
         .toLowerCase()
         .trim()
-        .replaceAll(RegExp('\\s+'), ' ');
+        .replaceAll(RegExp(r'\s+'), ' ');
+
+    if (lang == Language.jpn) {
+      // In Japanese spaces don't matter, so we remove them.
+      normalized = normalized.replaceAll(RegExp(r'\s'), r'');
+    }
+
     if (normalized.isEmpty && text.length > 1) {
       // debugPrint('Normalized text went down to zero: $text');
       return text;
@@ -100,15 +106,18 @@ class TranslateController {
     return normalized;
   }
 
-  isSameSentence(String text, List<String> options) {
-    text = normalizeSentence(text);
+  isSameSentence(Language lang, String text, List<String> options) {
+    text = normalizeSentence(lang, text);
     for (String option in options) {
-      if (text == normalizeSentence(option)) {
-        debugPrint('isSameSentence: true');
+      var normalizedOption = normalizeSentence(lang, option);
+      if (text == normalizedOption) {
+        // debugPrint('isSameSentence: true');
         return true;
       }
+      // debugPrint(
+      //     'isSameSentence normalizedOption: false: $text, $normalizedOption');
     }
-    debugPrint('isSameSentence false: $text, $options');
+    // debugPrint('isSameSentence false: $text, $options');
     return false;
   }
 }
