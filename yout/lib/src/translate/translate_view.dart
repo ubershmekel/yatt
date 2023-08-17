@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yout/src/audio/listen.dart';
 import 'package:yout/src/settings/globals.dart';
 import 'package:yout/src/settings/languages.dart';
+import 'package:yout/src/tools/randomer.dart';
 import 'package:yout/src/translate/translate_controller.dart';
 
 import '../settings/settings_view.dart';
@@ -35,6 +36,7 @@ class _TranslateViewState extends State<TranslateView> {
   Translation? _translation;
   String _toTranslateText = 'Please translate this';
   String _statusText = '';
+  String _helpText = '';
   Language _recordingLang = Language.invalidlanguage;
   Language _exampleLang = Language.invalidlanguage;
   final dictationBox = TextEditingController();
@@ -118,8 +120,6 @@ class _TranslateViewState extends State<TranslateView> {
     return ListView(children: [
       ListTile(
         title: Text(_toTranslateText, style: const TextStyle(fontSize: 30.0)),
-        // title: translateBox,
-        //Text(toTranslateText),
         leading: CircleAvatar(
           // Display the Flutter Logo image asset.
           foregroundImage: languageToInfo[_exampleLang] == null
@@ -127,12 +127,6 @@ class _TranslateViewState extends State<TranslateView> {
               : AssetImage(languageToInfo[_exampleLang]!.flagAssetPath()),
         ),
         onTap: sayTheExample,
-        // ]
-        // Center(
-        //     child: Row(
-        //   mainAxisAlignment: MainAxisAlignment.center,
-        //   children: [const Text("What you should translate")],
-        // ),
       ),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -179,6 +173,7 @@ class _TranslateViewState extends State<TranslateView> {
           onPressed: onHelp,
         ),
       ])),
+      Center(child: Text(_helpText)),
       Center(child: Text(_statusText, style: const TextStyle(fontSize: 200.0))),
     ]);
   }
@@ -208,16 +203,21 @@ class _TranslateViewState extends State<TranslateView> {
   onHelp() async {
     // Stop the mic while the example is spoken
     widget.globals.speechToText.stopListening();
+    _helpText = '';
 
-    mode = Modes.helped;
+    // mode = Modes.helped;
     String oneAnswer =
         _translation!.examples[_recordingLang]!.firstOrNull ?? '';
     if (oneAnswer == '') {
       debugPrint('Something is wrong. No translation.');
       return;
     }
-    dictationBox.text = oneAnswer;
-    await widget.globals.speak.speak(_recordingLang, oneAnswer);
+    var exampleLines = _translation!.examples[_recordingLang]!;
+    for (var example in exampleLines) {
+      _helpText += '$example\n\n';
+    }
+
+    await widget.globals.speak.speak(_recordingLang, exampleLines.randomItem());
   }
 
   onStartRecording() {
@@ -258,6 +258,9 @@ class _TranslateViewState extends State<TranslateView> {
     // to carry on to the next round.
     widget.globals.speechToText.stopListening();
 
+    // Remove help text to make sure the celebratory _statusText is visible
+    _helpText = '';
+
     if (mode == Modes.success) {
       debugPrint('Something is wrong. You already won.');
       return;
@@ -276,6 +279,7 @@ class _TranslateViewState extends State<TranslateView> {
   nextRound() async {
     roundsStarted++;
     isAutoNexting = false;
+    _helpText = '';
     if (widget.globals.speechToText.isListening) {
       widget.globals.speechToText.stopListening();
     }
