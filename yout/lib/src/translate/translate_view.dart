@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:yout/src/audio/listen.dart';
 import 'package:yout/src/settings/globals.dart';
 import 'package:yout/src/settings/languages.dart';
@@ -139,43 +140,65 @@ class _TranslateViewState extends State<TranslateView> {
         ),
       ),
       Center(
-          child: Wrap(children: [
-        FloatingActionButton.extended(
-          // `heroTag` to avoid " multiple heroes that share the same tag within a subtree" error
-          // https://stackoverflow.com/a/69342661/177498
-          heroTag: UniqueKey(),
-          icon: const Icon(Icons.record_voice_over),
-          label: Text('Speak ${_recordingLang.name}'),
-          backgroundColor: isRecording
-              ? Colors.red
-              : Theme.of(context).floatingActionButtonTheme.backgroundColor,
-          onPressed: onStartRecording,
-        ),
-        FloatingActionButton.extended(
-          heroTag: UniqueKey(),
-          icon: isAutoNexting
-              ? SizedBox(
-                  height: Theme.of(context).iconTheme.size,
-                  width: Theme.of(context).iconTheme.size,
-                  child: const CircularProgressIndicator(
-                    color: Colors.white,
-                    strokeWidth: 3,
-                  ),
-                )
-              : const Icon(Icons.next_plan),
-          label: const Text('Next'),
-          onPressed: nextRound,
-        ),
-        FloatingActionButton.extended(
-          heroTag: UniqueKey(),
-          icon: const Icon(Icons.hail_rounded),
-          label: const Text('Help'),
-          onPressed: onHelp,
-        ),
-      ])),
+          child: Wrap(
+              spacing: 10,
+              runSpacing: 10,
+              alignment: WrapAlignment.end,
+              children: [
+            FloatingActionButton.extended(
+              // `heroTag` to avoid " multiple heroes that share the same tag within a subtree" error
+              // https://stackoverflow.com/a/69342661/177498
+              heroTag: UniqueKey(),
+              icon: const Icon(Icons.record_voice_over),
+              label: Text('Speak ${_recordingLang.name}'),
+              backgroundColor: isRecording
+                  ? Colors.red
+                  : Theme.of(context).floatingActionButtonTheme.backgroundColor,
+              onPressed: onStartRecording,
+            ),
+            FloatingActionButton.extended(
+              heroTag: UniqueKey(),
+              icon: isAutoNexting
+                  ? SizedBox(
+                      height: Theme.of(context).iconTheme.size,
+                      width: Theme.of(context).iconTheme.size,
+                      child: const CircularProgressIndicator(
+                        color: Colors.white,
+                        strokeWidth: 3,
+                      ),
+                    )
+                  : const Icon(Icons.next_plan),
+              label: const Text('Next'),
+              onPressed: nextRound,
+            ),
+            FloatingActionButton.extended(
+              heroTag: UniqueKey(),
+              icon: const Icon(Icons.hail_rounded),
+              label: const Text('Help'),
+              onPressed: onHelp,
+            ),
+            FloatingActionButton.extended(
+              heroTag: UniqueKey(),
+              icon: const Icon(Icons.bug_report),
+              label: const Text('Report'),
+              onPressed: onReport,
+            ),
+          ])),
       Center(child: Text(_helpText)),
       Center(child: Text(_statusText, style: const TextStyle(fontSize: 200.0))),
     ]);
+  }
+
+  onReport() async {
+    final Email email = Email(
+      subject: 'YATT Report',
+      body:
+          'From: $_exampleLang, $_toTranslateText\n\nTo: $_recordingLang, ${dictationBox.text}\n\n',
+      recipients: ['YATT <ubershmekel+yatt@gmail.com>'],
+      isHTML: false,
+    );
+
+    await FlutterEmailSender.send(email);
   }
 
   onDictationBoxChanged() {
