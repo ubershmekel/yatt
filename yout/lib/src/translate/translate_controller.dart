@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -48,6 +47,8 @@ class Translation {
 class TranslateController {
   static List<String> filesList = [];
 
+  int _currentFileIndex = 0;
+
   TranslateController();
 
   load() async {
@@ -74,9 +75,14 @@ class TranslateController {
     if (filesList.isEmpty) {
       return null;
     }
-    var rng = Random();
-    final index = rng.nextInt(filesList.length);
-    final filename = filesList[index];
+    if (_currentFileIndex == 0) {
+      filesList.shuffle();
+    }
+    final filename = filesList[_currentFileIndex];
+    _currentFileIndex++;
+    if (_currentFileIndex >= filesList.length) {
+      _currentFileIndex = 0;
+    }
     return Translation.loadFromFile(filename);
   }
 
