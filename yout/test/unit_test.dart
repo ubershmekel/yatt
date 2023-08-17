@@ -60,6 +60,7 @@ void main() {
         EqualsTestCase(v1: 'あなたは大丈夫ですか', v2: '君は大丈夫ですか', lang: Language.jpn),
         EqualsTestCase(v1: '僕は学生です', v2: '私は学生です', lang: Language.jpn),
         EqualsTestCase(v1: '僕は学生です', v2: '俺は学生です', lang: Language.jpn),
+        EqualsTestCase(v1: 'Είμαι 19.', v2: 'είμαι 19', lang: Language.ell),
       ];
       for (var testCase in cases) {
         var actual = controller
