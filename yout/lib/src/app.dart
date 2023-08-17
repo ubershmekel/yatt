@@ -21,6 +21,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // We define the icon size here because otherwise it's null
+    // and defaults to 24. To be safe, and allow sizing other parts
+    // of the layout based on icon size - we define it here.
+    // See mentions of `Theme.of(context).iconTheme.size`.
+    const iconThemeData = IconThemeData(size: 28);
+    final theme = ThemeData(iconTheme: iconThemeData);
+    final themeDark =
+        ThemeData(brightness: Brightness.dark, iconTheme: iconThemeData);
+
     final translateRoute = TranslateView(globals: globals);
     final selectNativeRoute = LanguageItemListView(
         globals: globals, mode: LanguageItemListView.modeNative);
@@ -74,8 +83,8 @@ class MyApp extends StatelessWidget {
           // Define a light and dark color theme. Then, read the user's
           // preferred ThemeMode (light, dark, or system default) from the
           // SettingsController to display the correct theme.
-          theme: ThemeData(),
-          darkTheme: ThemeData.dark(),
+          theme: theme,
+          darkTheme: themeDark,
           themeMode: globals.settingsController.themeMode,
 
           // Define a function to handle named routes in order to support

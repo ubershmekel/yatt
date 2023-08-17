@@ -115,11 +115,9 @@ class _TranslateViewState extends State<TranslateView> {
   }
 
   buildBody() {
-    const nextButtonIcon = Icon(Icons.next_plan);
-
     return ListView(children: [
       ListTile(
-        title: Text(_toTranslateText),
+        title: Text(_toTranslateText, style: const TextStyle(fontSize: 30.0)),
         // title: translateBox,
         //Text(toTranslateText),
         leading: CircleAvatar(
@@ -163,14 +161,14 @@ class _TranslateViewState extends State<TranslateView> {
           heroTag: UniqueKey(),
           icon: isAutoNexting
               ? SizedBox(
-                  height: nextButtonIcon.size,
-                  width: nextButtonIcon.size,
+                  height: Theme.of(context).iconTheme.size,
+                  width: Theme.of(context).iconTheme.size,
                   child: const CircularProgressIndicator(
                     color: Colors.white,
                     strokeWidth: 3,
                   ),
                 )
-              : nextButtonIcon,
+              : const Icon(Icons.next_plan),
           label: const Text('Next'),
           onPressed: nextRound,
         ),
