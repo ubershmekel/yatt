@@ -46,27 +46,30 @@ class Translation {
 }
 
 class TranslateController {
-  static List<String> filesList = [];
+  List<String> filesList = [];
 
   int _currentFileIndex = 0;
   final KanaKit _kanaKit = const KanaKit();
 
   TranslateController();
 
-  load() async {
+  load(String level) async {
     // final manifestJson =
     // await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
-    if (filesList.isNotEmpty) {
-      return;
-    }
+    // if (filesList.isNotEmpty) {
+    //   return;
+    // }
     final manifestJson = await rootBundle.loadString('AssetManifest.json');
     filesList = json
         .decode(manifestJson)
         .keys
-        .where((String key) =>
-            key.startsWith('assets/translatordb')) // WhereIterable<String>
+        .where((String key) => key
+            .startsWith('assets/translatordb/$level')) // WhereIterable<String>
         .toList();
 
+    if (filesList.isEmpty) {
+      debugPrint('BIG PROBLEM - No translation files found');
+    }
     debugPrint('files found: ${filesList.length}');
     for (String name in filesList) {
       debugPrint('Found $name');

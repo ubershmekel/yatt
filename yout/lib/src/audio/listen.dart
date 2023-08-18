@@ -91,6 +91,10 @@ class MySpeechToText {
     statusListener('App called `stopListening`');
   }
 
+  disposing() {
+    _speech.cancel();
+  }
+
   listen(Language lang, Function(SpeechStatus status) callback) async {
     this.callback = callback;
     if (_speech.isListening) {

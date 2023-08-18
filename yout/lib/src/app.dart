@@ -5,9 +5,9 @@ import 'package:yout/src/language_select/language_select_view.dart';
 import 'package:yout/src/settings/globals.dart';
 import 'package:yout/src/settings/languages.dart';
 import 'package:yout/src/translate/translate_view.dart';
+import 'package:yout/src/welcome/level_select_view.dart';
 import 'package:yout/src/welcome/welcome_view.dart';
 
-import 'sample_feature/sample_item_details_view.dart';
 import 'settings/settings_view.dart';
 
 /// The Widget that configures your application.
@@ -30,13 +30,14 @@ class MyApp extends StatelessWidget {
     final themeDark =
         ThemeData(brightness: Brightness.dark, iconTheme: iconThemeData);
 
-    final translateRoute = TranslateView(globals: globals);
+    final translateRoute = TranslateView(globals: globals, level: 'a1');
     final selectNativeRoute = LanguageItemListView(
         globals: globals, mode: LanguageItemListView.modeNative);
     final selectLearnRoute = LanguageItemListView(
         globals: globals, mode: LanguageItemListView.modeLearn);
+    final levelSelectView = LevelSelectView(globals: globals);
 
-    Widget defaultRoute = translateRoute;
+    Widget defaultRoute = levelSelectView;
     if (globals.settingsController.nativeLang == Language.invalidlanguage) {
       // Probably first time opening the app
       defaultRoute = WelcomeView();
@@ -96,8 +97,8 @@ class MyApp extends StatelessWidget {
                 switch (routeSettings.name) {
                   case SettingsView.routeName:
                     return SettingsView(controller: globals.settingsController);
-                  case SampleItemDetailsView.routeName:
-                    return const SampleItemDetailsView();
+                  case LevelSelectView.routeName:
+                    return levelSelectView;
                   case TranslateView.routeName:
                     return translateRoute;
                   // case LanguageItemListView.routeName:

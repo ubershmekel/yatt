@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yout/src/settings/globals.dart';
 import 'package:yout/src/settings/languages.dart';
-import 'package:yout/src/translate/translate_view.dart';
+import 'package:yout/src/welcome/level_select_view.dart';
 
 import '../settings/settings_view.dart';
 
@@ -61,9 +61,16 @@ class LanguageItemListView extends StatelessWidget {
                 learnRoute,
               );
             } else {
-              Navigator.restorablePopAndPushNamed(
-                context,
-                TranslateView.routeName,
+              // Game on to the level select
+              // Navigator.restorablePopAndPushNamed(
+              //   context,
+              //   TranslateView.routeName,
+              // );
+
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => LevelSelectView(globals: globals),
+                ),
               );
             }
           });

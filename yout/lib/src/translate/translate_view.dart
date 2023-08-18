@@ -11,10 +11,12 @@ import '../settings/settings_view.dart';
 /// Displays a list of SampleItems.
 class TranslateView extends StatefulWidget {
   final Globals globals;
+  final String level;
 
   const TranslateView({
     super.key,
     required this.globals,
+    required this.level,
   });
 
   @override
@@ -59,7 +61,7 @@ class _TranslateViewState extends State<TranslateView> {
 
     dependenciesInited = initDependencies();
 
-    controller.load().then((_) async {
+    controller.load(widget.level).then((_) async {
       // Without awaiting here, the first text-to-speech will fail
       await dependenciesInited;
       refreshLanguages();
@@ -336,5 +338,12 @@ class _TranslateViewState extends State<TranslateView> {
 
   sayTheExample() {
     return widget.globals.speak.speak(_exampleLang, _toTranslateText);
+  }
+
+  @override
+  void dispose() {
+    // We're getting closed
+    widget.globals.speechToText.disposing();
+    super.dispose();
   }
 }
