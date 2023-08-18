@@ -295,7 +295,8 @@ class _TranslateViewState extends State<TranslateView> {
     });
 
     isAutoNexting = true;
-    await Future.delayed(const Duration(seconds: 3));
+    // 3 seconds felt a bit fast and tiring.
+    await Future.delayed(const Duration(seconds: 4));
     nextRound();
   }
 
