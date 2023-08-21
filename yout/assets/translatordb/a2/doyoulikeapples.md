@@ -92,6 +92,8 @@ Ti piace mangiare le mele?
 
 あなたはリンゴが好きですか？
 
+リンゴが好きですか
+
 # lang:kor
 
 사과 좋아하나요?

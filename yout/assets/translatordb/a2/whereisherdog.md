@@ -18,15 +18,11 @@ Wo ist euer Hund?
 
 # lang:ell
 
-Που είναι το σκυλί σας;
+Πού είναι ο σκύλος της;
 
 # lang:fra
 
-Il est où, ton chien ?
-
-Où est ton chien?
-
-Où est votre chien ?
+Où est son chien?
 
 # lang:heb
 
@@ -38,6 +34,10 @@ Où est votre chien ?
 
 היכן כלבה?
 
+איפה הכלבה שלה?
+
+היכן הכלבה שלה?
+
 # lang:ita
 
 Dov'è il suo cane?
@@ -45,6 +45,8 @@ Dov'è il suo cane?
 Dov'è il tuo cane?
 
 Dov'è il vostro cane?
+
+Dove è il suo cane?
 
 # lang:jpn
 
@@ -54,36 +56,22 @@ Dov'è il vostro cane?
 
 彼女の犬はどこ？
 
-# lang:wrong-jpn
-
-あなたの犬はどこですか。
-
-君の犬はどこにいるの？
-
-君の犬はどこ？
-
 # lang:kor
 
-네 개가 어디 있어?
+그녀의 개는 어디에 있습니까?
+
+그녀의 개는 어디 있니?
 
 # lang:por
 
-Cadê o seu cachorro?
-
-Cadê o seu cão?
-
-Onde está o seu cachorro?
-
-Onde está o seu cão?
+Onde está o cachorro dela?
 
 # lang:rus
 
-Где ваша собака?
-
-Где твой пёс?
-
-Где твоя собака?
+Где ее собака?
 
 # lang:spa
+
+¿Dónde está su perro?
 
 ¿Dónde está tu perro?

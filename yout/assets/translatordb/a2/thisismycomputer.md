@@ -38,6 +38,8 @@ Questo è il mio computer.
 
 これは私のパソコンです
 
+これは私のコンピューターです
+
 # lang:kor
 
 이건 내 컴퓨터예요.
