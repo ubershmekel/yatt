@@ -82,6 +82,14 @@ Il lave la voiture maintenant.
 
 הוא עכשיו שוטף את האוטו
 
+הוא כרגע שוטף את האוטו
+
+הוא כרגע שוטף את המכונית
+
+הוא כרגע מנקה את האוטו
+
+הוא כרגע מנקה את המכונית
+
 # lang:ita
 
 Adesso sta lavando la macchina.
