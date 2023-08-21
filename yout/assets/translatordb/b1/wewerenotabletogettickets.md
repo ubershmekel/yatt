@@ -68,6 +68,8 @@ Nous n'avons pas réussi à obtenir les billets.
 
 # lang:heb
 
+לא יכלנו להשיג כרטיסים
+
 לא הצלחנו להשיג כרטיסים
 
 הכרטיסים לא היו בהישג ידנו.
