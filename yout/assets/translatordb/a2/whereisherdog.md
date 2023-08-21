@@ -10,11 +10,7 @@ Where's her dog?
 
 # lang:deu
 
-Wo ist Ihr Hund?
-
-Wo ist dein Hund?
-
-Wo ist euer Hund?
+Wo ist ihr Hund?
 
 # lang:ell
 

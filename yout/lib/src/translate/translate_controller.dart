@@ -113,6 +113,11 @@ class TranslateController {
           normalized.replaceAll('あなた', '君').replaceAll(RegExp('[僕俺]'), '私');
     }
 
+    if (lang == Language.eng) {
+      // Simplify a few common contractions
+      normalized = normalized.replaceAll(RegExp(r"\bi will\b"), "i'll");
+    }
+
     if (normalized.isEmpty && text.length > 1) {
       // debugPrint('Normalized text went down to zero: $text');
       return text;
