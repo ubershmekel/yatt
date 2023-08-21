@@ -1,8 +1,8 @@
 # lang:eng
 
-3 dogs
-
 Three dogs
+
+3 dogs
 
 # lang:ara
 

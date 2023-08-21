@@ -1,8 +1,8 @@
 # lang:eng
 
-2 dogs
-
 Two dogs
+
+2 dogs
 
 # lang:ara
 
