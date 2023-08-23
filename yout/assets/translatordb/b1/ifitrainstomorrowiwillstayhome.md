@@ -28,9 +28,9 @@ Wenn es morgen regnet, bleibe ich zu Hause.
 
 # lang:fra
 
-Je resterai à la maison s&#39;il pleut demain.
+Je resterai à la maison s'il pleut demain.
 
-S&#39;il pleut demain, je resterai à la maison.
+S'il pleut demain, je resterai à la maison.
 
 Je resterai à la maison s'il pleut demain.
 
@@ -63,6 +63,8 @@ Starò a casa se domani pioverà.
 明日、雨が降ったら家にいます
 
 明日雨が降ったら、私は家にいるつもりです
+
+明日は雨が降ったら家にいます
 
 # lang:kor
 
