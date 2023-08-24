@@ -118,6 +118,14 @@ class TranslateController {
       normalized = normalized.replaceAll(RegExp(r"\bi will\b"), "i'll");
     }
 
+    if (lang == Language.heb) {
+      // Note \b does not work with unicode
+      // https://stackoverflow.com/questions/10590098/javascript-regexp-word-boundaries-unicode-characters
+      normalized = normalized.replaceAll(RegExp(r"(?:^|\\s)ב[\s\-]+"), "ב");
+      // normalized = normalized.replaceAll(RegExp(r"\bב "), "ב");
+      // normalized = normalized.replaceAll(RegExp(r" "), "");
+    }
+
     if (normalized.isEmpty && text.length > 1) {
       // debugPrint('Normalized text went down to zero: $text');
       return text;

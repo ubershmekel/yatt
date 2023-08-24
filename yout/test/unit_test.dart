@@ -63,6 +63,19 @@ void main() {
         EqualsTestCase(v1: '僕は学生です', v2: '俺は学生です', lang: Language.jpn),
         EqualsTestCase(v1: 'Είμαι 19.', v2: 'είμαι 19', lang: Language.ell),
         EqualsTestCase(
+            v1: 'ב-2023 גרנו בלונדון',
+            v2: 'ב2023 גרנו בלונדון',
+            lang: Language.heb),
+        EqualsTestCase(
+            v1: 'ב-2023 גרנו בלונדון',
+            v2: 'ב 2023 גרנו בלונדון',
+            lang: Language.heb),
+        EqualsTestCase(
+            // test the same idea as the previous but mid-sentence
+            v1: 'גם ב-2023 נהיה בלונדון',
+            v2: 'גם ב2023 נהיה בלונדון',
+            lang: Language.heb),
+        EqualsTestCase(
             v1: 'If it rains tomorrow, I will stay home.',
             v2: "If it rains tomorrow, I'll stay home.",
             lang: Language.eng),
@@ -75,6 +88,25 @@ void main() {
           debugPrint(controller.normalizeSentence(testCase.lang, testCase.v2));
         }
         expect(actualIsSame, true,
+            reason: 'v1: "${testCase.v1}", v2: "${testCase.v2}"');
+      }
+    });
+
+    test('Sentences should NOT be equal', () {
+      var cases = [
+        EqualsTestCase(
+            v1: 'ב2023 גרנו בלונדון',
+            v2: 'ב2023גרנובלונדון',
+            lang: Language.heb),
+      ];
+      for (var testCase in cases) {
+        var actualIsSame = controller
+            .isSameSentence(testCase.lang, testCase.v1, [testCase.v2]);
+        if (actualIsSame) {
+          debugPrint(controller.normalizeSentence(testCase.lang, testCase.v1));
+          debugPrint(controller.normalizeSentence(testCase.lang, testCase.v2));
+        }
+        expect(actualIsSame, false,
             reason: 'v1: "${testCase.v1}", v2: "${testCase.v2}"');
       }
     });
