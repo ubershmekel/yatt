@@ -43,9 +43,9 @@ class Speak {
 
     await flutterTts.awaitSpeakCompletion(true);
 
-    if (isAndroid) {
+    if (isAndroid || isIOS) {
       // Web seems to like rate 1.0
-      // Android like 0.5
+      // Android and iOS like 0.5
       rate = 0.5;
     }
 
