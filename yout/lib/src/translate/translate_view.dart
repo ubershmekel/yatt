@@ -137,7 +137,7 @@ class _TranslateViewState extends State<TranslateView> {
           controller: dictationBox,
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
-            hintText: 'Enter your translation',
+            hintText: 'Your translation',
           ),
         ),
       ),
@@ -151,12 +151,14 @@ class _TranslateViewState extends State<TranslateView> {
               // `heroTag` to avoid " multiple heroes that share the same tag within a subtree" error
               // https://stackoverflow.com/a/69342661/177498
               heroTag: UniqueKey(),
-              icon: const Icon(Icons.record_voice_over),
+              icon: const Icon(Icons.mic),
               label: Text('Speak ${_recordingLang.name}'),
               backgroundColor: isRecording
                   ? Colors.red
                   : Theme.of(context).floatingActionButtonTheme.backgroundColor,
               onPressed: onStartRecording,
+              tooltip:
+                  'The app will start listening to your spoken words and check if your translation was correct',
             ),
             FloatingActionButton.extended(
               heroTag: UniqueKey(),
@@ -171,19 +173,22 @@ class _TranslateViewState extends State<TranslateView> {
                     )
                   : const Icon(Icons.next_plan),
               label: const Text('Next'),
+              tooltip: 'Skip this translation and go to the next',
               onPressed: nextRound,
             ),
             FloatingActionButton.extended(
-              heroTag: UniqueKey(),
-              icon: const Icon(Icons.hail_rounded),
-              label: const Text('Help'),
-              onPressed: onHelp,
-            ),
+                heroTag: UniqueKey(),
+                icon: const Icon(Icons.hail_rounded),
+                label: const Text('Help'),
+                onPressed: onHelp,
+                tooltip: 'See the possible answers for this translation'),
             FloatingActionButton.extended(
               heroTag: UniqueKey(),
               icon: const Icon(Icons.bug_report),
               label: const Text('Report'),
               onPressed: onReport,
+              tooltip:
+                  'Email the developer about a missing translation or another problem',
             ),
           ])),
       Center(child: Text(_helpText)),
@@ -200,7 +205,11 @@ class _TranslateViewState extends State<TranslateView> {
       isHTML: false,
     );
 
-    await FlutterEmailSender.send(email);
+    try {
+      await FlutterEmailSender.send(email);
+    } catch (err) {
+      //PlatformException (PlatformException(not_available, No email clients found!, null, null))
+    }
   }
 
   onDictationBoxChanged() {
