@@ -63,6 +63,10 @@ void main() {
         EqualsTestCase(v1: '僕は学生です', v2: '俺は学生です', lang: Language.jpn),
         EqualsTestCase(v1: 'Είμαι 19.', v2: 'είμαι 19', lang: Language.ell),
         EqualsTestCase(
+            v1: "There's a book on the table",
+            v2: 'There is a book on the table',
+            lang: Language.eng),
+        EqualsTestCase(
             v1: 'If it rains tomorrow, I will stay home.',
             v2: "If it rains tomorrow, I'll stay home.",
             lang: Language.eng),
