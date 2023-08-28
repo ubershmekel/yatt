@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:yout/src/audio/listen.dart';
@@ -50,6 +52,8 @@ class _TranslateViewState extends State<TranslateView> {
   bool isRecording = false;
   String lastDictationBoxText = '';
   late Future dependenciesInited;
+  bool adviceUseRecordSeen = false;
+  bool adviceUseHelpSeen = false;
 
   initDependencies() async {
     await widget.globals.initWithPermissions();
@@ -196,7 +200,16 @@ class _TranslateViewState extends State<TranslateView> {
     ]);
   }
 
+  var _isReporting = false;
   onReport() async {
+    // Prevent rapid-tapping of the report button
+    if (_isReporting) {
+      return;
+    }
+    _isReporting = true;
+    Timer(
+        const Duration(seconds: 2), () => setState(() => _isReporting = false));
+
     final Email email = Email(
       subject: 'YATT Report',
       body:
@@ -208,7 +221,19 @@ class _TranslateViewState extends State<TranslateView> {
     try {
       await FlutterEmailSender.send(email);
     } catch (err) {
-      //PlatformException (PlatformException(not_available, No email clients found!, null, null))
+      // iOS silently fails to email when there is no account set up for it.
+      // > PlatformException (PlatformException(not_available, No email clients found!, null, null))
+      if (context.mounted) {
+        // Check `context.mounted` because of
+        // https://stackoverflow.com/questions/68871880/do-not-use-buildcontexts-across-async-gaps
+
+        // Hide previouse snack bars
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              "Please set up an email app to use the report button. You can also email ubershmekel@gmail.com directly."),
+        ));
+      }
     }
   }
 
@@ -278,11 +303,22 @@ class _TranslateViewState extends State<TranslateView> {
     } else {
       setState(() {
         isRecording = false;
+        Timer(const Duration(seconds: 2), checkAfterFinishedRecording);
       });
     }
     // Update the dictation box, the game will update the status from onDictationBoxChanged
     if (status.result != null) {
       dictationBox.text = status.result!.recognizedWords;
+    }
+  }
+
+  checkAfterFinishedRecording() {
+    if (!isRecording && mode != Modes.success) {
+      if (!adviceUseRecordSeen) {
+        showAdviceUseRecord();
+      } else if (!adviceUseHelpSeen) {
+        showAdviceUseHelp();
+      }
     }
   }
 
@@ -309,6 +345,47 @@ class _TranslateViewState extends State<TranslateView> {
     // 3 seconds felt a bit fast and tiring.
     await Future.delayed(const Duration(seconds: 4));
     nextRound();
+  }
+
+  showAdviceUseHelp() {
+    adviceUseHelpSeen = true;
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: const Text("Tap the 'help' button if you don't know the answer",
+          style: TextStyle(fontSize: 26.0)),
+      // action: SnackBarAction(
+      //   label: 'Show me',
+      //   onPressed: () {
+      //     // tbd
+      //     debugPrint('bla');
+      //   },
+      // ),
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+    ));
+  }
+
+  showAdviceUseRecord() {
+    adviceUseRecordSeen = true;
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: const Text(
+          "Tap the 'Speak' button then say your answer out loud",
+          style: TextStyle(fontSize: 26.0)),
+      // action: SnackBarAction(
+      //   label: 'Show me',
+      //   onPressed: () {
+      //     // tbd
+      //     debugPrint('bla');
+      //   },
+      // ),
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+    ));
   }
 
   nextRound() async {
