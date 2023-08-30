@@ -6,6 +6,7 @@ import 'package:yout/src/audio/listen.dart';
 import 'package:yout/src/settings/globals.dart';
 import 'package:yout/src/settings/languages.dart';
 import 'package:yout/src/tools/randomer.dart';
+import 'package:yout/src/translate/poppy_button.dart';
 import 'package:yout/src/translate/translate_controller.dart';
 
 import '../settings/settings_view.dart';
@@ -52,8 +53,7 @@ class _TranslateViewState extends State<TranslateView> {
   bool isRecording = false;
   String lastDictationBoxText = '';
   late Future dependenciesInited;
-  bool adviceUseRecordSeen = false;
-  bool adviceUseHelpSeen = false;
+  int adviceIndex = 0;
 
   initDependencies() async {
     await widget.globals.initWithPermissions();
@@ -123,6 +123,11 @@ class _TranslateViewState extends State<TranslateView> {
         ));
   }
 
+  final helpButtonKey = GlobalKey<PoppyButtonState>();
+  final speakButtonKey = GlobalKey<PoppyButtonState>();
+  final nextButtonKey = GlobalKey<PoppyButtonState>();
+  final reportButtonKey = GlobalKey<PoppyButtonState>();
+
   buildBody() {
     return ListView(children: [
       ListTile(
@@ -151,49 +156,59 @@ class _TranslateViewState extends State<TranslateView> {
               runSpacing: 10,
               alignment: WrapAlignment.end,
               children: [
-            FloatingActionButton.extended(
-              // `heroTag` to avoid " multiple heroes that share the same tag within a subtree" error
-              // https://stackoverflow.com/a/69342661/177498
-              heroTag: UniqueKey(),
-              icon: const Icon(Icons.mic),
-              label: Text('Speak ${_recordingLang.name}'),
-              backgroundColor: isRecording
-                  ? Colors.red
-                  : Theme.of(context).floatingActionButtonTheme.backgroundColor,
-              onPressed: onStartRecording,
-              tooltip:
-                  'The app will start listening to your spoken words and check if your translation was correct',
-            ),
-            FloatingActionButton.extended(
-              heroTag: UniqueKey(),
-              icon: isAutoNexting
-                  ? SizedBox(
-                      height: Theme.of(context).iconTheme.size,
-                      width: Theme.of(context).iconTheme.size,
-                      child: const CircularProgressIndicator(
-                        color: Colors.white,
-                        strokeWidth: 3,
-                      ),
-                    )
-                  : const Icon(Icons.next_plan),
-              label: const Text('Next'),
-              tooltip: 'Skip this translation and go to the next',
-              onPressed: nextRound,
-            ),
-            FloatingActionButton.extended(
-                heroTag: UniqueKey(),
-                icon: const Icon(Icons.hail_rounded),
-                label: const Text('Help'),
-                onPressed: onHelp,
-                tooltip: 'See the possible answers for this translation'),
-            FloatingActionButton.extended(
-              heroTag: UniqueKey(),
-              icon: const Icon(Icons.bug_report),
-              label: const Text('Report'),
-              onPressed: onReport,
-              tooltip:
-                  'Email the developer about a missing translation or another problem',
-            ),
+            PoppyButton(
+                key: speakButtonKey,
+                button: FloatingActionButton.extended(
+                  // `heroTag` to avoid " multiple heroes that share the same tag within a subtree" error
+                  // https://stackoverflow.com/a/69342661/177498
+                  heroTag: UniqueKey(),
+                  icon: const Icon(Icons.mic),
+                  label: Text('Speak ${_recordingLang.name}'),
+                  backgroundColor: isRecording
+                      ? Colors.red
+                      : Theme.of(context)
+                          .floatingActionButtonTheme
+                          .backgroundColor,
+                  onPressed: onStartRecording,
+                  tooltip:
+                      'The app will start listening to your spoken words and check if your translation was correct',
+                )),
+            PoppyButton(
+                key: nextButtonKey,
+                button: FloatingActionButton.extended(
+                  heroTag: UniqueKey(),
+                  icon: isAutoNexting
+                      ? SizedBox(
+                          height: Theme.of(context).iconTheme.size,
+                          width: Theme.of(context).iconTheme.size,
+                          child: const CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 3,
+                          ),
+                        )
+                      : const Icon(Icons.next_plan),
+                  label: const Text('Next'),
+                  tooltip: 'Skip this translation and go to the next',
+                  onPressed: nextRound,
+                )),
+            PoppyButton(
+                key: helpButtonKey,
+                button: FloatingActionButton.extended(
+                    heroTag: UniqueKey(),
+                    icon: const Icon(Icons.hail_rounded),
+                    label: const Text('Help'),
+                    onPressed: onHelp,
+                    tooltip: 'See the possible answers for this translation')),
+            PoppyButton(
+                key: reportButtonKey,
+                button: FloatingActionButton.extended(
+                  heroTag: UniqueKey(),
+                  icon: const Icon(Icons.bug_report),
+                  label: const Text('Report'),
+                  onPressed: onReport,
+                  tooltip:
+                      'Email the developer about a missing translation or another problem',
+                )),
           ])),
       Center(child: Text(_helpText)),
       Center(child: Text(_statusText, style: const TextStyle(fontSize: 200.0))),
@@ -302,8 +317,12 @@ class _TranslateViewState extends State<TranslateView> {
       });
     } else {
       setState(() {
+        if (isRecording) {
+          // Only want to check during the transition.
+          // This might be called more than once.
+          Timer(const Duration(seconds: 1), checkAfterFinishedRecording);
+        }
         isRecording = false;
-        Timer(const Duration(seconds: 2), checkAfterFinishedRecording);
       });
     }
     // Update the dictation box, the game will update the status from onDictationBoxChanged
@@ -314,11 +333,16 @@ class _TranslateViewState extends State<TranslateView> {
 
   checkAfterFinishedRecording() {
     if (!isRecording && mode != Modes.success) {
-      if (!adviceUseRecordSeen) {
+      if (adviceIndex == 0) {
         showAdviceUseRecord();
-      } else if (!adviceUseHelpSeen) {
+      } else if (adviceIndex == 1) {
         showAdviceUseHelp();
+      } else if (adviceIndex == 2) {
+        showAdviceUseNext();
+      } else if (adviceIndex == 3) {
+        showAdviceUseReport();
       }
+      adviceIndex++;
     }
   }
 
@@ -348,18 +372,11 @@ class _TranslateViewState extends State<TranslateView> {
   }
 
   showAdviceUseHelp() {
-    adviceUseHelpSeen = true;
+    helpButtonKey.currentState?.pulse();
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: const Text("Tap the 'help' button if you don't know the answer",
           style: TextStyle(fontSize: 26.0)),
-      // action: SnackBarAction(
-      //   label: 'Show me',
-      //   onPressed: () {
-      //     // tbd
-      //     debugPrint('bla');
-      //   },
-      // ),
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
@@ -368,19 +385,39 @@ class _TranslateViewState extends State<TranslateView> {
   }
 
   showAdviceUseRecord() {
-    adviceUseRecordSeen = true;
+    speakButtonKey.currentState?.pulse();
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: const Text(
           "Tap the 'Speak' button then say your answer out loud",
           style: TextStyle(fontSize: 26.0)),
-      // action: SnackBarAction(
-      //   label: 'Show me',
-      //   onPressed: () {
-      //     // tbd
-      //     debugPrint('bla');
-      //   },
-      // ),
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+    ));
+  }
+
+  showAdviceUseNext() {
+    nextButtonKey.currentState?.pulse();
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: const Text("Tap the 'Next' button to skip this one",
+          style: TextStyle(fontSize: 26.0)),
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+    ));
+  }
+
+  showAdviceUseReport() {
+    reportButtonKey.currentState?.pulse();
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: const Text(
+          "Tap the 'Report' button if you found a bug or a missing translation",
+          style: TextStyle(fontSize: 26.0)),
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
@@ -416,7 +453,7 @@ class _TranslateViewState extends State<TranslateView> {
 
   sayAndRecord() async {
     await sayTheExample();
-    // On Anrdoid, it seems the recording starts before the example is fully said
+    // On Andרoid, it seems the recording starts before the example is fully said
     // so I add this 500ms delay.
     await Future.delayed(const Duration(milliseconds: 500));
     await onStartRecording();
