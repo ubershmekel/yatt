@@ -63,9 +63,9 @@ void main() {
         EqualsTestCase(v1: '僕は学生です', v2: '俺は学生です', lang: Language.jpn),
         EqualsTestCase(v1: 'Είμαι 19.', v2: 'είμαι 19', lang: Language.ell),
         EqualsTestCase(
-            v1: 'ב-2023 גרנו בלונדון',
-            v2: 'ב2023 גרנו בלונדון',
-            lang: Language.heb),
+            v1: "There's a book on the table",
+            v2: 'There is a book on the table',
+            lang: Language.eng),
         EqualsTestCase(
             v1: 'ב-2023 גרנו בלונדון',
             v2: 'ב 2023 גרנו בלונדון',

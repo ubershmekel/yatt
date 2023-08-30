@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:yout/src/audio/listen.dart';
@@ -50,6 +52,8 @@ class _TranslateViewState extends State<TranslateView> {
   bool isRecording = false;
   String lastDictationBoxText = '';
   late Future dependenciesInited;
+  bool adviceUseRecordSeen = false;
+  bool adviceUseHelpSeen = false;
 
   initDependencies() async {
     await widget.globals.initWithPermissions();
@@ -137,7 +141,7 @@ class _TranslateViewState extends State<TranslateView> {
           controller: dictationBox,
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
-            hintText: 'Enter your translation',
+            hintText: 'Your translation',
           ),
         ),
       ),
@@ -151,12 +155,14 @@ class _TranslateViewState extends State<TranslateView> {
               // `heroTag` to avoid " multiple heroes that share the same tag within a subtree" error
               // https://stackoverflow.com/a/69342661/177498
               heroTag: UniqueKey(),
-              icon: const Icon(Icons.record_voice_over),
+              icon: const Icon(Icons.mic),
               label: Text('Speak ${_recordingLang.name}'),
               backgroundColor: isRecording
                   ? Colors.red
                   : Theme.of(context).floatingActionButtonTheme.backgroundColor,
               onPressed: onStartRecording,
+              tooltip:
+                  'The app will start listening to your spoken words and check if your translation was correct',
             ),
             FloatingActionButton.extended(
               heroTag: UniqueKey(),
@@ -171,19 +177,22 @@ class _TranslateViewState extends State<TranslateView> {
                     )
                   : const Icon(Icons.next_plan),
               label: const Text('Next'),
+              tooltip: 'Skip this translation and go to the next',
               onPressed: nextRound,
             ),
             FloatingActionButton.extended(
-              heroTag: UniqueKey(),
-              icon: const Icon(Icons.hail_rounded),
-              label: const Text('Help'),
-              onPressed: onHelp,
-            ),
+                heroTag: UniqueKey(),
+                icon: const Icon(Icons.hail_rounded),
+                label: const Text('Help'),
+                onPressed: onHelp,
+                tooltip: 'See the possible answers for this translation'),
             FloatingActionButton.extended(
               heroTag: UniqueKey(),
               icon: const Icon(Icons.bug_report),
               label: const Text('Report'),
               onPressed: onReport,
+              tooltip:
+                  'Email the developer about a missing translation or another problem',
             ),
           ])),
       Center(child: Text(_helpText)),
@@ -191,7 +200,16 @@ class _TranslateViewState extends State<TranslateView> {
     ]);
   }
 
+  var _isReporting = false;
   onReport() async {
+    // Prevent rapid-tapping of the report button
+    if (_isReporting) {
+      return;
+    }
+    _isReporting = true;
+    Timer(
+        const Duration(seconds: 2), () => setState(() => _isReporting = false));
+
     final Email email = Email(
       subject: 'YATT Report',
       body:
@@ -200,7 +218,23 @@ class _TranslateViewState extends State<TranslateView> {
       isHTML: false,
     );
 
-    await FlutterEmailSender.send(email);
+    try {
+      await FlutterEmailSender.send(email);
+    } catch (err) {
+      // iOS silently fails to email when there is no account set up for it.
+      // > PlatformException (PlatformException(not_available, No email clients found!, null, null))
+      if (context.mounted) {
+        // Check `context.mounted` because of
+        // https://stackoverflow.com/questions/68871880/do-not-use-buildcontexts-across-async-gaps
+
+        // Hide previouse snack bars
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              "Please set up an email app to use the report button. You can also email ubershmekel@gmail.com directly."),
+        ));
+      }
+    }
   }
 
   onDictationBoxChanged() {
@@ -269,11 +303,22 @@ class _TranslateViewState extends State<TranslateView> {
     } else {
       setState(() {
         isRecording = false;
+        Timer(const Duration(seconds: 2), checkAfterFinishedRecording);
       });
     }
     // Update the dictation box, the game will update the status from onDictationBoxChanged
     if (status.result != null) {
       dictationBox.text = status.result!.recognizedWords;
+    }
+  }
+
+  checkAfterFinishedRecording() {
+    if (!isRecording && mode != Modes.success) {
+      if (!adviceUseRecordSeen) {
+        showAdviceUseRecord();
+      } else if (!adviceUseHelpSeen) {
+        showAdviceUseHelp();
+      }
     }
   }
 
@@ -300,6 +345,47 @@ class _TranslateViewState extends State<TranslateView> {
     // 3 seconds felt a bit fast and tiring.
     await Future.delayed(const Duration(seconds: 4));
     nextRound();
+  }
+
+  showAdviceUseHelp() {
+    adviceUseHelpSeen = true;
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: const Text("Tap the 'help' button if you don't know the answer",
+          style: TextStyle(fontSize: 26.0)),
+      // action: SnackBarAction(
+      //   label: 'Show me',
+      //   onPressed: () {
+      //     // tbd
+      //     debugPrint('bla');
+      //   },
+      // ),
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+    ));
+  }
+
+  showAdviceUseRecord() {
+    adviceUseRecordSeen = true;
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: const Text(
+          "Tap the 'Speak' button then say your answer out loud",
+          style: TextStyle(fontSize: 26.0)),
+      // action: SnackBarAction(
+      //   label: 'Show me',
+      //   onPressed: () {
+      //     // tbd
+      //     debugPrint('bla');
+      //   },
+      // ),
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+    ));
   }
 
   nextRound() async {

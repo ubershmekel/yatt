@@ -116,6 +116,7 @@ class TranslateController {
     if (lang == Language.eng) {
       // Simplify a few common contractions
       normalized = normalized.replaceAll(RegExp(r"\bi will\b"), "i'll");
+      normalized = normalized.replaceAll(RegExp(r"\bthere is\b"), "there's");
     }
 
     if (lang == Language.heb) {
