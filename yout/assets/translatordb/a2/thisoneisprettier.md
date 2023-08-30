@@ -94,3 +94,9 @@ Este aqui é mais bonito.
 # lang:spa
 
 Éste es más bonito.
+
+Esto es más lindo
+
+Esta es más bonita.
+
+Este es el más bonito.

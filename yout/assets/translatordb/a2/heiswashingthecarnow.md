@@ -12,6 +12,8 @@ He's in the process of washing the car.
 
 Right now, he's washing the car.
 
+He is cleaning the car now
+
 # lang:ara
 
 إنه بصدد غسل السيارة.

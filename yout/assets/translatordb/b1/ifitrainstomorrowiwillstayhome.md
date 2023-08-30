@@ -8,6 +8,8 @@ I will stay home if it rains tomorrow.
 
 I will stay at home if it rains tomorrow.
 
+If it rains tomorrow I will be at home.
+
 # lang:ara
 
 إذا هطل المطر غدا ، سأبقى في المنزل.
@@ -65,6 +67,8 @@ Starò a casa se domani pioverà.
 明日雨が降ったら、私は家にいるつもりです
 
 明日は雨が降ったら家にいます
+
+明日雨が降れば家にいます
 
 # lang:kor
 

@@ -80,11 +80,9 @@ Ti piace mangiare le mele?
 
 # lang:jpn
 
-リンゴが好きではないのですか。
+リンゴは好きですか。
 
 リンゴはお好きですか。
-
-リンゴは好きですか。
 
 りんごは好きですか？
 
@@ -93,6 +91,8 @@ Ti piace mangiare le mele?
 あなたはリンゴが好きですか？
 
 リンゴが好きですか
+
+リンゴは好き？
 
 # lang:kor
 
