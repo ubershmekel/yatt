@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:yout/src/audio/listen.dart';
@@ -163,7 +164,8 @@ class _TranslateViewState extends State<TranslateView> {
                   // https://stackoverflow.com/a/69342661/177498
                   heroTag: UniqueKey(),
                   icon: const Icon(Icons.mic),
-                  label: Text('Speak ${_recordingLang.name}'),
+                  label: Text(
+                      '${AppLocalizations.of(context)!.speak} ${_recordingLang.name}'),
                   backgroundColor: isRecording
                       ? Colors.red
                       : Theme.of(context)
@@ -187,7 +189,7 @@ class _TranslateViewState extends State<TranslateView> {
                           ),
                         )
                       : const Icon(Icons.next_plan),
-                  label: const Text('Next'),
+                  label: Text(AppLocalizations.of(context)!.next),
                   tooltip: 'Skip this translation and go to the next',
                   onPressed: nextRound,
                 )),
@@ -196,7 +198,7 @@ class _TranslateViewState extends State<TranslateView> {
                 button: FloatingActionButton.extended(
                     heroTag: UniqueKey(),
                     icon: const Icon(Icons.hail_rounded),
-                    label: const Text('Help'),
+                    label: Text(AppLocalizations.of(context)!.help),
                     onPressed: onHelp,
                     tooltip: 'See the possible answers for this translation')),
             PoppyButton(
@@ -204,7 +206,7 @@ class _TranslateViewState extends State<TranslateView> {
                 button: FloatingActionButton.extended(
                   heroTag: UniqueKey(),
                   icon: const Icon(Icons.bug_report),
-                  label: const Text('Report'),
+                  label: Text(AppLocalizations.of(context)!.report),
                   onPressed: onReport,
                   tooltip:
                       'Email the developer about a missing translation or another problem',
@@ -375,8 +377,8 @@ class _TranslateViewState extends State<TranslateView> {
     helpButtonKey.currentState?.pulse();
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: const Text("Tap the 'help' button if you don't know the answer",
-          style: TextStyle(fontSize: 26.0)),
+      content: Text(AppLocalizations.of(context)!.adviceHelp,
+          style: const TextStyle(fontSize: 26.0)),
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
@@ -388,9 +390,8 @@ class _TranslateViewState extends State<TranslateView> {
     speakButtonKey.currentState?.pulse();
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: const Text(
-          "Tap the 'Speak' button then say your answer out loud",
-          style: TextStyle(fontSize: 26.0)),
+      content: Text(AppLocalizations.of(context)!.adviceRecord,
+          style: const TextStyle(fontSize: 26.0)),
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
@@ -402,8 +403,8 @@ class _TranslateViewState extends State<TranslateView> {
     nextButtonKey.currentState?.pulse();
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: const Text("Tap the 'Next' button to skip this one",
-          style: TextStyle(fontSize: 26.0)),
+      content: Text(AppLocalizations.of(context)!.adviceNext,
+          style: const TextStyle(fontSize: 26.0)),
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
@@ -415,9 +416,8 @@ class _TranslateViewState extends State<TranslateView> {
     reportButtonKey.currentState?.pulse();
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: const Text(
-          "Tap the 'Report' button if you found a bug or a missing translation",
-          style: TextStyle(fontSize: 26.0)),
+      content: Text(AppLocalizations.of(context)!.adviceReport,
+          style: const TextStyle(fontSize: 26.0)),
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),

@@ -46,6 +46,15 @@ class MyApp extends StatelessWidget {
       // Probably closed the app after choosing a native language
       defaultRoute = selectLearnRoute;
     }
+    Locale? locale;
+    if (globals.settingsController.nativeLang != Language.invalidlanguage) {
+      var xxMinusYy =
+          languageToLocaleId[globals.settingsController.nativeLang]!;
+      var localeParts = xxMinusYy.split('-');
+      locale = Locale.fromSubtags(
+          languageCode: localeParts[0], countryCode: localeParts[1]);
+      debugPrint('locale $locale');
+    }
     // Glue the SettingsController to the MaterialApp.
     //
     // The AnimatedBuilder Widget listens to the SettingsController for changes.
@@ -71,7 +80,12 @@ class MyApp extends StatelessWidget {
           ],
           supportedLocales: const [
             Locale('en', ''), // English, no country code
+            Locale('es', ''), // English, no country code
+            // Locale('he', ''), // English, no country code
+            Locale('he', 'IL'),
           ],
+
+          locale: locale,
 
           // Use AppLocalizations to configure the correct application title
           // depending on the user's locale.

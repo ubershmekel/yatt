@@ -2,5 +2,25 @@
   "appTitle": "You Are The Translator",
   "@appTitle": {
     "description": "The title of the application"
-  }
+  },
+  "speak": "Speak",
+  "report": "Report",
+  "help": "Help",
+  "next": "Next",
+  "translateA1": "A1 - Translate simple words",
+  "translateA2": "A2 - Translate simple sentences",
+  "translateB1": "B1 - Translate tricky sentences",
+  "welcomeListen": "Listen to a phrase in your native language",
+  "welcomeSay": "Then say it out loud in the language you're learning",
+  "welcomeHandsFree": "Hands-free language learning...",
+  "welcomeYouAreTheTranslator": "You are the translator",
+  "inDevelopment": "In development",
+  "cool": "Cool",
+  "gotit": "Got it",
+  "letsStart": "Let's start!",
+  "selectLevel": "Select a level",
+  "adviceRecord": "Tap the 'Speak' button then say your answer out loud",
+  "adviceNext": "Tap the 'Next' button to skip this one",
+  "adviceReport": "Tap the 'Report' button if you found a bug or a missing translation",
+  "adviceHelp": "Tap the 'help' button if you don't know the answer"
 }
