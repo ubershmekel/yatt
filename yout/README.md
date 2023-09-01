@@ -2,6 +2,19 @@
 
 A new Flutter project.
 
+## Building
+
+```
+# build release for android
+flutter build appbundle
+
+# build release for ios
+flutter build ipa
+
+# generate icons
+dart run flutter_launcher_icons
+```
+
 ## Getting Started
 
 This project is a starting point for a Flutter application that follows the
