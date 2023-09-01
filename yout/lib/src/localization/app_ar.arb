@@ -1,0 +1,26 @@
+{
+  "appTitle": "أنت المترجم",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "speak": "يتكلم",
+  "report": "تقرير",
+  "help": "يساعد",
+  "next": "التالي",
+  "translateA1": "A1 - ترجمة الكلمات البسيطة",
+  "translateA2": "A2 - ترجمة الجمل البسيطة",
+  "translateB1": "B1 - ترجمة الجمل الصعبة",
+  "welcomeListen": "استمع إلى عبارة بلغتك الأم",
+  "welcomeSay": "ثم قلها بصوت عالٍ باللغة التي تتعلمها",
+  "welcomeHandsFree": "تعلم اللغات بدون استخدام اليدين...",
+  "welcomeYouAreTheTranslator": "أنت المترجم",
+  "inDevelopment": "في التنمية",
+  "cool": "رائع",
+  "gotit": "فهمتها",
+  "letsStart": "لنبدأ!",
+  "selectLevel": "حدد المستوى",
+  "adviceRecord": "اضغط على زر \"التحدث\" ثم قل إجابتك بصوت عالٍ",
+  "adviceNext": "اضغط على زر \"التالي\" لتخطي هذا الزر",
+  "adviceReport": "اضغط على زر \"الإبلاغ\" إذا وجدت خطأً أو ترجمة مفقودة",
+  "adviceHelp": "اضغط على زر \"المساعدة\" إذا كنت لا تعرف الإجابة"
+}

@@ -12,6 +12,8 @@ He's in the process of washing the car.
 
 Right now, he's washing the car.
 
+He is cleaning the car now
+
 # lang:ara
 
 إنه بصدد غسل السيارة.
@@ -81,6 +83,14 @@ Il lave la voiture maintenant.
 עכשיו הוא שוטף את האוטו
 
 הוא עכשיו שוטף את האוטו
+
+הוא כרגע שוטף את האוטו
+
+הוא כרגע שוטף את המכונית
+
+הוא כרגע מנקה את האוטו
+
+הוא כרגע מנקה את המכונית
 
 # lang:ita
 

@@ -117,6 +117,16 @@ class TranslateController {
       // Simplify a few common contractions
       normalized = normalized.replaceAll(RegExp(r"\bi will\b"), "i'll");
       normalized = normalized.replaceAll(RegExp(r"\bthere is\b"), "there's");
+      normalized = normalized.replaceAll(RegExp(r"\bhe is\b"), "he's");
+      normalized = normalized.replaceAll(RegExp(r"\bshe is\b"), "she's");
+    }
+
+    if (lang == Language.heb) {
+      // Note \b does not work with unicode
+      // https://stackoverflow.com/questions/10590098/javascript-regexp-word-boundaries-unicode-characters
+      normalized = normalized.replaceAll(RegExp(r"(?:^|\\s)ב[\s\-]+"), "ב");
+      // normalized = normalized.replaceAll(RegExp(r"\bב "), "ב");
+      // normalized = normalized.replaceAll(RegExp(r" "), "");
     }
 
     if (normalized.isEmpty && text.length > 1) {

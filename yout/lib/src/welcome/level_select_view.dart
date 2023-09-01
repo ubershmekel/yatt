@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:yout/src/settings/globals.dart';
 import 'package:yout/src/translate/translate_view.dart';
 
@@ -25,7 +26,7 @@ class LevelSelectView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Select a level'),
+          title: Text(AppLocalizations.of(context)!.selectLevel),
           actions: [
             IconButton(
               icon: const Icon(Icons.settings),
@@ -52,7 +53,7 @@ class LevelSelectView extends StatelessWidget {
             restorationId: 'levelSelectView',
             children: [
               ListTile(
-                title: const Text('A1 - Translate single words'),
+                title: Text(AppLocalizations.of(context)!.translateA1),
                 leading: const Text(
                   '🏠',
                   style: TextStyle(fontSize: 40),
@@ -68,7 +69,7 @@ class LevelSelectView extends StatelessWidget {
                 },
               ),
               ListTile(
-                title: const Text('A2 - Translate simple sentences'),
+                title: Text(AppLocalizations.of(context)!.translateA2),
                 leading: const Text(
                   '🏫',
                   style: TextStyle(fontSize: 40),
@@ -84,8 +85,8 @@ class LevelSelectView extends StatelessWidget {
                 },
               ),
               ListTile(
-                title: const Text('B1 - Translate tricky sentences'),
-                subtitle: const Text('In development'),
+                title: Text(AppLocalizations.of(context)!.translateB1),
+                subtitle: Text(AppLocalizations.of(context)!.inDevelopment),
                 enabled: false,
                 leading: const Text(
                   '🚀',

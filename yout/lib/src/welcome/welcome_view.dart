@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:yout/src/language_select/language_select_view.dart';
 
 class Page {
@@ -12,27 +13,9 @@ class Page {
 class WelcomeView extends StatelessWidget {
   WelcomeView({super.key});
   final PageController controller = PageController();
+  static const String routeName = '/welcome';
 
-  final List<Page> _pages = [
-    Page(
-        text: 'Listen to a phrase in your native language',
-        image: 'assets/images/speaker.png',
-        buttonText: 'Cool'),
-    Page(
-        text: "Then say it out loud in the language you're learning",
-        image: 'assets/images/speech_balloon.png',
-        buttonText: 'Got it'),
-    Page(
-        text: 'Hands-free language learning...',
-        image: 'assets/images/all_flags.png',
-        buttonText: "Next"),
-    Page(
-        text: 'You are the translator',
-        image: 'assets/images/3.0x/yatt_logo.png',
-        buttonText: "Let's start!"),
-  ];
-
-  Widget _imageTextButton(BuildContext context, Page page) {
+  Widget _imageTextButton(BuildContext context, Page page, List<Page> pages) {
     return Center(
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -54,14 +37,14 @@ class WelcomeView extends StatelessWidget {
               label: Text(page.buttonText),
               onPressed: () {
                 final currentPage = controller.page!.round();
-                if (currentPage < _pages.length - 1) {
+                if (currentPage < pages.length - 1) {
                   controller.animateToPage(currentPage + 1,
                       duration: const Duration(milliseconds: 400),
                       curve: Curves.easeInOut);
                 } else {
                   Navigator.restorablePopAndPushNamed(
                     context,
-                    LanguageItemListView.nativeRoute,
+                    LanguageItemListView.learnRoute,
                   );
                 }
               })
@@ -70,11 +53,29 @@ class WelcomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<Page> pages = [
+      Page(
+          text: AppLocalizations.of(context)!.welcomeListen,
+          image: 'assets/images/speaker.png',
+          buttonText: AppLocalizations.of(context)!.cool),
+      Page(
+          text: AppLocalizations.of(context)!.welcomeSay,
+          image: 'assets/images/speech_balloon.png',
+          buttonText: AppLocalizations.of(context)!.gotit),
+      Page(
+          text: AppLocalizations.of(context)!.welcomeHandsFree,
+          image: 'assets/images/all_flags.png',
+          buttonText: AppLocalizations.of(context)!.next),
+      Page(
+          text: AppLocalizations.of(context)!.welcomeYouAreTheTranslator,
+          image: 'assets/images/3.0x/yatt_logo.png',
+          buttonText: AppLocalizations.of(context)!.letsStart),
+    ];
     return Scaffold(
         body: PageView(
             controller: controller,
-            children: _pages.map((Page page) {
-              return _imageTextButton(context, page);
+            children: pages.map((Page page) {
+              return _imageTextButton(context, page, pages);
             }).toList()));
   }
 }
