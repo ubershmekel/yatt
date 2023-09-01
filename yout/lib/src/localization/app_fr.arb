@@ -1,0 +1,26 @@
+{
+  "appTitle": "Vous êtes le traducteur",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "speak": "Parler",
+  "report": "Rapport",
+  "help": "Aide",
+  "next": "Suivant",
+  "translateA1": "A1 – Traduire des mots simples",
+  "translateA2": "A2 - Traduire des phrases simples",
+  "translateB1": "B1 – Traduire des phrases délicates",
+  "welcomeListen": "Écoutez une phrase dans votre langue maternelle",
+  "welcomeSay": "Puis dis-le à voix haute dans la langue que tu apprends",
+  "welcomeHandsFree": "Apprentissage des langues mains libres...",
+  "welcomeYouAreTheTranslator": "Vous êtes le traducteur",
+  "inDevelopment": "En développement",
+  "cool": "Cool",
+  "gotit": "J'ai compris",
+  "letsStart": "Commençons!",
+  "selectLevel": "Sélectionnez un niveau",
+  "adviceRecord": "Appuyez sur le bouton « Parler », puis dites votre réponse à voix haute",
+  "adviceNext": "Appuyez sur le bouton « Suivant » pour ignorer celui-ci",
+  "adviceReport": "Appuyez sur le bouton « Signaler » si vous avez trouvé un bug ou une traduction manquante",
+  "adviceHelp": "Appuyez sur le bouton « Aide » si vous ne connaissez pas la réponse"
+}

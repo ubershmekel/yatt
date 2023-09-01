@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yout/src/settings/globals.dart';
 import 'package:yout/src/settings/languages.dart';
 import 'package:yout/src/welcome/level_select_view.dart';
+import 'package:yout/src/welcome/welcome_view.dart';
 
 import '../settings/settings_view.dart';
 
@@ -54,11 +55,12 @@ class LanguageItemListView extends StatelessWidget {
             }
 
             if (Navigator.canPop(context)) {
+              // When invoked from the settings menu
               Navigator.pop(context);
             } else if (mode == modeNative) {
               Navigator.restorablePopAndPushNamed(
                 context,
-                learnRoute,
+                WelcomeView.routeName,
               );
             } else {
               // Game on to the level select

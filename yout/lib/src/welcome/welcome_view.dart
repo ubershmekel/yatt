@@ -13,6 +13,7 @@ class Page {
 class WelcomeView extends StatelessWidget {
   WelcomeView({super.key});
   final PageController controller = PageController();
+  static const String routeName = '/welcome';
 
   Widget _imageTextButton(BuildContext context, Page page, List<Page> pages) {
     return Center(
@@ -43,7 +44,7 @@ class WelcomeView extends StatelessWidget {
                 } else {
                   Navigator.restorablePopAndPushNamed(
                     context,
-                    LanguageItemListView.nativeRoute,
+                    LanguageItemListView.learnRoute,
                   );
                 }
               })

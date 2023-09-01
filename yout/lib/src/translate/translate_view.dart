@@ -308,6 +308,10 @@ class _TranslateViewState extends State<TranslateView> {
 
   onRecordingStatus(SpeechStatus status) {
     debugPrint('onRecordingStatus: ${status.isListening}');
+    if (!mounted) {
+      // Probably just closed the screen, so don't care about the updates
+      return;
+    }
     if (status.lang != _recordingLang) {
       debugPrint(
           "onRecordingStatus: lang != _recordingLang. So ignoring results.");

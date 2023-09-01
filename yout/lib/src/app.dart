@@ -37,24 +37,6 @@ class MyApp extends StatelessWidget {
         globals: globals, mode: LanguageItemListView.modeLearn);
     final levelSelectView = LevelSelectView(globals: globals);
 
-    Widget defaultRoute = levelSelectView;
-    if (globals.settingsController.nativeLang == Language.invalidlanguage) {
-      // Probably first time opening the app
-      defaultRoute = WelcomeView();
-    } else if (globals.settingsController.learningLang ==
-        Language.invalidlanguage) {
-      // Probably closed the app after choosing a native language
-      defaultRoute = selectLearnRoute;
-    }
-    Locale? locale;
-    if (globals.settingsController.nativeLang != Language.invalidlanguage) {
-      var xxMinusYy =
-          languageToLocaleId[globals.settingsController.nativeLang]!;
-      var localeParts = xxMinusYy.split('-');
-      locale = Locale.fromSubtags(
-          languageCode: localeParts[0], countryCode: localeParts[1]);
-      debugPrint('locale $locale');
-    }
     // Glue the SettingsController to the MaterialApp.
     //
     // The AnimatedBuilder Widget listens to the SettingsController for changes.
@@ -79,13 +61,22 @@ class MyApp extends StatelessWidget {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [
-            Locale('en', ''), // English, no country code
-            Locale('es', ''), // English, no country code
-            // Locale('he', ''), // English, no country code
-            Locale('he', 'IL'),
+            Locale('en', ''),
+            Locale('ar', ''),
+            Locale('de', ''),
+            Locale('el', ''),
+            Locale('fr', ''),
+            Locale('he', ''),
+            Locale('it', ''),
+            Locale('ja', ''),
+            Locale('ko', ''),
+            Locale('pt', ''),
+            Locale('ru', ''),
+            Locale('es', ''),
+            // Locale('he', 'IL'),
           ],
 
-          locale: locale,
+          locale: langToLocale(globals.settingsController.nativeLang),
 
           // Use AppLocalizations to configure the correct application title
           // depending on the user's locale.
@@ -105,6 +96,17 @@ class MyApp extends StatelessWidget {
           // Define a function to handle named routes in order to support
           // Flutter web url navigation and deep linking.
           onGenerateRoute: (RouteSettings routeSettings) {
+            Widget defaultRoute = levelSelectView;
+            if (globals.settingsController.nativeLang ==
+                Language.invalidlanguage) {
+              // Probably first time opening the app
+              defaultRoute = selectNativeRoute;
+            } else if (globals.settingsController.learningLang ==
+                Language.invalidlanguage) {
+              defaultRoute = WelcomeView();
+              // Probably closed the app after choosing a native language
+              // defaultRoute = selectLearnRoute;
+            }
             return MaterialPageRoute<void>(
               settings: routeSettings,
               builder: (BuildContext context) {
@@ -120,6 +122,8 @@ class MyApp extends StatelessWidget {
                     return selectLearnRoute;
                   case LanguageItemListView.nativeRoute:
                     return selectNativeRoute;
+                  case WelcomeView.routeName:
+                    return WelcomeView();
                   case '/':
                   default:
                     return defaultRoute;
@@ -132,4 +136,17 @@ class MyApp extends StatelessWidget {
       },
     );
   }
+}
+
+Locale? langToLocale(Language lang) {
+  Locale? locale;
+  if (lang == Language.invalidlanguage) {
+    return null;
+  }
+  var xxMinusYy = languageToLocaleId[lang]!;
+  var localeParts = xxMinusYy.split('-');
+  locale = Locale.fromSubtags(
+      languageCode: localeParts[0], countryCode: localeParts[1]);
+  debugPrint('locale $locale');
+  return locale;
 }
