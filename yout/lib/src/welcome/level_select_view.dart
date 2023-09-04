@@ -53,13 +53,21 @@ class LevelSelectView extends StatelessWidget {
             restorationId: 'levelSelectView',
             children: [
               ListTile(
+                title: Text(AppLocalizations.of(context)!.learnPhrases),
+                subtitle: Text(AppLocalizations.of(context)!.inDevelopment),
+                leading: const Text(
+                  '🚧',
+                  style: TextStyle(fontSize: 40),
+                ),
+                enabled: false,
+              ),
+              ListTile(
                 title: Text(AppLocalizations.of(context)!.translateA1),
                 leading: const Text(
                   '🏠',
                   style: TextStyle(fontSize: 40),
                 ),
                 onTap: () {
-                  debugPrint('tapped 1');
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) =>
@@ -75,7 +83,6 @@ class LevelSelectView extends StatelessWidget {
                   style: TextStyle(fontSize: 40),
                 ),
                 onTap: () {
-                  debugPrint('tapped 2');
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) =>
@@ -87,13 +94,17 @@ class LevelSelectView extends StatelessWidget {
               ListTile(
                 title: Text(AppLocalizations.of(context)!.translateB1),
                 subtitle: Text(AppLocalizations.of(context)!.inDevelopment),
-                enabled: false,
                 leading: const Text(
                   '🚀',
                   style: TextStyle(fontSize: 40),
                 ),
                 onTap: () {
-                  debugPrint('tapped 3');
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          TranslateView(globals: globals, level: 'b1'),
+                    ),
+                  );
                 },
               )
             ]));

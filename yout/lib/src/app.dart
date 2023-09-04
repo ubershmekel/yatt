@@ -147,6 +147,6 @@ Locale? langToLocale(Language lang) {
   var localeParts = xxMinusYy.split('-');
   locale = Locale.fromSubtags(
       languageCode: localeParts[0], countryCode: localeParts[1]);
-  debugPrint('locale $locale');
+  // debugPrint('langToLocale $locale');
   return locale;
 }

@@ -449,7 +449,7 @@ class _TranslateViewState extends State<TranslateView> {
           "trans: ${_translation?.examples.length}, example:$_exampleLang, recording:$_recordingLang");
 
       var line = _translation?.examples[_exampleLang]?.firstOrNull ??
-          'Strange error... where is the line?';
+          'Where is the line? Report this error to the developer please';
       _toTranslateText = line;
       sayAndRecord();
     });

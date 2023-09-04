@@ -68,7 +68,8 @@ class TranslateController {
         .toList();
 
     if (filesList.isEmpty) {
-      debugPrint('BIG PROBLEM - No translation files found');
+      debugPrint(
+          'BIG PROBLEM - No translation files found for $level. Did you add them to the pubscpec.yaml?');
     }
     debugPrint('files found: ${filesList.length}');
     for (String name in filesList) {

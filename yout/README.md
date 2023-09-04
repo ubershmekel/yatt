@@ -13,6 +13,10 @@ flutter build ipa
 
 # generate icons
 dart run flutter_launcher_icons
+
+# generate localizations from arb files (`AppLocalizations.of(context)!...`)
+flutter gen-l10n
+
 ```
 
 ## Getting Started
