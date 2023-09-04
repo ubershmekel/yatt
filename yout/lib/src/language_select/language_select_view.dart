@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:yout/src/settings/globals.dart';
 import 'package:yout/src/settings/languages.dart';
 import 'package:yout/src/welcome/level_select_view.dart';
@@ -80,7 +81,9 @@ class LanguageItemListView extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text(mode == modeNative ? "Native language?" : 'Learn what?'),
+          title: Text(mode == modeNative
+              ? AppLocalizations.of(context)!.nativeLanguage
+              : AppLocalizations.of(context)!.learningLanguage),
           actions: [
             IconButton(
               icon: const Icon(Icons.settings),
@@ -108,8 +111,9 @@ class LanguageItemListView extends StatelessWidget {
             children: [
               ListTile(
                 title: Text(mode == modeNative
-                    ? 'Choose a language that you understand well. You will be translating to and from this language.'
-                    : "Select the language that you want to learn. You will be translating to and from this language."),
+                    ? AppLocalizations.of(context)!.selectNativeLanguageSubtitle
+                    : AppLocalizations.of(context)!
+                        .selectLearnLanguageSubtitle),
               ),
               ...languageTiles,
             ]));

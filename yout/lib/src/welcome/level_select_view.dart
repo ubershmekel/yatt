@@ -93,7 +93,8 @@ class LevelSelectView extends StatelessWidget {
               ),
               ListTile(
                 title: Text(AppLocalizations.of(context)!.translateB1),
-                subtitle: Text(AppLocalizations.of(context)!.inDevelopment),
+                subtitle:
+                    Text(AppLocalizations.of(context)!.helpImproveThisPlease),
                 leading: const Text(
                   '🚀',
                   style: TextStyle(fontSize: 40),
