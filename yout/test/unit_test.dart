@@ -67,6 +67,10 @@ void main() {
             v2: 'There is a book on the table',
             lang: Language.eng),
         EqualsTestCase(
+            v1: "I'm not a smart man",
+            v2: 'I am not a smart man',
+            lang: Language.eng),
+        EqualsTestCase(
             v1: 'ב-2023 גרנו בלונדון',
             v2: 'ב 2023 גרנו בלונדון',
             lang: Language.heb),

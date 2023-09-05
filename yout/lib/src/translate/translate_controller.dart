@@ -116,6 +116,7 @@ class TranslateController {
 
     if (lang == Language.eng) {
       // Simplify a few common contractions
+      normalized = normalized.replaceAll(RegExp(r"\bi am\b"), "i'm");
       normalized = normalized.replaceAll(RegExp(r"\bi will\b"), "i'll");
       normalized = normalized.replaceAll(RegExp(r"\bthere is\b"), "there's");
       normalized = normalized.replaceAll(RegExp(r"\bhe is\b"), "he's");
@@ -126,11 +127,10 @@ class TranslateController {
       // Note \b does not work with unicode
       // https://stackoverflow.com/questions/10590098/javascript-regexp-word-boundaries-unicode-characters
       normalized = normalized.replaceAll(RegExp(r"(?:^|\\s)ב[\s\-]+"), "ב");
-      // normalized = normalized.replaceAll(RegExp(r"\bב "), "ב");
-      // normalized = normalized.replaceAll(RegExp(r" "), "");
     }
 
     if (normalized.isEmpty && text.length > 1) {
+      // This happens often during dictation
       // debugPrint('Normalized text went down to zero: $text');
       return text;
     }
