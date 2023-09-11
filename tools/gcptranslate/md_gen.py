@@ -1,4 +1,16 @@
 from typing import List
+import os
+
+import api_task
+
+script_dir = os.path.dirname(__file__)
+
+examples = [
+    "Can you repeat that please?",
+    "Could you repeat that please?",
+    "Can you say it again please?",
+    "Can you explain that again please?",
+]
 
 output_langs = (
     "eng",
@@ -31,6 +43,7 @@ lang_code_3to2 = {
     "spa": "es",
 }
 
+
 def generate_md(lang_to_examples):
     md_lines = []
     for lang in output_langs:
@@ -42,9 +55,10 @@ def generate_md(lang_to_examples):
         md_lines.append(f"# lang:{lang}")
         for sentence in dedupe_sentences(lang_to_examples[lang]):
             md_lines.append(sentence)
-    
+
     md_text = '\n\n'.join(md_lines)
     return md_text
+
 
 def to_md_name(name: str) -> str:
     return "".join(x for x in name.lower() if x.isalnum()) + ".md"
@@ -56,5 +70,30 @@ def dedupe_sentences(sentences: List[str]):
     for sent in sentences:
         if to_md_name(sent) in seen:
             continue
+        seen.add(to_md_name(sent))
         deduped.append(sent)
     return deduped
+
+
+def main():
+    out_dir = script_dir + '/out'
+    if not os.path.isdir(out_dir):
+        os.mkdir(out_dir)
+
+    lang_to_examples = {
+        "eng": examples,
+    }
+    for c3, c2 in lang_code_3to2.items():
+        if c3 == "eng":
+            continue
+        lang_to_examples[c3] = api_task.translate(examples, c2)
+        print(lang_to_examples[c3])
+    md_text = generate_md(lang_to_examples)
+    md_filename = to_md_name(examples[0])
+
+    with open(f'{out_dir}/{md_filename}', 'w', encoding='utf8') as fout:
+        fout.write(md_text)
+
+
+if __name__ == "__main__":
+    main()

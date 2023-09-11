@@ -1,19 +1,9 @@
-import md_gen
-
 from google.cloud import translate_v2
 
 import os
 
 script_dir = os.path.dirname(__file__)
 
-examples = [
-    "I'm not a smart man.",
-    "I ain't too bright.",
-    "I'm not a genius by any means.",
-    "I'm not the smartest cookie.",
-    "I'm not the brainiest person.",
-    "I'm not the sharpest tool in the shed.",
-]
 
 def translate_text(target: str, text: str) -> dict:
     """Translates text into the target language.
@@ -61,23 +51,5 @@ def translate(lines, lang_code):
 
 # print(translate(examples, "he"))
 
-def main():
-    out_dir = script_dir + '/out'
-    if not os.path.isdir(out_dir):
-        os.mkdir(out_dir)
-
-    lang_to_examples = {
-        "eng": examples,
-    }
-    for c3, c2 in md_gen.lang_code_3to2.items():
-        if c3 == "eng":
-            continue
-        lang_to_examples[c3] = translate(examples, c2)
-        print(lang_to_examples[c3])
-    md_text = md_gen.generate_md(lang_to_examples)
-    md_filename = md_gen.to_md_name(examples[0])
-        
-    with open(f'{out_dir}/{md_filename}', 'w', encoding='utf8') as fout:
-        fout.write(md_text)
 
 # main()

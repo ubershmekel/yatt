@@ -53,4 +53,5 @@ def main():
         out_data = OrderedDict(sorted(lang_arb_data.items()))
         open(fname, 'w', encoding='utf8').write(json.dumps(out_data, indent=2, ensure_ascii=False))
 
-main()
+if __name__ == "__main__":
+    main()

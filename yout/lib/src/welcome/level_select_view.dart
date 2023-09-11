@@ -77,6 +77,21 @@ class LevelSelectView extends StatelessWidget {
                 },
               ),
               ListTile(
+                title: Text(AppLocalizations.of(context)!.translateA1B),
+                leading: const Text(
+                  '✈️',
+                  style: TextStyle(fontSize: 40),
+                ),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          TranslateView(globals: globals, level: 'a1b'),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
                 title: Text(AppLocalizations.of(context)!.translateA2),
                 leading: const Text(
                   '🏫',

@@ -59,5 +59,6 @@ flutter:
     - assets/images/language_flags/
     - assets/sounds/
     - assets/translatordb/a1/
+    - assets/translatordb/a1b/
     - assets/translatordb/a2/
     - assets/translatordb/b1/
