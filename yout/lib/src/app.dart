@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
     // and defaults to 24. To be safe, and allow sizing other parts
     // of the layout based on icon size - we define it here.
     // See mentions of `Theme.of(context).iconTheme.size`.
-    const iconThemeData = IconThemeData(size: 28);
+    const iconThemeData = IconThemeData(size: 38);
     final theme = ThemeData(iconTheme: iconThemeData);
     final themeDark =
         ThemeData(brightness: Brightness.dark, iconTheme: iconThemeData);

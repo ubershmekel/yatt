@@ -17,10 +17,13 @@ class PoppyButtonState extends State<PoppyButton> {
   bool _visible = true;
   @override
   Widget build(BuildContext context) {
-    return AnimatedOpacity(
-        opacity: _visible ? 1.0 : 0.5,
-        duration: animDuration,
-        child: widget.button);
+    return SizedBox(
+        height: 80.0,
+        child: FittedBox(
+            child: AnimatedOpacity(
+                opacity: _visible ? 1.0 : 0.5,
+                duration: animDuration,
+                child: widget.button)));
   }
 
   hide() async {

@@ -165,7 +165,8 @@ class _TranslateViewState extends State<TranslateView> {
                   heroTag: UniqueKey(),
                   icon: const Icon(Icons.mic),
                   label: Text(
-                      '${AppLocalizations.of(context)!.speak} ${_recordingLang.name}'),
+                    '${AppLocalizations.of(context)!.speak} ${_recordingLang.name}',
+                  ),
                   backgroundColor: isRecording
                       ? Colors.red
                       : Theme.of(context)
@@ -189,7 +190,9 @@ class _TranslateViewState extends State<TranslateView> {
                           ),
                         )
                       : const Icon(Icons.next_plan),
-                  label: Text(AppLocalizations.of(context)!.next),
+                  label: Text(
+                    AppLocalizations.of(context)!.next,
+                  ),
                   tooltip: 'Skip this translation and go to the next',
                   onPressed: nextRound,
                 )),
@@ -198,7 +201,9 @@ class _TranslateViewState extends State<TranslateView> {
                 button: FloatingActionButton.extended(
                     heroTag: UniqueKey(),
                     icon: const Icon(Icons.hail_rounded),
-                    label: Text(AppLocalizations.of(context)!.help),
+                    label: Text(
+                      AppLocalizations.of(context)!.help,
+                    ),
                     onPressed: onHelp,
                     tooltip: 'See the possible answers for this translation')),
             PoppyButton(
@@ -206,7 +211,9 @@ class _TranslateViewState extends State<TranslateView> {
                 button: FloatingActionButton.extended(
                   heroTag: UniqueKey(),
                   icon: const Icon(Icons.bug_report),
-                  label: Text(AppLocalizations.of(context)!.report),
+                  label: Text(
+                    AppLocalizations.of(context)!.report,
+                  ),
                   onPressed: onReport,
                   tooltip:
                       'Email the developer about a missing translation or another problem',
