@@ -33,10 +33,9 @@
 
 <style>
 .download img {
-  display: block;
-  width: 400px;
-  height: 120px;
-  margin: 10px;
+  display: inline-block;
+  height: 60px;
+  margin-right: 10px;
 }
 
 .logo {
