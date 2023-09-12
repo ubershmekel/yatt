@@ -102,6 +102,10 @@ Non sono lo strumento più affilato del capannone.
 
 # lang:jpn
 
+賢い男ではありません。
+
+賢い男ではない
+
 私は賢い男ではありません。
 
 私は賢い男ではない
