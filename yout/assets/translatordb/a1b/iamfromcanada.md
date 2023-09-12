@@ -6,6 +6,8 @@ I'm Canadian.
 
 I'm a Canadian.
 
+I came from Canada.
+
 # lang:ara
 
 انا من كندا.
@@ -48,7 +50,11 @@ Sono canadese.
 
 カナダから来ました。
 
+私はカナダから来ました。
+
 私はカナダ人です。
+
+カナダ人です。
 
 # lang:kor
 

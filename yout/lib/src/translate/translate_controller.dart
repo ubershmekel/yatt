@@ -117,10 +117,20 @@ class TranslateController {
     if (lang == Language.eng) {
       // Simplify a few common contractions
       normalized = normalized.replaceAll(RegExp(r"\bi am\b"), "i'm");
+      normalized = normalized.replaceAll(RegExp(r"\bwe are\b"), "we're");
+      normalized = normalized.replaceAll(RegExp(r"\byou are\b"), "you're");
+      normalized = normalized.replaceAll(RegExp(r"\bthey are\b"), "they're");
       normalized = normalized.replaceAll(RegExp(r"\bi will\b"), "i'll");
+      normalized = normalized.replaceAll(RegExp(r"\bwill not\b"), "won't");
+      normalized = normalized.replaceAll(RegExp(r"\byou will\b"), "you'll");
       normalized = normalized.replaceAll(RegExp(r"\bthere is\b"), "there's");
       normalized = normalized.replaceAll(RegExp(r"\bhe is\b"), "he's");
       normalized = normalized.replaceAll(RegExp(r"\bshe is\b"), "she's");
+      normalized = normalized.replaceAll(RegExp(r"\bdo not\b"), "don't");
+      normalized = normalized.replaceAll(RegExp(r"\bcannot\b"), "can't");
+      normalized = normalized.replaceAll(RegExp(r"\bare not\b"), "aren't");
+      normalized = normalized.replaceAll(RegExp(r"\bwas not\b"), "wasn't");
+      normalized = normalized.replaceAll(RegExp(r"\bis not\b"), "isn't");
     }
 
     if (lang == Language.heb) {
