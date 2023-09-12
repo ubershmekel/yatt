@@ -6,10 +6,14 @@ import api_task
 script_dir = os.path.dirname(__file__)
 
 examples = [
-    "Can you repeat that please?",
-    "Could you repeat that please?",
-    "Can you say it again please?",
-    "Can you explain that again please?",
+    "In 2013 we lived in London.",
+    "In 2013 we were living in London.",
+    "During 2013, London was our home.",
+    "Back in 2013, we resided in London.",
+    "In the year 2013, we lived in London.",
+    "Our place of residence was London in 2013.",
+    "We were based in London in 2013.",
+
 ]
 
 output_langs = (
