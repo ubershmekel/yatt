@@ -76,6 +76,10 @@ Je reviens.
 
 אני כבר חוזר.
 
+אני אשוב.
+
+אשוב.
+
 # lang:ita
 
 Ritornerò.

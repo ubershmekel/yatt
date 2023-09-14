@@ -6,6 +6,8 @@ I rule this world!
 
 I am the world's king!
 
+I am king of the world
+
 # lang:ara
 
 أنا أحكم هذا العالم!
