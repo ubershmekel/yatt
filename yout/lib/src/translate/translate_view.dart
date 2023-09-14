@@ -6,7 +6,6 @@ import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:yout/src/audio/listen.dart';
 import 'package:yout/src/settings/globals.dart';
 import 'package:yout/src/settings/languages.dart';
-import 'package:yout/src/tools/randomer.dart';
 import 'package:yout/src/translate/poppy_button.dart';
 import 'package:yout/src/translate/translate_controller.dart';
 
@@ -55,6 +54,7 @@ class _TranslateViewState extends State<TranslateView> {
   String lastDictationBoxText = '';
   late Future dependenciesInited;
   int adviceIndex = 0;
+  int helpIndex = 0;
 
   initDependencies() async {
     await widget.globals.initWithPermissions();
@@ -286,7 +286,6 @@ class _TranslateViewState extends State<TranslateView> {
   onHelp() async {
     // Stop the mic while the example is spoken
     widget.globals.speechToText.stopListening();
-    _helpText = '';
 
     // mode = Modes.helped;
     String oneAnswer =
@@ -296,11 +295,16 @@ class _TranslateViewState extends State<TranslateView> {
       return;
     }
     var exampleLines = _translation!.examples[_recordingLang]!;
-    for (var example in exampleLines) {
-      _helpText += '$example\n\n';
-    }
+    setState(() {
+      _helpText = '';
+      for (var example in exampleLines) {
+        _helpText += '$example\n\n';
+      }
+    });
 
-    await widget.globals.speak.speak(_recordingLang, exampleLines.randomItem());
+    await widget.globals.speak
+        .speak(_recordingLang, exampleLines[helpIndex % exampleLines.length]);
+    helpIndex++;
   }
 
   onStartRecording() {
