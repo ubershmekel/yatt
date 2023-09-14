@@ -53,7 +53,7 @@ class SoundFiles {
     await player.stop();
     await player.play(
       AssetSource(yay),
-      volume: 0.3,
+      volume: 0.5,
       mode: PlayerMode.lowLatency,
     );
   }
