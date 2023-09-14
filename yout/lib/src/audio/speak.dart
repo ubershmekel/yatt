@@ -23,7 +23,7 @@ class Speak {
   String? engine;
   double volume = 1.0;
   double pitch = 1.0;
-  double rate = 1.0;
+  double rateScale = 1.0;
   bool isCurrentLanguageInstalled = false;
 
   TtsState ttsState = TtsState.stopped;
@@ -46,7 +46,7 @@ class Speak {
     if (isAndroid || isIOS) {
       // Web seems to like rate 1.0
       // Android and iOS like 0.5
-      rate = 0.5;
+      rateScale = 0.5;
     }
 
     final langs = await flutterTts.getLanguages;
@@ -120,12 +120,16 @@ class Speak {
     }
   }
 
-  Future speak(Language lang, String text) async {
+  Future speak(
+      {Language lang = Language.invalidlanguage,
+      String text = '',
+      rate = 1.0}) async {
     debugPrint("Speak: $text, lang: $lang, ${languageToLocaleId[lang]!}");
     var locale = languageToLocaleId[lang]!;
     var res = await flutterTts.isLanguageAvailable(locale);
     await flutterTts.setLanguage(locale);
     await flutterTts.setVolume(volume);
+    rate = rate * rateScale;
     await flutterTts.setSpeechRate(rate);
     await flutterTts.setPitch(pitch);
     debugPrint('speak call 2');

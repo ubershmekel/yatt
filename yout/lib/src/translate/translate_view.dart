@@ -51,6 +51,7 @@ class _TranslateViewState extends State<TranslateView> {
   int roundsStarted = 0;
   bool isAutoNexting = false;
   bool isRecording = false;
+  bool isSayingExampleSlowly = false;
   String lastDictationBoxText = '';
   late Future dependenciesInited;
   int adviceIndex = 0;
@@ -302,8 +303,9 @@ class _TranslateViewState extends State<TranslateView> {
       }
     });
 
-    await widget.globals.speak
-        .speak(_recordingLang, exampleLines[helpIndex % exampleLines.length]);
+    await widget.globals.speak.speak(
+        lang: _recordingLang,
+        text: exampleLines[helpIndex % exampleLines.length]);
     helpIndex++;
   }
 
@@ -442,6 +444,7 @@ class _TranslateViewState extends State<TranslateView> {
 
   nextRound() async {
     roundsStarted++;
+    isSayingExampleSlowly = false;
     isAutoNexting = false;
     _helpText = '';
     if (widget.globals.speechToText.isListening) {
@@ -475,7 +478,13 @@ class _TranslateViewState extends State<TranslateView> {
   }
 
   sayTheExample() {
-    return widget.globals.speak.speak(_exampleLang, _toTranslateText);
+    var rate = 1.0;
+    if (isSayingExampleSlowly) {
+      rate = 0.6;
+    }
+    isSayingExampleSlowly = !isSayingExampleSlowly;
+    return widget.globals.speak
+        .speak(lang: _exampleLang, text: _toTranslateText, rate: rate);
   }
 
   @override
