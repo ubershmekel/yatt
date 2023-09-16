@@ -4,13 +4,13 @@
     <Meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <Meta charset="utf-8" />
     <Meta name="description" content="Learn a language by listening and speaking" />
-    <Link rel="icon" type="image/png" href="/favicon.png" />
+    <Link rel="icon" type="image/png" href="/yatt-logo-512.png" />
 
     <!-- For whatsapp and twitter link preview -->
-    <Meta property="og:image" content="/yatt-logo.png" />
+    <Meta property="og:image" content="/yatt-logo-512.png" />
 
   </Head>
-  <img class="logo" src="/yatt-logo.png">
+  <img class="logo" src="/yatt-logo-alpha.png">
   <h1>You Are The Translator</h1>
   <!-- Minified version -->
   <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
