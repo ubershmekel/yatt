@@ -6,43 +6,43 @@ One dog
 
 # lang:ara
 
-1 كلب
-
 كلب واحد
+
+1 كلب
 
 # lang:deu
 
-1 Hund
-
 Ein Hund
+
+1 Hund
 
 # lang:ell
 
-1 σκύλος
-
 Ενας σκύλος
+
+1 σκύλος
 
 # lang:fra
 
-1 chien
-
 Un chien
 
+1 chien
+
 # lang:heb
-
-כלב 1
-
-כלבה 1
 
 כלב אחד
 
 כלבה אחת
 
+כלב 1
+
+כלבה 1
+
 # lang:ita
 
-1 cane
-
 Un cane
+
+1 cane
 
 # lang:jpn
 
@@ -60,18 +60,18 @@ Un cane
 
 # lang:por
 
-1 cachorro
-
 Um cachorro
+
+1 cachorro
 
 # lang:rus
 
-1 собака
-
 Одна собака
+
+1 собака
 
 # lang:spa
 
-1 perro
-
 Un perro
+
+1 perro

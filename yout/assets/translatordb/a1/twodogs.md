@@ -6,43 +6,43 @@ Two dogs
 
 # lang:ara
 
-2 كلاب
-
 كلبان
+
+2 كلاب
 
 # lang:deu
 
-2 Hunde
-
 Zwei Hunde
+
+2 Hunde
 
 # lang:ell
 
-2 σκυλιά
-
 Δύο σκύλοι
+
+2 σκυλιά
 
 # lang:fra
 
-2 chiens
-
 Deux chiens
 
+2 chiens
+
 # lang:heb
+
+שני כלבים
 
 2 כלבים
 
 2 כלבות
 
-שני כלבים
-
 שתי כלבות
 
 # lang:ita
 
-2 cani
-
 Due cani
+
+2 cani
 
 # lang:jpn
 
@@ -60,18 +60,18 @@ Due cani
 
 # lang:por
 
-2 cachorros
-
 Dois cachorros
+
+2 cachorros
 
 # lang:rus
 
-2 собаки
-
 Две собаки
+
+2 собаки
 
 # lang:spa
 
-2 perros
-
 Dos perros
+
+2 perros

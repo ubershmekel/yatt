@@ -6,43 +6,43 @@ Three dogs
 
 # lang:ara
 
-3 كلاب
-
 ثلاثة كلاب
+
+3 كلاب
 
 # lang:deu
 
-3 Hunde
-
 Drei Hunde
+
+3 Hunde
 
 # lang:ell
 
-3 σκυλιά
-
 Τρία σκυλιά
+
+3 σκυλιά
 
 # lang:fra
 
-3 chiens
-
 Trois chiens
+
+3 chiens
 
 # lang:heb
 
-3 כלבים
-
-3 כלבות
+שלוש כלבות
 
 שלושה כלבים
 
-שלוש כלבות
+3 כלבות
+
+3 כלבים
 
 # lang:ita
 
-3 cani
-
 Tre cani
+
+3 cani
 
 # lang:jpn
 
@@ -60,18 +60,18 @@ Tre cani
 
 # lang:por
 
-3 cachorros
-
 Três cachorros
+
+3 cachorros
 
 # lang:rus
 
-3 собаки
-
 Три собаки
+
+3 собаки
 
 # lang:spa
 
-3 perros
-
 Tres perros
+
+3 perros
