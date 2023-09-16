@@ -6,6 +6,9 @@
     <Meta name="description" content="Learn a language by listening and speaking" />
     <Link rel="icon" type="image/png" href="/favicon.png" />
 
+    <!-- For whatsapp and twitter link preview -->
+    <Meta property="og:image" content="/yatt-logo.png" />
+
   </Head>
   <img class="logo" src="/yatt-logo.png">
   <h1>You Are The Translator</h1>
