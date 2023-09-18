@@ -6,7 +6,7 @@ class PoppyButton extends StatefulWidget {
     required this.button,
   });
 
-  final FloatingActionButton button;
+  final Widget button;
 
   @override
   State<PoppyButton> createState() => PoppyButtonState();

@@ -174,50 +174,43 @@ class _TranslateViewState extends State<TranslateView> {
                           .floatingActionButtonTheme
                           .backgroundColor,
                   onPressed: onStartRecording,
-                  tooltip:
-                      'The app will start listening to your spoken words and check if your translation was correct',
                 )),
             PoppyButton(
                 key: nextButtonKey,
-                button: FloatingActionButton.extended(
-                  heroTag: UniqueKey(),
-                  icon: isAutoNexting
-                      ? SizedBox(
-                          height: Theme.of(context).iconTheme.size,
-                          width: Theme.of(context).iconTheme.size,
-                          child: const CircularProgressIndicator(
-                            color: Colors.white,
-                            strokeWidth: 3,
-                          ),
-                        )
-                      : const Icon(Icons.next_plan),
-                  label: Text(
+                button: OutlinedButton(
+                  // icon: isAutoNexting
+                  //     ? SizedBox(
+                  //         height: Theme.of(context).iconTheme.size,
+                  //         width: Theme.of(context).iconTheme.size,
+                  //         child: const CircularProgressIndicator(
+                  //           color: Colors.white,
+                  //           strokeWidth: 3,
+                  //         ),
+                  //       )
+                  //     : const Icon(Icons.next_plan),
+                  onPressed: nextRound,
+                  onLongPress: showAdviceUseNext,
+                  child: Text(
                     AppLocalizations.of(context)!.next,
                   ),
-                  tooltip: 'Skip this translation and go to the next',
-                  onPressed: nextRound,
                 )),
             PoppyButton(
                 key: helpButtonKey,
-                button: FloatingActionButton.extended(
-                    heroTag: UniqueKey(),
-                    icon: const Icon(Icons.hail_rounded),
-                    label: Text(
-                      AppLocalizations.of(context)!.help,
-                    ),
-                    onPressed: onHelp,
-                    tooltip: 'See the possible answers for this translation')),
+                button: OutlinedButton(
+                  onPressed: onHelp,
+                  onLongPress: showAdviceUseHelp,
+                  child: Text(
+                    AppLocalizations.of(context)!.help,
+                  ),
+                )),
             PoppyButton(
                 key: reportButtonKey,
-                button: FloatingActionButton.extended(
-                  heroTag: UniqueKey(),
-                  icon: const Icon(Icons.bug_report),
-                  label: Text(
+                button: OutlinedButton(
+                  onPressed: onReport,
+                  onLongPress: showAdviceUseReport,
+                  child: Text(
                     AppLocalizations.of(context)!.report,
                   ),
-                  onPressed: onReport,
-                  tooltip:
-                      'Email the developer about a missing translation or another problem',
                 )),
           ])),
       Center(child: Text(_helpText)),
