@@ -478,6 +478,9 @@ class _TranslateViewState extends State<TranslateView> {
   }
 
   sayTheExample() {
+    // Stop the mic while the example is spoken
+    widget.globals.speechToText.stopListening();
+
     var rate = 1.0;
     if (isSayingExampleSlowly) {
       rate = 0.6;
