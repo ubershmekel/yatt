@@ -49,7 +49,6 @@ class _TranslateViewState extends State<TranslateView> {
   final TranslateController controller = TranslateController();
   Modes mode = Modes.trying;
   int roundsStarted = 0;
-  bool isAutoNexting = false;
   bool isRecording = false;
   bool isSayingExampleSlowly = false;
   String lastDictationBoxText = '';
@@ -178,16 +177,6 @@ class _TranslateViewState extends State<TranslateView> {
             PoppyButton(
                 key: nextButtonKey,
                 button: OutlinedButton(
-                  // icon: isAutoNexting
-                  //     ? SizedBox(
-                  //         height: Theme.of(context).iconTheme.size,
-                  //         width: Theme.of(context).iconTheme.size,
-                  //         child: const CircularProgressIndicator(
-                  //           color: Colors.white,
-                  //           strokeWidth: 3,
-                  //         ),
-                  //       )
-                  //     : const Icon(Icons.next_plan),
                   onPressed: nextRound,
                   onLongPress: showAdviceUseNext,
                   child: Text(
@@ -377,9 +366,8 @@ class _TranslateViewState extends State<TranslateView> {
       _statusText = '✅🎉';
     });
 
-    isAutoNexting = true;
-    // 3 seconds felt a bit fast and tiring.
-    await Future.delayed(const Duration(seconds: 4));
+    nextButtonKey.currentState?.autoClick();
+    await Future.delayed(autoNextDuration);
     nextRound();
   }
 
@@ -438,7 +426,6 @@ class _TranslateViewState extends State<TranslateView> {
   nextRound() async {
     roundsStarted++;
     isSayingExampleSlowly = false;
-    isAutoNexting = false;
     _helpText = '';
     if (widget.globals.speechToText.isListening) {
       widget.globals.speechToText.stopListening();
