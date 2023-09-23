@@ -230,17 +230,25 @@ class _TranslateViewState extends State<TranslateView> {
     } catch (err) {
       // iOS silently fails to email when there is no account set up for it.
       // > PlatformException (PlatformException(not_available, No email clients found!, null, null))
-      if (context.mounted) {
-        // Check `context.mounted` because of
-        // https://stackoverflow.com/questions/68871880/do-not-use-buildcontexts-across-async-gaps
+      toast(
+          "Please set up an email app to use the report button. You can also email ubershmekel@gmail.com directly.");
+    }
+  }
 
-        // Hide previouse snack bars
-        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text(
-              "Please set up an email app to use the report button. You can also email ubershmekel@gmail.com directly."),
-        ));
-      }
+  toast(String message) {
+    if (context.mounted) {
+      // Check `context.mounted` because of
+      // https://stackoverflow.com/questions/68871880/do-not-use-buildcontexts-across-async-gaps
+
+      // Hide previouse snack bars
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(message, style: const TextStyle(fontSize: 26.0)),
+          behavior: SnackBarBehavior.floating,
+          duration: const Duration(seconds: 5),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          )));
     }
   }
 
@@ -285,9 +293,13 @@ class _TranslateViewState extends State<TranslateView> {
       }
     });
 
-    await widget.globals.speak.speak(
+    var res = await widget.globals.speak.speak(
         lang: _recordingLang,
         text: exampleLines[helpIndex % exampleLines.length]);
+    if (res != null) {
+      toast(res.message);
+    }
+
     helpIndex++;
   }
 
@@ -373,54 +385,22 @@ class _TranslateViewState extends State<TranslateView> {
 
   showAdviceUseHelp() {
     helpButtonKey.currentState?.pulse();
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(AppLocalizations.of(context)!.adviceHelp,
-          style: const TextStyle(fontSize: 26.0)),
-      behavior: SnackBarBehavior.floating,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-    ));
+    toast(AppLocalizations.of(context)!.adviceHelp);
   }
 
   showAdviceUseRecord() {
     speakButtonKey.currentState?.pulse();
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(AppLocalizations.of(context)!.adviceRecord,
-          style: const TextStyle(fontSize: 26.0)),
-      behavior: SnackBarBehavior.floating,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-    ));
+    toast(AppLocalizations.of(context)!.adviceRecord);
   }
 
   showAdviceUseNext() {
     nextButtonKey.currentState?.pulse();
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(AppLocalizations.of(context)!.adviceNext,
-          style: const TextStyle(fontSize: 26.0)),
-      behavior: SnackBarBehavior.floating,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-    ));
+    toast(AppLocalizations.of(context)!.adviceNext);
   }
 
   showAdviceUseReport() {
     reportButtonKey.currentState?.pulse();
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(AppLocalizations.of(context)!.adviceReport,
-          style: const TextStyle(fontSize: 26.0)),
-      behavior: SnackBarBehavior.floating,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-    ));
+    toast(AppLocalizations.of(context)!.adviceReport);
   }
 
   nextRound() async {
@@ -457,7 +437,7 @@ class _TranslateViewState extends State<TranslateView> {
     await onStartRecording();
   }
 
-  sayTheExample() {
+  sayTheExample() async {
     // Stop the mic while the example is spoken
     widget.globals.speechToText.stopListening();
 
@@ -466,8 +446,11 @@ class _TranslateViewState extends State<TranslateView> {
       rate = 0.6;
     }
     isSayingExampleSlowly = !isSayingExampleSlowly;
-    return widget.globals.speak
+    var res = await widget.globals.speak
         .speak(lang: _exampleLang, text: _toTranslateText, rate: rate);
+    if (res != null) {
+      toast(res.message);
+    }
   }
 
   @override

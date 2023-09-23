@@ -17,6 +17,11 @@ class MyTtsApp extends StatefulWidget {
 
 enum TtsState { playing, stopped, paused, continued }
 
+class SpeakError {
+  SpeakError(this.message);
+  final String message;
+}
+
 class Speak {
   late FlutterTts flutterTts;
   String? language;
@@ -120,13 +125,18 @@ class Speak {
     }
   }
 
-  Future speak(
+  Future<SpeakError?> speak(
       {Language lang = Language.invalidlanguage,
       String text = '',
       rate = 1.0}) async {
     debugPrint("Speak: $text, lang: $lang, ${languageToLocaleId[lang]!}");
     var locale = languageToLocaleId[lang]!;
-    var res = await flutterTts.isLanguageAvailable(locale);
+    bool isLangAvailable = await flutterTts.isLanguageAvailable(locale);
+    if (!isLangAvailable) {
+      // Maybe for Android devices show https://support.google.com/accessibility/android/answer/6006983?hl=en
+      return SpeakError(
+          "TextToSpeech error - language not available. Please install it on your system.");
+    }
     await flutterTts.setLanguage(locale);
     await flutterTts.setVolume(volume);
     rate = rate * rateScale;
@@ -134,7 +144,8 @@ class Speak {
     await flutterTts.setPitch(pitch);
     debugPrint('speak call 2');
     await flutterTts.speak(text);
-    debugPrint('speak call done $res');
+    debugPrint('speak call done $isLangAvailable');
+    return null;
   }
 }
 

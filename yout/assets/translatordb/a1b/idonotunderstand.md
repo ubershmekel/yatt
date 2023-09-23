@@ -80,7 +80,9 @@ Non sono sicuro di cosa intendi.
 
 # lang:jpn
 
-理解できません。
+分かりません。
+
+私は分かりません。
 
 私はフォローしていません。
 
@@ -88,7 +90,7 @@ Non sono sicuro di cosa intendi.
 
 何を言っているのか分かりません。
 
-分かりません。
+理解できません。
 
 # lang:kor
 
