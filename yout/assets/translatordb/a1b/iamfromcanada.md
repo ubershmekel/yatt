@@ -40,6 +40,8 @@ Je suis canadien.
 
 אני קנדית
 
+באתי מקנדה
+
 # lang:ita
 
 Vengo dal Canada.
