@@ -72,6 +72,8 @@ Je dois aller aux toilettes.
 
 אני צריך ללכת לשירותים.
 
+היכן חדר האמבטיה?
+
 # lang:ita
 
 Dov'è il bagno?

@@ -18,6 +18,8 @@ Do you understand English?
 
 Sprechen Sie Englisch?
 
+Sprichst du Englisch?
+
 Verstehst du Englisch?
 
 # lang:ell
