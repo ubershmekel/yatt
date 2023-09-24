@@ -6,10 +6,18 @@ import 'package:yout/src/translate/translate_view.dart';
 import '../settings/settings_view.dart';
 
 class Level {
+  final String id;
   final String name;
   final String description;
+  final String emoji;
+  final bool enabled;
 
-  const Level(this.name, this.description);
+  const Level(
+      {required this.id,
+      required this.name,
+      required this.emoji,
+      this.description = '',
+      this.enabled = true});
 }
 
 class LevelSelectView extends StatelessWidget {
@@ -24,6 +32,37 @@ class LevelSelectView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<Level> levels = [
+      Level(
+        id: 'invalid!!',
+        name: AppLocalizations.of(context)!.learnPhrases,
+        description: AppLocalizations.of(context)!.inDevelopment,
+        emoji: '🚧',
+        enabled: false,
+      ),
+      Level(
+        id: 'a1',
+        name: AppLocalizations.of(context)!.translateA1,
+        emoji: '🏠',
+      ),
+      Level(
+        id: 'a1b',
+        name: AppLocalizations.of(context)!.translateA1B,
+        emoji: '✈️',
+      ),
+      Level(
+        id: 'a2',
+        name: AppLocalizations.of(context)!.translateA2,
+        emoji: '🏫',
+      ),
+      Level(
+        id: 'b1',
+        name: AppLocalizations.of(context)!.translateB1,
+        description: AppLocalizations.of(context)!.helpImproveThisPlease,
+        emoji: '🚀',
+      ),
+    ];
+
     return Scaffold(
         appBar: AppBar(
           title: Text(AppLocalizations.of(context)!.selectLevel),
@@ -52,77 +91,27 @@ class LevelSelectView extends StatelessWidget {
             // has been killed while running in the background.
             restorationId: 'levelSelectView',
             children: [
-              ListTile(
-                title: Text(AppLocalizations.of(context)!.learnPhrases),
-                subtitle: Text(AppLocalizations.of(context)!.inDevelopment),
-                leading: const Text(
-                  '🚧',
-                  style: TextStyle(fontSize: 40),
-                ),
-                enabled: false,
-              ),
-              ListTile(
-                title: Text(AppLocalizations.of(context)!.translateA1),
-                leading: const Text(
-                  '🏠',
-                  style: TextStyle(fontSize: 40),
-                ),
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          TranslateView(globals: globals, level: 'a1'),
+              ...levels.map((lev) => ListTile(
+                    title: Text(lev.name),
+                    subtitle: lev.description.isNotEmpty
+                        ? Text(lev.description)
+                        : null,
+                    leading: Text(
+                      lev.emoji,
+                      style: const TextStyle(fontSize: 40),
                     ),
-                  );
-                },
-              ),
-              ListTile(
-                title: Text(AppLocalizations.of(context)!.translateA1B),
-                leading: const Text(
-                  '✈️',
-                  style: TextStyle(fontSize: 40),
-                ),
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          TranslateView(globals: globals, level: 'a1b'),
-                    ),
-                  );
-                },
-              ),
-              ListTile(
-                title: Text(AppLocalizations.of(context)!.translateA2),
-                leading: const Text(
-                  '🏫',
-                  style: TextStyle(fontSize: 40),
-                ),
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          TranslateView(globals: globals, level: 'a2'),
-                    ),
-                  );
-                },
-              ),
-              ListTile(
-                title: Text(AppLocalizations.of(context)!.translateB1),
-                subtitle:
-                    Text(AppLocalizations.of(context)!.helpImproveThisPlease),
-                leading: const Text(
-                  '🚀',
-                  style: TextStyle(fontSize: 40),
-                ),
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          TranslateView(globals: globals, level: 'b1'),
-                    ),
-                  );
-                },
-              )
+                    enabled: lev.enabled,
+                    onTap: lev.enabled
+                        ? () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => TranslateView(
+                                    globals: globals, level: lev.id),
+                              ),
+                            );
+                          }
+                        : null,
+                  )),
             ]));
   }
 }
