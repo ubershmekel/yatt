@@ -12,6 +12,8 @@ The report will be wrapped up by tomorrow.
 
 You can expect the report by tomorrow.
 
+The report will be ready by tomorrow.
+
 # lang:ara
 
 بحلول الغد ، سيكتمل التقرير.

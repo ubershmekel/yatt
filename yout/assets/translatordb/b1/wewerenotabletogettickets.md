@@ -6,6 +6,8 @@ The tickets were out of reach for us.
 
 We couldn't secure the tickets.
 
+We couldn't get the tickets.
+
 We didn't manage to get the tickets.
 
 We were not able to get the tickets.
