@@ -14,9 +14,6 @@ flutter build ipa
 # generate icons
 dart run flutter_launcher_icons
 
-# generate localizations from arb files (`AppLocalizations.of(context)!...`)
-flutter gen-l10n
-
 # generate missing translations from the english arb file
 # see `tools/gcptranslate/README.md`
 ```
