@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:yout/src/settings/globals.dart';
+import 'package:yout/src/translate/learn_view.dart';
 import 'package:yout/src/translate/translate_view.dart';
 
 import '../settings/settings_view.dart';
@@ -103,15 +104,80 @@ class LevelSelectView extends StatelessWidget {
                     enabled: lev.enabled,
                     onTap: lev.enabled
                         ? () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => TranslateView(
-                                    globals: globals, level: lev.id),
-                              ),
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  _buildPopupDialog(context, lev.id),
                             );
                           }
                         : null,
                   )),
             ]));
+  }
+
+  Widget _buildPopupDialog(BuildContext context, String levelId) {
+    const double buttonLabelWidth = 160;
+    const double buttonHeight = 100;
+    return AlertDialog(
+      // title: const Text('Popup example'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(children: [
+            SizedBox(
+                height: buttonHeight,
+                child: FloatingActionButton.extended(
+                  // `heroTag` to avoid " multiple heroes that share the same tag within a subtree" error
+                  // https://stackoverflow.com/a/69342661/177498
+                  heroTag: UniqueKey(),
+                  icon: const Icon(Icons.nordic_walking),
+                  label: SizedBox(
+                      width: buttonLabelWidth,
+                      child: Text(
+                        AppLocalizations.of(context)!.modeDescriptionLean,
+                      )),
+                  onPressed: () {
+                    // `Navigator.pop(context)` to dismiss the dialog so it's
+                    // not visible when the user returns.
+                    Navigator.pop(context);
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            LearnView(globals: globals, level: levelId),
+                      ),
+                    );
+                  },
+                ))
+          ]),
+          const SizedBox(height: 20),
+          Row(children: [
+            SizedBox(
+                height: buttonHeight,
+                child: FloatingActionButton.extended(
+                  // `heroTag` to avoid " multiple heroes that share the same tag within a subtree" error
+                  // https://stackoverflow.com/a/69342661/177498
+                  heroTag: UniqueKey(),
+                  icon: const Icon(Icons.directions_bike),
+                  label: SizedBox(
+                      width: buttonLabelWidth,
+                      child: Text(
+                          AppLocalizations.of(context)!.modeDescriptionPlay)),
+                  onPressed: () {
+                    // `Navigator.pop(context)` to dismiss the dialog so it's
+                    // not visible when the user returns.
+                    Navigator.pop(context);
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            TranslateView(globals: globals, level: levelId),
+                      ),
+                    );
+                  },
+                ))
+          ]),
+        ],
+      ),
+    );
   }
 }

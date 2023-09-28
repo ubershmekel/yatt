@@ -16,6 +16,8 @@
   "learnPhrases": "フレーズを声に出して暗唱して学習します",
   "learningLanguage": "言語の学習",
   "letsStart": "はじめましょう！",
+  "modeDescriptionLean": "学習 - 聞いて繰り返します",
+  "modeDescriptionPlay": "再生 - 聞いて翻訳する",
   "nativeLanguage": "母国語",
   "next": "次",
   "report": "報告",
