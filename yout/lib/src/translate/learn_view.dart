@@ -383,6 +383,8 @@ class _LearnViewState extends State<LearnView> {
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      // addPostFrameCallback to make sure we say the new example text
+      // and not the one from the previous round.
       sayAndRecord();
     });
   }
