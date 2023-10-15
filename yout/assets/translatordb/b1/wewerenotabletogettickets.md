@@ -100,6 +100,8 @@ Non siamo stati in grado di garantire i biglietti
 
 私たちはチケットを手に入れることができませんでした。
 
+チケットは手に入らなかった
+
 # lang:kor
 
 우리는 티켓을 얻을 수 없었습니다.

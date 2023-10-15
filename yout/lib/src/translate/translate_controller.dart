@@ -110,8 +110,10 @@ class TranslateController {
       // In Japanese spaces don't matter, so we remove them.
       normalized = normalized.replaceAll(RegExp(r'\s'), r'');
       normalized = _kanaKit.toHiragana(normalized);
-      normalized =
-          normalized.replaceAll('あなた', '君').replaceAll(RegExp('[僕俺]'), '私');
+      normalized = normalized
+          .replaceAll('あなた', '君')
+          .replaceAll(RegExp('[僕俺]'), '私')
+          .replaceAll('過ぎ', 'すぎ');
     }
 
     if (lang == Language.eng) {
