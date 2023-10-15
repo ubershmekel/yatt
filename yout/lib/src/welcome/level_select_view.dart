@@ -36,7 +36,7 @@ class LevelSelectView extends StatelessWidget {
     final List<Level> levels = [
       Level(
         id: 'invalid!!',
-        name: AppLocalizations.of(context)!.learnPhrases,
+        name: AppLocalizations.of(context)!.moreLevels,
         description: AppLocalizations.of(context)!.inDevelopment,
         emoji: '🚧',
         enabled: false,
