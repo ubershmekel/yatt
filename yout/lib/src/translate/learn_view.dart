@@ -62,7 +62,6 @@ class _LearnViewState extends State<LearnView> {
   Modes mode = Modes.trying;
   int roundsStarted = 0;
   bool isRecording = false;
-  bool isSayingExampleSlowly = false;
   String lastDictationBoxText = '';
   late Future dependenciesInited;
   int adviceIndex = 0;
@@ -357,7 +356,6 @@ class _LearnViewState extends State<LearnView> {
 
   nextRound() async {
     roundsStarted++;
-    isSayingExampleSlowly = false;
     _helpText = '';
     if (widget.globals.speechToText.isListening) {
       widget.globals.speechToText.stopListening();
