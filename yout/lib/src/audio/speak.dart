@@ -129,8 +129,11 @@ class Speak {
       {Language lang = Language.invalidlanguage,
       String text = '',
       rate = 1.0}) async {
-    debugPrint("Speak: $text, lang: $lang, ${languageToLocaleId[lang]!}");
-    var locale = languageToLocaleId[lang]!;
+    var locale = languageToLocaleId[lang];
+    if (locale == null) {
+      return SpeakError("No locale for language: $lang");
+    }
+    debugPrint("Speak: $text, lang: $lang, $locale");
     bool isLangAvailable = await flutterTts.isLanguageAvailable(locale);
     if (!isLangAvailable) {
       // Maybe for Android devices show https://support.google.com/accessibility/android/answer/6006983?hl=en

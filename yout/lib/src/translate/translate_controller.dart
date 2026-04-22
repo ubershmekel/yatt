@@ -1,5 +1,5 @@
-import 'dart:convert';
 import 'dart:async';
+import 'dart:convert' show LineSplitter;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -59,12 +59,10 @@ class TranslateController {
     // if (filesList.isNotEmpty) {
     //   return;
     // }
-    final manifestJson = await rootBundle.loadString('AssetManifest.json');
-    filesList = json
-        .decode(manifestJson)
-        .keys
-        .where((String key) => key
-            .startsWith('assets/translatordb/$level')) // WhereIterable<String>
+    final manifest = await AssetManifest.loadFromAssetBundle(rootBundle);
+    filesList = manifest
+        .listAssets()
+        .where((String key) => key.startsWith('assets/translatordb/$level'))
         .toList();
 
     if (filesList.isEmpty) {

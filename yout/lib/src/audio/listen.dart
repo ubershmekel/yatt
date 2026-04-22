@@ -82,7 +82,6 @@ class MySpeechToText {
     } catch (e) {
       lastError = 'Speech recognition init failed: ${e.toString()}';
       debugPrint(lastError);
-      rethrow;
     }
   }
 
@@ -104,7 +103,7 @@ class MySpeechToText {
       return;
     }
     _currentLanguage = lang;
-    _currentLocaleId = languageToLocaleId[lang]!;
+    _currentLocaleId = languageToLocaleId[lang] ?? '';
     lastWords = '';
     lastError = '';
     const maxSilenceDurationSeconds = 5;
