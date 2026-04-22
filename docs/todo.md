@@ -6,7 +6,7 @@ Issues found by auditing the codebase after the production breakage.
 
 ## Critical — Fix These First
 
-### 1. `addListener` called inside `build()` — memory leak + duplicate callbacks
+### ~~1. `addListener` called inside `build()` — memory leak + duplicate callbacks~~ FIXED
 **Files:** `yout/lib/src/translate/translate_view.dart:91`, `yout/lib/src/translate/learn_view.dart:102`
 
 `dictationBox.addListener(onDictationBoxChanged)` is called on every rebuild. Each call stacks another listener on top without removing the previous one, so the callback fires N times for a single keystroke and old closures are never GC'd.
@@ -30,7 +30,7 @@ void dispose() {
 
 ---
 
-### 2. `SettingsController` listener never removed — memory leak
+### ~~2. `SettingsController` listener never removed — memory leak~~ FIXED
 **Files:** `yout/lib/src/translate/translate_view.dart:76-79`, `yout/lib/src/translate/learn_view.dart:87-90`
 
 An anonymous closure is added to `settingsController` in `initState()` but `dispose()` never calls `removeListener`. Every time the view is pushed/popped, another listener accumulates.

@@ -9,7 +9,7 @@
 // how to componentize functionality.
 import 'dart:async';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:yout/src/localization/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:yout/src/audio/listen.dart';
@@ -84,10 +84,12 @@ class _LearnViewState extends State<LearnView> {
       nextRound();
     });
 
-    widget.globals.settingsController.addListener(() {
-      // Settings have changed, maybe it's a new language?
-      refreshLanguages();
-    });
+    widget.globals.settingsController.addListener(_onSettingsChanged);
+    dictationBox.addListener(onDictationBoxChanged);
+  }
+
+  void _onSettingsChanged() {
+    refreshLanguages();
   }
 
   refreshLanguages() {
@@ -99,8 +101,6 @@ class _LearnViewState extends State<LearnView> {
 
   @override
   Widget build(BuildContext context) {
-    dictationBox.addListener(onDictationBoxChanged);
-
     return Scaffold(
         appBar: AppBar(
           title: const Text('Learn'),
@@ -402,7 +402,9 @@ class _LearnViewState extends State<LearnView> {
 
   @override
   void dispose() {
-    // We're getting closed
+    widget.globals.settingsController.removeListener(_onSettingsChanged);
+    dictationBox.removeListener(onDictationBoxChanged);
+    dictationBox.dispose();
     widget.globals.speechToText.disposing();
     super.dispose();
   }

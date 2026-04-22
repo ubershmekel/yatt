@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:yout/src/localization/app_localizations.dart';
 import 'package:yout/src/language_select/language_select_view.dart';
 
 class Page {
