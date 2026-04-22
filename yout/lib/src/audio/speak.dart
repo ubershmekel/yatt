@@ -134,20 +134,21 @@ class Speak {
       return SpeakError("No locale for language: $lang");
     }
     debugPrint("Speak: $text, lang: $lang, $locale");
-    bool isLangAvailable = await flutterTts.isLanguageAvailable(locale);
-    if (!isLangAvailable) {
-      // Maybe for Android devices show https://support.google.com/accessibility/android/answer/6006983?hl=en
-      return SpeakError(
-          "TextToSpeech error - language not available. Please install it on your system.");
+    // isLanguageAvailable is not implemented on Windows
+    if (!isWindows) {
+      bool isLangAvailable = await flutterTts.isLanguageAvailable(locale);
+      if (!isLangAvailable) {
+        // Maybe for Android devices show https://support.google.com/accessibility/android/answer/6006983?hl=en
+        return SpeakError(
+            "TextToSpeech error - language not available. Please install it on your system.");
+      }
     }
     await flutterTts.setLanguage(locale);
     await flutterTts.setVolume(volume);
     rate = rate * rateScale;
     await flutterTts.setSpeechRate(rate);
     await flutterTts.setPitch(pitch);
-    debugPrint('speak call 2');
     await flutterTts.speak(text);
-    debugPrint('speak call done $isLangAvailable');
     return null;
   }
 }

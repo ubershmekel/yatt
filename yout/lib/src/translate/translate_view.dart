@@ -70,6 +70,9 @@ class _TranslateViewState extends State<TranslateView> {
       // Without awaiting here, the first text-to-speech will fail
       await dependenciesInited;
       refreshLanguages();
+      if (widget.globals.speechToText.lastError.isNotEmpty) {
+        toast("Microphone unavailable: ${widget.globals.speechToText.lastError}");
+      }
       nextRound();
     });
 

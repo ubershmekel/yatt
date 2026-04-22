@@ -28,6 +28,7 @@ class MySpeechToText {
   Function(SpeechStatus status)? callback;
   bool get isListening => _listening;
   bool _listening = false;
+  bool _isInitialized = false;
 
   void errorListener(SpeechRecognitionError error) {
     debugPrint(
@@ -68,6 +69,7 @@ class MySpeechToText {
         onStatus: statusListener,
         debugLogging: false,
       );
+      _isInitialized = hasSpeech;
       if (hasSpeech) {
         // Get the list of languages installed on the supporting platform so they
         // can be displayed in the UI for selection by the user.
@@ -96,6 +98,10 @@ class MySpeechToText {
 
   listen(Language lang, Function(SpeechStatus status) callback) async {
     this.callback = callback;
+    if (!_isInitialized) {
+      debugPrint('MySpeechToText.listen: not initialized, skipping');
+      return;
+    }
     if (_speech.isListening) {
       // Prevent this error from happening when we spam record:
       // DOMException: Failed to execute 'start' on 'SpeechRecognition': recognition has already started.

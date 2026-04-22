@@ -81,6 +81,9 @@ class _LearnViewState extends State<LearnView> {
       // Without awaiting here, the first text-to-speech will fail
       await dependenciesInited;
       refreshLanguages();
+      if (widget.globals.speechToText.lastError.isNotEmpty && mounted) {
+        Toast.toast(context, "Microphone unavailable: ${widget.globals.speechToText.lastError}");
+      }
       nextRound();
     });
 
@@ -234,8 +237,10 @@ class _LearnViewState extends State<LearnView> {
     } catch (err) {
       // iOS silently fails to email when there is no account set up for it.
       // > PlatformException (PlatformException(not_available, No email clients found!, null, null))
-      Toast.toast(context,
-          "Please set up an email app to use the report button. You can also email ubershmekel@gmail.com directly.");
+      if (mounted) {
+        Toast.toast(context,
+            "Please set up an email app to use the report button. You can also email ubershmekel@gmail.com directly.");
+      }
     }
   }
 
