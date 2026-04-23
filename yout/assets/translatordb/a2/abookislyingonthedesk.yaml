@@ -1,0 +1,57 @@
+eng:
+  - A book is lying on the desk.
+  - A book is on the table.
+  - Some books are on the desk.
+  - Some books are on the table.
+  - The book is on the desk.
+  - The book is on the table.
+  - There is a book on the desk.
+  - There is a book on the table.
+ara:
+  - الكتاب على المكتب.
+  - الكتاب علي الطاولة.
+deu:
+  - Das Buch befindet sich auf dem Tisch.
+  - Das Buch ist auf dem Tisch.
+  - Das Buch liegt auf dem Tisch.
+ell:
+  - Το βιβλίο είναι πάνω στο τραπέζι.
+fra:
+  - L'ouvrage est sur la table.
+  - L'ouvrage se trouve sur la table.
+  - Le livre est sur la table.
+  - Le livre se trouve sur la table.
+  - Un livre est posé sur le bureau.
+heb:
+  - הספר נמצא על השולחן.
+  - הספר על השולחן.
+  - הספרים על השולחן.
+  - ספר מונח על השולחן.
+  - יש ספר על השולחן.
+  - יש ספר מונח על השולחן.
+ita:
+  - Il libro è sul tavolo.
+jpn:
+  - 本がテーブルの上にある。
+  - 本はテーブルの上にあります。
+  - 本は机の上にあります。
+  - 本が机の上にあります
+  - 机の上に本があります
+  - 机の上に本がある
+  - テーブルの上に本があります
+  - テーブルの上に本がある
+kor:
+  - 이 책은 테이블에.
+  - 책상 위에 책이 있어요.
+por:
+  - O livro está em cima da mesa.
+  - O livro está sobre a mesa.
+  - Um livro jaz sobre a mesa.
+rus:
+  - Книга лежит на столе.
+  - Книга на столе.
+  - На столе книга.
+spa:
+  - El libro está en la mesa.
+  - El libro está sobre la mesa.
+  - Hay un libro sobre la mesa.

@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'dart:convert' show LineSplitter;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kana_kit/kana_kit.dart';
+import 'package:yaml/yaml.dart';
 import 'package:yout/src/settings/languages.dart';
 
 class Translation {
@@ -11,36 +11,22 @@ class Translation {
   Map<Language, List<String>> examples = {};
 
   static Future<Translation> loadFromFile(String path) async {
-    // # lang:eng
-    //
-    // A book is lying on the desk.
     final instance = Translation();
     instance.filename = path;
-    Language currentLang = Language.invalidlanguage;
 
     final fileContents = await rootBundle.loadString(path);
+    final yamlMap = loadYaml(fileContents) as YamlMap;
 
-    LineSplitter.split(fileContents).forEach((String line) {
-      line = line.trim();
-      if (line.isEmpty) {
-        return;
+    for (final entry in yamlMap.entries) {
+      final langStr = entry.key as String;
+      if (!stringToLangMap.containsKey(langStr)) {
+        debugPrint('Unknown language: $langStr');
+        continue;
       }
-      if (line[0] == '#') {
-        final parts = line.split(':');
-        if (parts.length != 2) {
-          return;
-        }
-        String lang = parts[1];
-        if (!stringToLangMap.containsKey(lang)) {
-          debugPrint('Unknown language: $lang');
-          return;
-        }
-        currentLang = Language.values.byName(lang);
-        instance.examples[currentLang] = [];
-      } else {
-        instance.examples[currentLang]?.add(line);
-      }
-    });
+      final lang = Language.values.byName(langStr);
+      instance.examples[lang] =
+          (entry.value as YamlList).map((e) => e as String).toList();
+    }
     return instance;
   }
 }
@@ -62,7 +48,9 @@ class TranslateController {
     final manifest = await AssetManifest.loadFromAssetBundle(rootBundle);
     filesList = manifest
         .listAssets()
-        .where((String key) => key.startsWith('assets/translatordb/$level'))
+        .where((String key) =>
+            key.startsWith('assets/translatordb/$level') &&
+            key.endsWith('.yaml'))
         .toList();
 
     if (filesList.isEmpty) {
