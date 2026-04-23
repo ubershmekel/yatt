@@ -129,13 +129,13 @@ class MySpeechToText {
       },
       listenFor: const Duration(seconds: maxRecordDurationSeconds),
       pauseFor: const Duration(seconds: maxSilenceDurationSeconds),
-      partialResults: true,
       localeId: _currentLocaleId,
       onSoundLevelChange: soundLevelListener,
-      cancelOnError: true,
-      // listenMode: ListenMode.confirmation,
-      listenMode: ListenMode.dictation,
-      // onDevice: _onDevice,
+      listenOptions: SpeechListenOptions(
+        partialResults: true,
+        cancelOnError: true,
+        listenMode: ListenMode.dictation,
+      ),
     );
   }
 }
@@ -269,12 +269,14 @@ class _SpeechSampleAppState extends State<SpeechSampleApp> {
       onResult: resultListener,
       listenFor: Duration(seconds: listenFor ?? 30),
       pauseFor: Duration(seconds: pauseFor ?? 3),
-      partialResults: true,
       localeId: _currentLocaleId,
       onSoundLevelChange: soundLevelListener,
-      cancelOnError: true,
-      listenMode: ListenMode.confirmation,
-      onDevice: _onDevice,
+      listenOptions: SpeechListenOptions(
+        partialResults: true,
+        cancelOnError: true,
+        listenMode: ListenMode.confirmation,
+        onDevice: _onDevice,
+      ),
     );
     setState(() {});
   }
@@ -403,7 +405,7 @@ class RecognitionResultsWidget extends StatelessWidget {
                         BoxShadow(
                             blurRadius: .26,
                             spreadRadius: level * 1.5,
-                            color: Colors.black.withOpacity(.05))
+                            color: Colors.black.withValues(alpha: .05))
                       ],
                       color: Colors.white,
                       borderRadius: const BorderRadius.all(Radius.circular(50)),
@@ -624,7 +626,7 @@ class SpeechStatusWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 20),
-      color: Theme.of(context).colorScheme.background,
+      color: Theme.of(context).colorScheme.surface,
       child: Center(
         child: speech.isListening
             ? const Text(

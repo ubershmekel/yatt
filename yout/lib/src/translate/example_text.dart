@@ -73,7 +73,7 @@ class ExampleTextState extends State<ExampleText> {
     setState(() {
       _isPlaying = false;
     });
-    if (res != null && context.mounted) {
+    if (res != null && mounted) {
       Toast.toast(context, res.message);
     }
   }
