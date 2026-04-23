@@ -1,63 +1,41 @@
-# Nuxt 3 Minimal Starter
+# You Are The Translator Website
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+This directory contains the Nuxt landing page for
+https://youarethetranslator.com/.
+
+The page introduces the app, links to the iOS and Android store listings, and
+points people to the open source repository.
 
 ## Setup
 
-Make sure to install the dependencies:
-
 ```bash
-# npm
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
 ```
 
-## Development Server
+## Development server
 
 Start the development server on `http://localhost:3000`:
 
 ```bash
-# npm
 npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
 ```
 
-## Production
+## Production build
 
-Build the application for production:
+Build the static site:
 
 ```bash
-# npm
+npm run generate
+```
+
+Build and preview with Nuxt's production server:
+
+```bash
 npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-```
-
-Locally preview production build:
-
-```bash
-# npm
 npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## Store links
+
+- App Store: https://apps.apple.com/us/app/you-are-the-translator/id6463097357
+- Google Play: https://play.google.com/store/apps/details?id=com.andluck.yatt

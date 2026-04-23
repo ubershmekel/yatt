@@ -1,50 +1,66 @@
-# yout
+# You Are The Translator App
 
-A new Flutter project for learning languages.
+This directory contains the Flutter app for You Are The Translator.
 
-## Running
+The app teaches language practice through short spoken translation prompts. A
+player selects their native language and a target language, listens to a
+sentence, says the translation, and gets feedback from speech recognition.
 
+## Supported languages
+
+The current localization files cover Arabic, German, Greek, English, Spanish,
+French, Hebrew, Italian, Japanese, Korean, Portuguese, and Russian.
+
+Lesson content is stored under `assets/translatordb/` by level (`a1`, `a1b`,
+`a2`, `b1`).
+
+## Setup
+
+Install Flutter, then fetch dependencies:
+
+```bash
+flutter pub get
 ```
+
+## Running locally
+
+```bash
 flutter run -d chrome
 ```
 
-## Building
+You can also run against a connected device or simulator by replacing `chrome`
+with the device id from `flutter devices`.
 
+## Testing
+
+```bash
+flutter test
 ```
-# build release for android
+
+## Building releases
+
+```bash
+# Android app bundle
 flutter build appbundle
 
-# build release for ios
+# iOS archive
 flutter build ipa
-
-# generate icons
-dart run flutter_launcher_icons
-
-# generate missing translations from the english arb file
-# see `tools/gcptranslate/README.md`
 ```
 
-## Getting Started
+## Generated assets
 
-This project is a starting point for a Flutter application that follows the
-[simple app state management tutorial](https://flutter.dev/docs/development/data-and-backend/state-mgmt/simple).
+```bash
+# Generate app icons from ../art/yatt-logo-1024.png
+dart run flutter_launcher_icons
 
-For help getting started with Flutter development, view the
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Generate localization classes from lib/src/localization/*.arb
+flutter gen-l10n
+```
 
-## Assets
+To generate missing ARB translations from English, see
+[../tools/gcptranslate/README.md](../tools/gcptranslate/README.md).
 
-The `assets` directory houses images, fonts, and any other files you want to
-include with your application.
+## App stores
 
-The `assets/images` directory contains
-[resolution-aware images](https://flutter.dev/docs/development/ui/assets-and-images#resolution-aware).
-
-## Localization
-
-This project generates localized messages based on arb files found in the
-`lib/src/localization` directory.
-
-To support additional languages, please visit the tutorial on
-[Internationalizing Flutter apps](https://flutter.dev/docs/development/accessibility-and-localization/internationalization)
+- App Store: https://apps.apple.com/us/app/you-are-the-translator/id6463097357
+- Google Play: https://play.google.com/store/apps/details?id=com.andluck.yatt

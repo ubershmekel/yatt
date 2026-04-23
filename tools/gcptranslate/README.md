@@ -1,20 +1,34 @@
-# How to run
+# Translation Helper Tools
 
-```
-# make sure we get a .venv folder so we can use the standard
-# vs code launch.json configuration
+This directory contains Poetry-based helper scripts for maintaining localized
+Flutter ARB files and generating lesson markdown.
+
+The scripts use Google Cloud Translate, so run them from an environment with
+Google Cloud credentials configured.
+
+## Setup
+
+```bash
+# Keep the virtual environment in this directory so the VS Code launch
+# configuration can find it.
 poetry config virtualenvs.in-project true
-
-# get dependencies
 poetry install
+```
 
-# update arb files from app_en.arb
+## Common commands
+
+```bash
+# Update ARB files from the English template.
 poetry run python arb_translate.py
 
-# generate localizations from arb files (`AppLocalizations.of(context)!...`)
-# in the `yout` folder run
-flutter gen-l10n
-
-# generate md files for a new level
+# Generate markdown files for a new lesson level.
 poetry run python md_gen.py
+```
+
+After updating ARB files, regenerate Flutter localization classes from the app
+directory:
+
+```bash
+cd ../../yout
+flutter gen-l10n
 ```

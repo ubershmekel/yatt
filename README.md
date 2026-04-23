@@ -1,12 +1,45 @@
-# You are the translator
+# You Are The Translator
 
-This is a game for learning languages. You can play this game hands-free with
-your voice and ears. Kind of like flash-cards, or a Duolingo for when you're
-driving.
+You Are The Translator is a hands-free language learning game. The app gives you
+a sentence in one language, you translate it out loud, and the game checks your
+spoken answer. It is designed for listening and speaking practice when a
+screen-heavy lesson would be inconvenient.
 
-## How to release and test out locally
+## Links
 
-Check out [yout/README.md](yout/README.md) for instructions.
+- Website: https://youarethetranslator.com/
+- App Store: https://apps.apple.com/us/app/you-are-the-translator/id6463097357
+- Google Play: https://play.google.com/store/apps/details?id=com.andluck.yatt
+
+## Repository layout
+
+- `yout/` - Flutter mobile app.
+- `web/` - Nuxt landing page for `youarethetranslator.com`.
+- `art/` - Source logo, feature graphic, and generated image assets.
+- `tools/gcptranslate/` - helper scripts for translating ARB files and
+  generating lesson markdown.
+
+## Local development
+
+For the Flutter app:
+
+```bash
+cd yout
+flutter pub get
+flutter run -d chrome
+```
+
+For the website:
+
+```bash
+cd web
+npm install
+npm run dev
+```
+
+See [yout/README.md](yout/README.md), [web/README.md](web/README.md), and
+[tools/gcptranslate/README.md](tools/gcptranslate/README.md) for more detailed
+commands.
 
 ## Credits
 
