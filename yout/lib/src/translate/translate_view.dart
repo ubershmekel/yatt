@@ -43,8 +43,14 @@ class _TranslateViewState extends State<TranslateView> {
   String _toTranslateText = 'Please translate this';
   String _statusText = '';
   String _helpText = '';
-  Language _recordingLang = Language.invalidlanguage;
-  Language _exampleLang = Language.invalidlanguage;
+  // Single source of truth for round direction. true = show native, record learning.
+  bool _nativeIsExample = true;
+  Language get _exampleLang => _nativeIsExample
+      ? widget.globals.settingsController.nativeLang
+      : widget.globals.settingsController.learningLang;
+  Language get _recordingLang => _nativeIsExample
+      ? widget.globals.settingsController.learningLang
+      : widget.globals.settingsController.nativeLang;
   final dictationBox = TextEditingController();
   final TranslateController controller = TranslateController();
   Modes mode = Modes.trying;
@@ -69,7 +75,6 @@ class _TranslateViewState extends State<TranslateView> {
     controller.load(widget.level).then((_) async {
       // Without awaiting here, the first text-to-speech will fail
       await dependenciesInited;
-      refreshLanguages();
       if (widget.globals.speechToText.lastError.isNotEmpty) {
         toast("Microphone unavailable: ${widget.globals.speechToText.lastError}");
       }
@@ -81,14 +86,7 @@ class _TranslateViewState extends State<TranslateView> {
   }
 
   void _onSettingsChanged() {
-    refreshLanguages();
-  }
-
-  refreshLanguages() {
-    setState(() {
-      _exampleLang = widget.globals.settingsController.nativeLang;
-      _recordingLang = widget.globals.settingsController.learningLang;
-    });
+    setState(() {});
   }
 
   @override
@@ -419,9 +417,7 @@ class _TranslateViewState extends State<TranslateView> {
     _statusText = '';
     dictationBox.text = '';
     setState(() {
-      final tmp = _exampleLang;
-      _exampleLang = _recordingLang;
-      _recordingLang = tmp;
+      _nativeIsExample = !_nativeIsExample;
       debugPrint(
           "trans: ${_translation?.examples.length}, example:$_exampleLang, recording:$_recordingLang");
 

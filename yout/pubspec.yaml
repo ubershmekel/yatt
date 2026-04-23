@@ -2,12 +2,12 @@ name: yout
 description: Learn a language by speaking and listening.
 
 # Prevent accidental publishing to pub.dev.
-publish_to: 'none'
+publish_to: "none"
 
 version: 1.0.7+21
 
 environment:
-  sdk: '>=3.0.6 <4.0.0'
+  sdk: ">=3.0.6 <4.0.0"
 
 dependencies:
   audioplayers: ^5.1.0
@@ -19,7 +19,10 @@ dependencies:
   flutter_tts: ^3.7.0
   kana_kit: ^2.0.0
   shared_preferences: ^2.2.0
-  speech_to_text: ^7.0.0
+  speech_to_text: ^7.3.0
+
+dependency_overrides:
+  speech_to_text_windows: 1.0.1-beta.16
 
 dev_dependencies:
   flutter_test:
