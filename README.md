@@ -4,7 +4,11 @@ This is a game for learning languages. You can play this game hands-free with
 your voice and ears. Kind of like flash-cards, or a Duolingo for when you're
 driving.
 
-# Credits
+## How to release and test out locally
+
+Check out [yout/README.md](yout/README.md) for instructions.
+
+## Credits
 
 - [Download buttons](<https://www.figma.com/file/h7BndySkjakJe41TdieRnL/AppStore-and-GooglePlay-(Community)?type=design&node-id=1-59&mode=design&t=bIuccxiOo9ZbpOSU-0>)
 - Speaker icons created by Freepik - Flaticon -
