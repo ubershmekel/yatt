@@ -215,8 +215,9 @@ class _TranslateViewState extends State<TranslateView> {
       return;
     }
     _isReporting = true;
-    Timer(
-        const Duration(seconds: 2), () => setState(() => _isReporting = false));
+    Timer(const Duration(seconds: 2), () {
+      if (mounted) setState(() => _isReporting = false);
+    });
 
     final Email email = Email(
       subject: 'YATT Report',
@@ -269,7 +270,7 @@ class _TranslateViewState extends State<TranslateView> {
       return;
     }
 
-    List<String> viableTranslations = _translation!.examples[_recordingLang]!;
+    List<String> viableTranslations = _translation!.examples[_recordingLang] ?? [];
     if (controller.isSameSentence(_recordingLang, text, viableTranslations)) {
       youWin();
     }
@@ -280,13 +281,11 @@ class _TranslateViewState extends State<TranslateView> {
     widget.globals.speechToText.stopListening();
 
     // mode = Modes.helped;
-    String oneAnswer =
-        _translation!.examples[_recordingLang]!.firstOrNull ?? '';
-    if (oneAnswer == '') {
+    var exampleLines = _translation?.examples[_recordingLang];
+    if (exampleLines == null || exampleLines.isEmpty) {
       debugPrint('Something is wrong. No translation.');
       return;
     }
-    var exampleLines = _translation!.examples[_recordingLang]!;
     setState(() {
       _helpText = '';
       for (var example in exampleLines) {
@@ -304,11 +303,11 @@ class _TranslateViewState extends State<TranslateView> {
     helpIndex++;
   }
 
-  onStartRecording() {
+  onStartRecording() async {
     setState(() {
       isRecording = true;
     });
-    return widget.globals.speechToText.listen(
+    await widget.globals.speechToText.listen(
       _recordingLang,
       onRecordingStatus,
     );
@@ -316,7 +315,7 @@ class _TranslateViewState extends State<TranslateView> {
 
   onRecordingStatus(SpeechStatus status) {
     debugPrint('onRecordingStatus: ${status.isListening}');
-    if (!mounted) {
+    if (!context.mounted) {
       // Probably just closed the screen, so don't care about the updates
       return;
     }

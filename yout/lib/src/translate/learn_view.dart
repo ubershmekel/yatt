@@ -221,8 +221,9 @@ class _LearnViewState extends State<LearnView> {
       return;
     }
     _isReporting = true;
-    Timer(
-        const Duration(seconds: 2), () => setState(() => _isReporting = false));
+    Timer(const Duration(seconds: 2), () {
+      if (mounted) setState(() => _isReporting = false);
+    });
 
     final Email email = Email(
       subject: 'YATT Report',
@@ -260,17 +261,17 @@ class _LearnViewState extends State<LearnView> {
       return;
     }
 
-    List<String> viableTranslations = _translation!.examples[_recordingLang]!;
+    List<String> viableTranslations = _translation!.examples[_recordingLang] ?? [];
     if (controller.isSameSentence(_recordingLang, text, viableTranslations)) {
       youWin();
     }
   }
 
-  onStartRecording() {
+  onStartRecording() async {
     setState(() {
       isRecording = true;
     });
-    return widget.globals.speechToText.listen(
+    await widget.globals.speechToText.listen(
       _recordingLang,
       onRecordingStatus,
     );
@@ -278,7 +279,7 @@ class _LearnViewState extends State<LearnView> {
 
   onRecordingStatus(SpeechStatus status) {
     debugPrint('onRecordingStatus: ${status.isListening}');
-    if (!mounted) {
+    if (!context.mounted) {
       // Probably just closed the screen, so don't care about the updates
       return;
     }

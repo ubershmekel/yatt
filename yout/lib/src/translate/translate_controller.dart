@@ -67,7 +67,7 @@ class TranslateController {
 
     if (filesList.isEmpty) {
       debugPrint(
-          'BIG PROBLEM - No translation files found for $level. Did you add them to the pubscpec.yaml?');
+          'BIG PROBLEM - No translation files found for $level. Did you add them to the pubspec.yaml?');
     }
     debugPrint('files found: ${filesList.length}');
     for (String name in filesList) {
@@ -136,7 +136,7 @@ class TranslateController {
     if (lang == Language.heb) {
       // Note \b does not work with unicode
       // https://stackoverflow.com/questions/10590098/javascript-regexp-word-boundaries-unicode-characters
-      normalized = normalized.replaceAll(RegExp(r"(?:^|\\s)ב[\s\-]+"), "ב");
+      normalized = normalized.replaceAll(RegExp(r"(?:^|\s)ב[\s\-]+"), "ב");
     }
 
     if (normalized.isEmpty && text.length > 1) {

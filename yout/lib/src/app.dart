@@ -150,7 +150,8 @@ Locale? langToLocale(Language lang) {
   var xxMinusYy = languageToLocaleId[lang]!;
   var localeParts = xxMinusYy.split('-');
   locale = Locale.fromSubtags(
-      languageCode: localeParts[0], countryCode: localeParts[1]);
+      languageCode: localeParts[0],
+      countryCode: localeParts.length > 1 ? localeParts[1] : null);
   // debugPrint('langToLocale $locale');
   return locale;
 }
